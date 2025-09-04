@@ -1,0 +1,39 @@
+{
+  "SBER": {
+    "quantity": 100,
+    "avg_price": 250.50,
+    "current_price": 280.30,
+    "sector": "Финансы"
+  },
+  "GAZP": {
+    "quantity": 50,
+    "avg_price": 180.20,
+    "current_price": 165.80,
+    "sector": "Энергетика"
+  },
+  "LKOH": {
+    "quantity": 25,
+    "avg_price": 6500.00,
+    "current_price": 7200.00,
+    "sector": "Энергетика"
+  },
+  "NVTK": {
+    "quantity": 15,
+    "avg_price": 1200.00,
+    "current_price": 1350.00,
+    "sector": "Энергетика"
+  },
+  "YNDX": {
+    "quantity": 10,
+    "avg_price": 4500.00,
+    "current_price": 4200.00,
+    "sector": "Технологии"
+  },
+  "SMLT": {
+    "quantity": 10,
+    "avg_price": 1100.00,
+    "current_price": 1204.00,
+    "sector": "Недвижимость"
+  }
+}
+

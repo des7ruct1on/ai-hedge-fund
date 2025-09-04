@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мультиагентная система анализа акций</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1><i class="fas fa-chart-line"></i> Анализ портфеля акций</h1>
+                <p>Мультиагентная система с участием Уоррена Баффета, Дональда Трампа и Рэя Далио</p>
+            </div>
+        </header>
+
+        <!-- Control Panel -->
+        <div class="control-panel">
+            <button id="startAnalysis" class="btn btn-primary">
+                <i class="fas fa-play"></i> Запустить анализ
+            </button>
+            <div class="status-indicator">
+                <span id="statusText">Готов к анализу</span>
+                <div id="statusIcon" class="status-icon ready"></div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Portfolio Overview -->
+            <section class="section" id="portfolioSection">
+                <h2><i class="fas fa-briefcase"></i> Обзор портфеля</h2>
+                <div class="portfolio-grid" id="portfolioGrid">
+                    <!-- Portfolio items will be loaded here -->
+                </div>
+            </section>
+
+            <!-- News Section -->
+            <section class="section" id="newsSection">
+                <h2><i class="fas fa-newspaper"></i> Последние новости</h2>
+                <div class="news-list" id="newsList">
+                    <!-- News items will be loaded here -->
+                </div>
+            </section>
+
+            <!-- Agent Discussion -->
+            <section class="section" id="discussionSection" style="display: none;">
+                <h2><i class="fas fa-users"></i> Обсуждение агентов</h2>
+                <div class="discussion-container" id="discussionContainer">
+                    <!-- Agent discussions will be shown here -->
+                </div>
+            </section>
+
+            <!-- Risk Assessment -->
+            <section class="section" id="riskSection" style="display: none;">
+                <h2><i class="fas fa-shield-alt"></i> Оценка рисков</h2>
+                <div class="risk-container" id="riskContainer">
+                    <!-- Risk assessments will be shown here -->
+                </div>
+            </section>
+
+            <!-- Final Recommendations -->
+            <section class="section" id="recommendationsSection" style="display: none;">
+                <h2><i class="fas fa-lightbulb"></i> Итоговые рекомендации</h2>
+                <div class="recommendations-container" id="recommendationsContainer">
+                    <!-- Final recommendations will be shown here -->
+                </div>
+            </section>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+            <div class="loading-content">
+                <div class="spinner"></div>
+                <h3>Анализ в процессе...</h3>
+                <p>Агенты обсуждают ваш портфель</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
