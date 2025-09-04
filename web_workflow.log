@@ -431,3 +431,244 @@
 2025-09-04 12:09:29,088 INFO \U0001f4cb Формирование итоговых рекомендаций...
 2025-09-04 12:10:03,555 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
 2025-09-04 12:10:03,555 INFO \u2705 Итоговые рекомендации сформированы
+2025-09-04 16:43:21,424 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:43:45,359 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:44:26,097 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:44:51,990 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:45:24,673 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:46:43,150 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:48:07,777 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:49:25,797 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:51:01,716 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:52:02,893 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:53:02,684 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:54:23,796 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:55:14,214 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:55:37,841 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:57:02,931 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:57:31,308 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:58:14,289 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:59:02,273 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:59:25,860 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 16:59:39,363 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:00:00,505 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:00:20,746 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:00:39,124 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:01:27,041 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:02:31,611 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:03:47,297 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:05:54,881 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:08:27,086 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:09:36,407 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:12:43,886 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:15:03,928 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:16:41,026 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:17:52,619 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:19:02,794 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:19:24,155 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:20:31,897 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:21:09,453 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:21:45,462 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:22:09,918 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:22:29,767 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:22:46,803 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:23:18,651 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:23:41,333 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:23:55,783 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:24:30,101 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:25:06,240 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:25:24,313 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:26:14,665 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:26:37,054 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:27:34,407 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:29:18,600 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:30:36,389 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:31:24,340 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:32:23,579 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:33:48,147 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:34:23,416 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:35:28,401 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:36:37,768 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:36:37,777 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 500 Internal Server Error"
+2025-09-04 17:36:37,777 INFO Retrying request to /chat/completions in 0.398733 seconds
+2025-09-04 17:37:13,970 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:38:28,221 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:39:09,831 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:39:22,636 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:40:08,615 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:42:03,466 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:43:22,298 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:44:23,601 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:44:59,785 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:45:19,523 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:47:09,188 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:48:03,240 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:48:36,540 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:51:12,404 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:52:30,374 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:53:23,034 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:54:41,347 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:56:27,528 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:57:16,214 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 17:58:59,188 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 18:00:44,051 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 18:01:43,658 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 18:04:08,362 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 18:06:07,281 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 18:07:55,974 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 18:11:01,632 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 18:16:06,325 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 18:17:43,978 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 18:21:54,253 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 18:25:47,606 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 18:28:01,610 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 18:31:19,052 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 18:31:51,045 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 18:33:35,508 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 18:35:20,213 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 18:36:18,391 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 18:37:07,658 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 18:38:22,903 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 18:40:59,098 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 18:41:10,753 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 18:41:33,958 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 18:42:00,637 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 18:42:14,319 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 18:42:44,989 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 18:42:55,009 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 500 Internal Server Error"
+2025-09-04 18:42:55,009 INFO Retrying request to /chat/completions in 0.411987 seconds
+2025-09-04 18:43:21,821 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 18:43:39,124 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 18:44:02,748 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 18:44:24,385 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 18:44:34,405 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 500 Internal Server Error"
+2025-09-04 18:44:34,405 INFO Retrying request to /chat/completions in 0.433017 seconds
+2025-09-04 18:44:46,548 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 18:45:11,311 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 18:45:21,329 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 500 Internal Server Error"
+2025-09-04 18:45:21,330 INFO Retrying request to /chat/completions in 0.440612 seconds
+2025-09-04 18:45:38,443 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 18:45:52,255 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 18:46:02,261 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 500 Internal Server Error"
+2025-09-04 18:46:02,261 INFO Retrying request to /chat/completions in 0.395637 seconds
+2025-09-04 18:46:24,630 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 18:46:34,651 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 500 Internal Server Error"
+2025-09-04 18:46:34,652 INFO Retrying request to /chat/completions in 0.495190 seconds
+2025-09-04 18:46:45,167 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 500 Internal Server Error"
+2025-09-04 18:46:45,168 INFO Retrying request to /chat/completions in 0.778800 seconds
+2025-09-04 18:46:59,805 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 18:47:14,145 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 18:47:50,439 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 18:48:07,411 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 18:48:19,421 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 18:48:42,947 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 18:48:57,329 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 18:49:11,697 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 18:49:41,945 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 18:50:07,331 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 18:50:29,756 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 18:51:03,148 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-04 19:01:03,163 INFO Retrying request to /chat/completions in 0.431026 seconds
+2025-09-04 19:02:03,671 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 500 Internal Server Error"
+2025-09-04 19:02:03,672 INFO Retrying request to /chat/completions in 0.814676 seconds
+2025-09-04 19:03:04,621 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 500 Internal Server Error"
+2025-09-04 19:04:04,705 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 500 Internal Server Error"
+2025-09-04 19:04:04,705 INFO Retrying request to /chat/completions in 0.434125 seconds
+2025-09-04 19:05:05,219 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 500 Internal Server Error"
+2025-09-04 19:05:05,219 INFO Retrying request to /chat/completions in 0.781446 seconds
+2025-09-04 19:06:06,081 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 500 Internal Server Error"
+2025-09-04 19:07:06,219 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 500 Internal Server Error"
+2025-09-04 19:07:06,220 INFO Retrying request to /chat/completions in 0.494738 seconds
+2025-09-04 19:08:06,854 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 500 Internal Server Error"
+2025-09-04 19:08:06,855 INFO Retrying request to /chat/completions in 0.918887 seconds
+2025-09-04 19:08:39,337 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 503 Service Unavailable"
+2025-09-04 19:08:39,410 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 500 Internal Server Error"
+2025-09-04 19:08:39,410 INFO Retrying request to /chat/completions in 0.475285 seconds
+2025-09-04 19:09:39,951 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 500 Internal Server Error"
+2025-09-04 19:09:39,951 INFO Retrying request to /chat/completions in 0.902698 seconds
+2025-09-04 19:09:40,948 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 503 Service Unavailable"
+2025-09-04 19:09:56,375 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 500 Internal Server Error"
+2025-09-04 19:09:56,375 INFO Retrying request to /chat/completions in 0.407708 seconds
+2025-09-04 19:09:59,047 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 500 Internal Server Error"
+2025-09-04 19:09:59,047 INFO Retrying request to /chat/completions in 0.815199 seconds
+2025-09-04 19:10:07,206 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 500 Internal Server Error"
+2025-09-04 19:10:07,302 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 503 Service Unavailable"
+2025-09-04 19:10:07,302 INFO Retrying request to /chat/completions in 0.439027 seconds
+2025-09-04 19:10:17,784 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 500 Internal Server Error"
+2025-09-04 19:10:17,785 INFO Retrying request to /chat/completions in 0.772290 seconds
+2025-09-04 19:10:18,671 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 503 Service Unavailable"
+2025-09-04 19:10:28,233 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 500 Internal Server Error"
+2025-09-04 19:10:28,233 INFO Retrying request to /chat/completions in 0.386720 seconds
+2025-09-04 19:10:30,534 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 500 Internal Server Error"
+2025-09-04 19:10:30,534 INFO Retrying request to /chat/completions in 0.776002 seconds
+2025-09-04 19:10:31,372 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 503 Service Unavailable"
+2025-09-04 19:10:31,991 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 500 Internal Server Error"
+2025-09-04 19:10:31,992 INFO Retrying request to /chat/completions in 0.494528 seconds
+2025-09-04 19:10:32,902 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 503 Service Unavailable"
+2025-09-04 19:10:32,902 INFO Retrying request to /chat/completions in 0.991282 seconds
+2025-09-04 19:10:33,957 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 503 Service Unavailable"
+2025-09-04 19:10:34,025 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 503 Service Unavailable"
+2025-09-04 19:10:34,025 INFO Retrying request to /chat/completions in 0.481431 seconds
+2025-09-04 19:10:34,567 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 503 Service Unavailable"
+2025-09-04 19:10:34,567 INFO Retrying request to /chat/completions in 0.927165 seconds
+2025-09-04 19:10:35,552 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 503 Service Unavailable"
+2025-09-04 19:14:19,831 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 500 Internal Server Error"
+2025-09-04 19:14:19,831 INFO Retrying request to /chat/completions in 0.423573 seconds
+2025-09-04 19:14:29,449 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 500 Internal Server Error"
+2025-09-04 19:14:29,449 INFO Retrying request to /chat/completions in 0.898756 seconds
+2025-09-04 19:14:30,405 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 503 Service Unavailable"
+2025-09-04 19:14:30,477 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 503 Service Unavailable"
+2025-09-04 19:14:30,478 INFO Retrying request to /chat/completions in 0.415212 seconds
+2025-09-04 19:14:30,995 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 503 Service Unavailable"
+2025-09-04 19:14:30,995 INFO Retrying request to /chat/completions in 0.866004 seconds
+2025-09-04 19:14:32,002 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 503 Service Unavailable"
+2025-09-04 19:14:32,103 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 503 Service Unavailable"
+2025-09-04 19:14:32,103 INFO Retrying request to /chat/completions in 0.381591 seconds
+2025-09-04 19:14:32,616 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 503 Service Unavailable"
+2025-09-04 19:14:32,617 INFO Retrying request to /chat/completions in 0.811521 seconds
+2025-09-04 19:14:33,510 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 503 Service Unavailable"
+2025-09-04 19:14:33,617 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 503 Service Unavailable"
+2025-09-04 19:14:33,618 INFO Retrying request to /chat/completions in 0.439782 seconds
+2025-09-04 19:14:34,134 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 503 Service Unavailable"
+2025-09-04 19:14:34,135 INFO Retrying request to /chat/completions in 0.892326 seconds
+2025-09-04 19:14:35,113 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 503 Service Unavailable"
+2025-09-04 19:14:35,183 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 503 Service Unavailable"
+2025-09-04 19:14:35,184 INFO Retrying request to /chat/completions in 0.464529 seconds
+2025-09-04 19:14:35,706 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 503 Service Unavailable"
+2025-09-04 19:14:35,706 INFO Retrying request to /chat/completions in 0.942475 seconds
+2025-09-04 19:14:36,706 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 503 Service Unavailable"
+2025-09-04 19:14:36,777 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 503 Service Unavailable"
+2025-09-04 19:14:36,777 INFO Retrying request to /chat/completions in 0.498077 seconds
+2025-09-04 19:14:37,334 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 503 Service Unavailable"
+2025-09-04 19:14:37,335 INFO Retrying request to /chat/completions in 0.924062 seconds
+2025-09-04 19:14:38,321 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 503 Service Unavailable"
+2025-09-04 19:14:38,387 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 503 Service Unavailable"
+2025-09-04 19:14:38,387 INFO Retrying request to /chat/completions in 0.390001 seconds
+2025-09-04 19:14:38,836 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 503 Service Unavailable"
+2025-09-04 19:14:38,836 INFO Retrying request to /chat/completions in 0.900521 seconds
+2025-09-04 19:14:39,795 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 503 Service Unavailable"
+2025-09-04 19:14:39,996 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 503 Service Unavailable"
+2025-09-04 19:14:39,996 INFO Retrying request to /chat/completions in 0.471644 seconds
+2025-09-04 19:14:40,530 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 503 Service Unavailable"
+2025-09-04 19:14:40,530 INFO Retrying request to /chat/completions in 0.787289 seconds
+2025-09-04 19:14:41,388 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 503 Service Unavailable"
+2025-09-04 19:14:41,448 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 503 Service Unavailable"
+2025-09-04 19:14:41,448 INFO Retrying request to /chat/completions in 0.479679 seconds
+2025-09-04 19:14:41,999 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 503 Service Unavailable"
+2025-09-04 19:14:42,000 INFO Retrying request to /chat/completions in 0.762221 seconds
+2025-09-04 19:14:42,821 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 503 Service Unavailable"
+2025-09-04 19:14:42,893 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 503 Service Unavailable"
+2025-09-04 19:14:42,893 INFO Retrying request to /chat/completions in 0.380992 seconds
+2025-09-04 19:14:43,374 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 503 Service Unavailable"
+2025-09-04 19:14:43,374 INFO Retrying request to /chat/completions in 0.918597 seconds
+2025-09-04 19:14:44,355 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 503 Service Unavailable"
+2025-09-04 19:14:44,417 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 503 Service Unavailable"
+2025-09-04 19:14:44,417 INFO Retrying request to /chat/completions in 0.415091 seconds
+2025-09-04 19:14:44,893 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 503 Service Unavailable"
+2025-09-04 19:14:44,893 INFO Retrying request to /chat/completions in 0.758657 seconds
+2025-09-04 19:14:45,750 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 503 Service Unavailable"
+2025-09-04 19:14:45,807 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 503 Service Unavailable"
+2025-09-04 19:14:45,807 INFO Retrying request to /chat/completions in 0.385585 seconds
+2025-09-04 19:14:46,256 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 503 Service Unavailable"
+2025-09-04 19:14:46,257 INFO Retrying request to /chat/completions in 0.914115 seconds
+2025-09-04 19:14:47,237 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 503 Service Unavailable"

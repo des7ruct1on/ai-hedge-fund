@@ -25,6 +25,9 @@
             <button id="startAnalysis" class="btn btn-primary">
                 <i class="fas fa-play"></i> Запустить анализ
             </button>
+            <button id="runBacktest" class="btn btn-secondary">
+                <i class="fas fa-chart-bar"></i> Бэктест (7 дней)
+            </button>
             <div class="status-indicator">
                 <span id="statusText">Готов к анализу</span>
                 <div id="statusIcon" class="status-icon ready"></div>
@@ -70,6 +73,14 @@
                 <h2><i class="fas fa-lightbulb"></i> Итоговые рекомендации</h2>
                 <div class="recommendations-container" id="recommendationsContainer">
                     <!-- Final recommendations will be shown here -->
+                </div>
+            </section>
+
+            <!-- Backtest Results -->
+            <section class="section" id="backtestSection" style="display: none;">
+                <h2><i class="fas fa-chart-bar"></i> Результаты бэктеста</h2>
+                <div class="backtest-container" id="backtestContainer">
+                    <!-- Backtest results will be shown here -->
                 </div>
             </section>
         </div>

@@ -65,6 +65,9 @@ class StockAnalysisApp {
     bindEvents() {
         const startBtn = document.getElementById('startAnalysis');
         startBtn.addEventListener('click', () => this.startAnalysis());
+        
+        const backtestBtn = document.getElementById('runBacktest');
+        backtestBtn.addEventListener('click', () => this.runBacktest());
     }
 
     async loadInitialData() {
@@ -497,10 +500,166 @@ class StockAnalysisApp {
         const discussionContainer = document.getElementById('discussionContainer');
         const riskContainer = document.getElementById('riskContainer');
         const recommendationsContainer = document.getElementById('recommendationsContainer');
+        const backtestContainer = document.getElementById('backtestContainer');
         
         if (discussionContainer) discussionContainer.innerHTML = '';
         if (riskContainer) riskContainer.innerHTML = '';
         if (recommendationsContainer) recommendationsContainer.innerHTML = '';
+        if (backtestContainer) backtestContainer.innerHTML = '';
+    }
+
+    async runBacktest() {
+        if (this.isAnalyzing) return;
+
+        this.isAnalyzing = true;
+        this.showLoadingOverlay();
+        this.updateStatus('analyzing', 'Запуск бэктеста...');
+        
+        // Очищаем предыдущие результаты
+        this.clearResults();
+
+        try {
+            // Запускаем бэктест
+            const response = await fetch('/api/backtest?days=7');
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const result = await response.json();
+            
+            if (result.status === 'completed') {
+                this.handleBacktestComplete(result.result);
+            } else {
+                throw new Error(result.message || 'Ошибка бэктеста');
+            }
+            
+        } catch (error) {
+            console.error('Error running backtest:', error);
+            this.handleError('Ошибка бэктеста: ' + error.message);
+        }
+    }
+
+    handleBacktestComplete(backtestResult) {
+        this.isAnalyzing = false;
+        this.hideLoadingOverlay();
+        this.updateStatus('completed', 'Бэктест завершен');
+        
+        // Показываем секцию результатов бэктеста
+        this.showSection('backtestSection');
+        
+        // Рендерим результаты
+        this.renderBacktestResults(backtestResult);
+        
+        // Прокручиваем к результатам
+        setTimeout(() => {
+            document.getElementById('backtestSection').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        }, 500);
+    }
+
+    renderBacktestResults(result) {
+        const backtestContainer = document.getElementById('backtestContainer');
+        
+        const totalReturnClass = result.total_return_pct >= 0 ? 'positive' : 'negative';
+        const totalReturnIcon = result.total_return_pct >= 0 ? 'fa-arrow-up' : 'fa-arrow-down';
+        
+        backtestContainer.innerHTML = `
+            <div class="backtest-summary">
+                <div class="backtest-metrics">
+                    <div class="metric">
+                        <h4>Период</h4>
+                        <p>${formatDate(result.start_date)} - ${formatDate(result.end_date)}</p>
+                    </div>
+                    <div class="metric">
+                        <h4>Начальная стоимость</h4>
+                        <p>${formatCurrency(result.initial_portfolio_value)}</p>
+                    </div>
+                    <div class="metric">
+                        <h4>Финальная стоимость</h4>
+                        <p>${formatCurrency(result.final_portfolio_value)}</p>
+                    </div>
+                    <div class="metric ${totalReturnClass}">
+                        <h4>Общая доходность</h4>
+                        <p><i class="fas ${totalReturnIcon}"></i> ${result.total_return_pct.toFixed(2)}%</p>
+                    </div>
+                    <div class="metric ${totalReturnClass}">
+                        <h4>Прибыль/Убыток</h4>
+                        <p><i class="fas ${totalReturnIcon}"></i> ${formatCurrency(result.total_pnl)}</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="backtest-ticker-performance">
+                <h3>Производительность по тикерам</h3>
+                <div class="ticker-performance-grid">
+                    ${Object.entries(result.ticker_performance).map(([ticker, perf]) => `
+                        <div class="ticker-performance-item">
+                            <h4>${ticker}</h4>
+                            <div class="performance-metrics">
+                                <div class="perf-metric">
+                                    <span>Доходность:</span>
+                                    <span class="${perf.total_return_pct >= 0 ? 'positive' : 'negative'}">
+                                        ${perf.total_return_pct.toFixed(2)}%
+                                    </span>
+                                </div>
+                                <div class="perf-metric">
+                                    <span>PnL:</span>
+                                    <span class="${perf.total_pnl >= 0 ? 'positive' : 'negative'}">
+                                        ${formatCurrency(perf.total_pnl)}
+                                    </span>
+                                </div>
+                                <div class="perf-metric">
+                                    <span>Средняя уверенность:</span>
+                                    <span>${perf.avg_confidence.toFixed(1)}/10</span>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+            
+            <div class="backtest-daily-results">
+                <h3>Ежедневные результаты</h3>
+                <div class="daily-results-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Дата</th>
+                                <th>Тикер</th>
+                                <th>Цена открытия</th>
+                                <th>Цена закрытия</th>
+                                <th>Сигнал</th>
+                                <th>Уверенность</th>
+                                <th>Дневной PnL</th>
+                                <th>Накопленный PnL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${result.daily_results.map(day => `
+                                <tr>
+                                    <td>${formatDate(day.date)}</td>
+                                    <td>${day.ticker}</td>
+                                    <td>${formatCurrency(day.open_price)}</td>
+                                    <td>${formatCurrency(day.close_price)}</td>
+                                    <td>
+                                        <span class="signal-${day.signal.toLowerCase()}">${day.signal}</span>
+                                    </td>
+                                    <td>${day.confidence.toFixed(1)}</td>
+                                    <td class="${day.daily_pnl >= 0 ? 'positive' : 'negative'}">
+                                        ${formatCurrency(day.daily_pnl)}
+                                    </td>
+                                    <td class="${day.cumulative_pnl >= 0 ? 'positive' : 'negative'}">
+                                        ${formatCurrency(day.cumulative_pnl)}
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        `;
     }
 }
 

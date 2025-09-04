@@ -17,6 +17,7 @@ from web_workflow import WebGraph, get_web_analysis_results
 from agent import Agent
 from models import AgentOpinion, AggregatedDecision, RiskAssessment
 from utils import aggregate_agent_opinions
+from backtest import BacktestEngine
 from dotenv import load_dotenv
 app = FastAPI(title="Мультиагентная система анализа акций", version="1.0.0")
 
@@ -307,6 +308,73 @@ async def health_check():
         "agent_initialized": agent_instance is not None,
         "analysis_status": analysis_results["status"]
     }
+
+@app.get("/api/backtest")
+async def run_backtest(days: int = 7):
+    """
+    Запускает бэктест на указанное количество дней
+    
+    Args:
+        days: количество дней для бэктеста (по умолчанию 7)
+    
+    Returns:
+        Результаты бэктеста
+    """
+    if not agent_instance:
+        raise HTTPException(status_code=500, detail="Агент не инициализирован")
+    
+    if days < 1 or days > 30:
+        raise HTTPException(status_code=400, detail="Количество дней должно быть от 1 до 30")
+    
+    try:
+        # Загружаем данные портфеля и новостей
+        with open("user_portfolio.json", "r", encoding="utf-8") as f:
+            user_portfolio = json.load(f)
+        
+        with open("sample_news.json", "r", encoding="utf-8") as f:
+            news_data = json.load(f)
+        
+        # Создаем движок бэктеста
+        backtest_engine = BacktestEngine(agent_instance.llm)
+        
+        # Запускаем бэктест
+        result = backtest_engine.run_backtest(days, user_portfolio, news_data)
+        
+        # Преобразуем результат в JSON-сериализуемый формат
+        backtest_result = {
+            "start_date": result.start_date.isoformat(),
+            "end_date": result.end_date.isoformat(),
+            "initial_portfolio_value": result.initial_portfolio_value,
+            "final_portfolio_value": result.final_portfolio_value,
+            "total_pnl": result.total_pnl,
+            "total_return_pct": result.total_return_pct,
+            "ticker_performance": result.ticker_performance,
+            "daily_results": [
+                {
+                    "date": day.date.isoformat(),
+                    "ticker": day.ticker,
+                    "open_price": day.open_price,
+                    "close_price": day.close_price,
+                    "high_price": day.high_price,
+                    "low_price": day.low_price,
+                    "volume": day.volume,
+                    "signal": day.signal,
+                    "confidence": day.confidence,
+                    "daily_pnl": day.daily_pnl,
+                    "cumulative_pnl": day.cumulative_pnl
+                }
+                for day in result.daily_results
+            ]
+        }
+        
+        return {
+            "status": "completed",
+            "message": f"Бэктест завершен за {days} дней",
+            "result": backtest_result
+        }
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Ошибка бэктеста: {str(e)}")
 
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):

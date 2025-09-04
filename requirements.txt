@@ -6,3 +6,4 @@ uvicorn>=0.24.0
 websockets>=11.0.0
 markdown>=3.5.0
 openai
+requests>=2.31.0
