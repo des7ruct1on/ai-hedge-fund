@@ -1,0 +1,8 @@
+langgraph>=0.0.40
+yandex-cloud-ml-sdk
+python-dotenv>=1.0.0
+fastapi>=0.104.0
+uvicorn>=0.24.0
+websockets>=11.0.0
+markdown>=3.5.0
+openai
