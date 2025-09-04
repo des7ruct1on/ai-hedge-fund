@@ -3,6 +3,10 @@
 """
 import json
 import logging
+from datetime import datetime
+from zoneinfo import ZoneInfo
+from dateutil.relativedelta import relativedelta
+import pandas as pd
 from langgraph.graph import StateGraph, START, END
 from models import State, AgentOpinion, AggregatedDecision, RiskAssessment
 from enums import StageEnum
@@ -13,6 +17,8 @@ from investor_agents import InvestorAgentRoom
 from utils import aggregate_agent_opinions
 from prompts import RISK_MANAGER_PROMPT, PORTFOLIO_AGENT_PROMPT
 from langgraph.types import Command
+from moex_parser import MoexISS
+from risk_tools import compute_risk_features
 
 logging.basicConfig(
     filename='web_workflow.log',
@@ -26,6 +32,10 @@ web_analysis_results = {
     "risk_assessments": [],
     "final_recommendations": ""
 }
+
+moex_equity = MoexISS(engine="stock", market="shares")  # акции
+moex_index  = MoexISS(engine="stock", market="index")   # индексы (IMOEX, RTSI, IMOEXTR и т.д.)
+
 
 class WebGraph(StateGraph):
     def __init__(self, llm):
@@ -178,8 +188,13 @@ class WebGraph(StateGraph):
             
             risk_assessments = []
             aggregated_decisions = state.get("aggregated_decisions", [])
+
+            start_date, end_date = self.get_range()
             
             for decision in aggregated_decisions:
+
+                risk_features_json = self._build_risk_features_json(decision.ticker, start_date, end_date)
+
                 context = f"""
                 Тикер: {decision.ticker}
                 Рекомендуемое действие: {decision.final_action}
@@ -193,7 +208,13 @@ class WebGraph(StateGraph):
                     context += f"- {opinion.agent_name}: {opinion.action} (уверенность: {opinion.confidence})\n"
                     context += f"  Обоснование: {opinion.reasoning}\n"
                 
-                full_prompt = f"{RISK_MANAGER_PROMPT}\n\n{context}"
+                full_prompt = (
+                f"{RISK_MANAGER_PROMPT}\n\n"
+                f"[QUANT_RISK_CONTEXT]\n{risk_features_json}\n\n"
+                f"{context}"
+                )
+
+                print(full_prompt)
                 
                 try:
                     response = self.llm.complete(full_prompt, temperature=0.3, max_tokens=500)
@@ -293,6 +314,34 @@ class WebGraph(StateGraph):
             if any(keyword in line.lower() for keyword in ['риск', 'опасность', 'угроза']):
                 factors.append(line.strip())
         return factors[:3] 
+    
+
+    def get_range(self, months_back: int = 1, tz: str = 'Europe/Moscow') -> tuple[str, str]:
+        
+        today_local = datetime.now(ZoneInfo(tz)).date()
+        start_date = (today_local - relativedelta(months=months_back)).isoformat()
+        end_date = today_local.isoformat()
+        return start_date, end_date
+    
+    def _bench_close_series(self, bench_secid: str, start: str, end: str) -> pd.Series | None:
+        
+        c = moex_index.get_candles(bench_secid, start, end, interval=24)
+        if c is None or c.empty:
+            return None
+        s = c[["end", "close"]].copy()
+        s["date"] = pd.to_datetime(s["end"]).dt.date
+        return s.set_index("date")["close"].astype(float).sort_index()
+
+    def _build_risk_features_json(self, secid: str, start: str, end: str) -> str:
+        # базовый дневной ряд закрытий (LEGALCLOSEPRICE/CLOSE)
+        px = moex_equity.get_daily_close_series(secid, start, end, board="TQBR")
+        # дневные свечи (OHLC) — для Parkinson/Garman–Klass
+        ohlc = moex_equity.get_candles(secid, start, end, interval=24)
+        # бенчмарк
+        bench = self._bench_close_series("IMOEX", start, end)
+        rf = compute_risk_features(px_close_daily=px, bench_close_daily=bench, ohlc_daily=ohlc, stl_period=5)
+        return json.dumps(rf.__dict__, ensure_ascii=False, default=float)
+
 
     def _build_finalizer_context(self, state: State) -> str:
         """Строит контекст для финализатора"""
