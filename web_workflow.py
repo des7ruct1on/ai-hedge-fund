@@ -11,7 +11,7 @@ from langgraph.prebuilt import ToolNode
 from langgraph.graph.message import add_messages
 from investor_agents import InvestorAgentRoom
 from utils import aggregate_agent_opinions
-from prompts import RISK_MANAGER_PROMPT, PORTFOLIO_AGENT_PROMPT
+from prompts import RISK_MANAGER_PROMPT, PORTFOLIO_AGENT_PROMPT, ROUTER_PROMPT, FACT_NODE_PROMPT, OTHER_NODE_PROMPT
 from langgraph.types import Command
 
 logging.basicConfig(
@@ -36,13 +36,29 @@ class WebGraph(StateGraph):
     def get_graph(self):
         graph = StateGraph(State)
 
+        graph.add_node(StageEnum.ROUTER_NODE, self.router_node)
         graph.add_node(StageEnum.USER_DATA_NODE, self.user_data_node)
         graph.add_node(StageEnum.NEWS_DATA_NODE, self.news_data_node)
         graph.add_node(StageEnum.DISCUSSION_NODE, self.discussion_node)
         graph.add_node(StageEnum.RISK_NODE, self.risk_node)
         graph.add_node(StageEnum.FINALIZER_NODE, self.finalizer_node)
+        graph.add_node(StageEnum.FACT_NODE, self.fact_node)
+        graph.add_node(StageEnum.OTHER_NODE, self.other_node)
 
-        graph.add_edge(START, StageEnum.DISCUSSION_NODE)
+        # graph.add_edge(START, StageEnum.DISCUSSION_NODE)
+
+        graph.add_edge(START, StageEnum.ROUTER_NODE)
+
+    # Роутер выбирает путь
+        graph.add_conditional_edges(
+            StageEnum.ROUTER_NODE,
+            lambda x: x["stage"],
+            {
+            StageEnum.DISCUSSION_NODE: StageEnum.DISCUSSION_NODE,
+            StageEnum.FACT_NODE: StageEnum.FACT_NODE,
+            StageEnum.OTHER_NODE: StageEnum.OTHER_NODE,
+            }
+        )
 
         graph.add_conditional_edges(
             StageEnum.DISCUSSION_NODE,
@@ -56,7 +72,98 @@ class WebGraph(StateGraph):
         graph.add_edge(StageEnum.RISK_NODE, StageEnum.FINALIZER_NODE)
         graph.add_edge(StageEnum.FINALIZER_NODE, END)
 
+        graph.add_edge(StageEnum.FACT_NODE, END)
+        graph.add_edge(StageEnum.OTHER_NODE, END)
+
         return graph.compile(checkpointer=self.memory)
+    
+    def router_node(self, state: State) -> State:
+        logging.info("Router node")
+        user_input = state.get("message_from_user", "").strip()
+        if not user_input:
+            return Command(
+                goto=END,
+                update={"message_to_user": "Пустой запрос.", "stage": END}
+            )
+
+        try:
+            prompt = ROUTER_PROMPT.format(user_input=user_input)
+            response = self.llm.complete(prompt, temperature=0.0, max_tokens=10)
+            category = response.strip().lower()
+
+            logging.info(f"Router detected category: {category}")
+
+            if category == "analysis":
+                return Command(goto=StageEnum.DISCUSSION_NODE)
+            elif category == "fact":
+                return Command(goto=StageEnum.FACT_NODE)
+            else:
+                return Command(goto=StageEnum.OTHER_NODE)
+
+        except Exception as e:
+            logging.error(f"Ошибка в router_node: {e}")
+            return Command(
+                goto=StageEnum.OTHER_NODE,
+                update={"message_to_user": "Не удалось определить тип запроса."}
+            )
+        
+
+    def fact_node(self, state: State) -> State:
+        logging.info("Fact node")
+        try:
+            user_input = state.get("message_from_user", "")
+            user_data = state.get("user_data", {})
+            news_data = state.get("news_data", {})
+
+            prompt = FACT_NODE_PROMPT.format(
+                user_input=user_input,
+                user_data=json.dumps(user_data, ensure_ascii=False, indent=2),
+                news_data=json.dumps(news_data, ensure_ascii=False, indent=2)
+            )
+
+            response = self.llm.complete(prompt, temperature=0.3, max_tokens=500)
+
+            return Command(
+                goto=END,
+                update={
+                    "message_to_user": response,
+                    "stage": END
+                }
+            )
+        except Exception as e:
+            logging.error(f"Ошибка в fact_node: {e}")
+            return Command(
+                goto=END,
+                update={
+                    "message_to_user": "Ошибка при обработке фактического запроса.",
+                    "stage": END
+                }
+            )
+        
+    def other_node(self, state: State) -> State:
+        logging.info("Other node")
+        try:
+            user_input = state.get("message_from_user", "")
+
+            prompt = OTHER_NODE_PROMPT.format(user_input=user_input)
+            response = self.llm.complete(prompt, temperature=0.7, max_tokens=300)
+
+            return Command(
+                goto=END,
+                update={
+                    "message_to_user": response,
+                    "stage": END
+                }
+            )
+        except Exception as e:
+            logging.error(f"Ошибка в other_node: {e}")
+            return Command(
+                goto=END,
+                update={
+                    "message_to_user": "Не удалось обработать запрос.",
+                    "stage": END
+                }
+            )
 
     def user_data_node(self, state: State) -> State:
         logging.info("User data node")
