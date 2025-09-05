@@ -1,13 +1,13 @@
 import json
 from langgraph.graph import StateGraph, START, END
-from models import State, AgentOpinion, AggregatedDecision, RiskAssessment
-from enums import StageEnum
+from .models import State, AgentOpinion, AggregatedDecision, RiskAssessment
+from .enums import StageEnum
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.prebuilt import ToolNode
 from langgraph.graph.message import add_messages
-from investor_agents import InvestorAgentRoom
-from utils import aggregate_agent_opinions
-from prompts import RISK_MANAGER_PROMPT, PORTFOLIO_AGENT_PROMPT
+from .investor_agents import InvestorAgentRoom
+from .utils import aggregate_agent_opinions
+from .prompts import RISK_MANAGER_PROMPT, PORTFOLIO_AGENT_PROMPT
 from langgraph.types import Command
 
 class Graph(StateGraph):

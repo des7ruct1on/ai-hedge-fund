@@ -672,3 +672,1077 @@
 2025-09-04 19:14:46,256 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 503 Service Unavailable"
 2025-09-04 19:14:46,257 INFO Retrying request to /chat/completions in 0.914115 seconds
 2025-09-04 19:14:47,237 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 503 Service Unavailable"
+2025-09-05 14:14:03,837 INFO Discussion node
+2025-09-05 14:14:03,837 INFO Checking user data
+2025-09-05 14:14:03,838 INFO User data node
+2025-09-05 14:14:03,838 INFO User data loaded
+2025-09-05 14:14:03,839 INFO Discussion node
+2025-09-05 14:14:03,839 INFO Checking user data
+2025-09-05 14:14:03,839 INFO Checking news data
+2025-09-05 14:14:03,839 INFO News data node
+2025-09-05 14:14:03,839 INFO News data loaded
+2025-09-05 14:14:03,839 INFO Discussion node
+2025-09-05 14:14:03,840 INFO Checking user data
+2025-09-05 14:14:03,840 INFO Checking news data
+2025-09-05 14:14:03,840 INFO 🤖 Агенты начинают обсуждение портфеля...
+2025-09-05 14:14:15,576 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 14:14:25,405 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 14:14:47,322 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 14:15:03,702 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 14:15:21,268 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 14:15:41,877 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 14:16:06,064 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 14:16:19,581 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 14:16:44,054 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 14:17:01,158 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 14:17:13,043 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 14:50:19,178 INFO Discussion node
+2025-09-05 14:50:19,178 INFO Checking user data
+2025-09-05 14:50:19,179 INFO User data node
+2025-09-05 14:50:19,180 INFO User data loaded
+2025-09-05 14:50:19,180 INFO Discussion node
+2025-09-05 14:50:19,180 INFO Checking user data
+2025-09-05 14:50:19,180 INFO Checking news data
+2025-09-05 14:50:19,181 INFO News data node
+2025-09-05 14:50:19,181 INFO News data loaded
+2025-09-05 14:50:19,181 INFO Discussion node
+2025-09-05 14:50:19,181 INFO Checking user data
+2025-09-05 14:50:19,181 INFO Checking news data
+2025-09-05 14:50:19,181 INFO 🤖 Агенты начинают обсуждение портфеля...
+2025-09-05 14:50:42,170 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 14:51:13,515 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 14:51:47,702 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 14:52:14,023 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 14:54:38,920 INFO Discussion node
+2025-09-05 14:54:38,921 INFO Checking user data
+2025-09-05 14:54:38,922 INFO User data node
+2025-09-05 14:54:38,923 INFO User data loaded
+2025-09-05 14:54:38,923 INFO Discussion node
+2025-09-05 14:54:38,923 INFO Checking user data
+2025-09-05 14:54:38,923 INFO Checking news data
+2025-09-05 14:54:38,923 INFO News data node
+2025-09-05 14:54:38,924 INFO News data loaded
+2025-09-05 14:54:38,924 INFO Discussion node
+2025-09-05 14:54:38,924 INFO Checking user data
+2025-09-05 14:54:38,924 INFO Checking news data
+2025-09-05 14:54:38,924 INFO 🤖 Агенты начинают обсуждение портфеля...
+2025-09-05 14:55:06,265 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 14:55:22,953 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 14:55:48,045 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 14:56:02,986 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 14:56:17,938 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 14:56:34,021 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 14:56:48,765 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 14:57:01,356 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 14:57:12,202 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 14:57:24,595 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 14:57:35,257 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 14:57:45,289 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 14:57:56,448 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 14:58:08,848 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 14:58:23,489 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 14:58:37,497 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 14:58:49,645 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 14:59:03,827 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 14:59:03,833 INFO 🔄 АГРЕГАЦИЯ РЕШЕНИЙ АГЕНТОВ
+2025-09-05 14:59:03,833 INFO ----------------------------------------
+2025-09-05 14:59:03,834 INFO ✅ Получено 18 мнений от агентов
+2025-09-05 14:59:03,834 INFO 📊 Агрегировано 6 решений
+2025-09-05 14:59:03,835 INFO 📋 GAZP: HOLD (уверенность: 7.0, консенсус: 1.0)
+2025-09-05 14:59:03,835 INFO 📋 SBER: HOLD (уверенность: 7.3, консенсус: 1.0)
+2025-09-05 14:59:03,835 INFO 📋 LKOH: HOLD (уверенность: 7.7, консенсус: 1.0)
+2025-09-05 14:59:03,835 INFO 📋 YNDX: HOLD (уверенность: 6.7, консенсус: 1.0)
+2025-09-05 14:59:03,835 INFO 📋 NVTK: HOLD (уверенность: 7.3, консенсус: 1.0)
+2025-09-05 14:59:03,835 INFO 📋 SMLT: SELL (уверенность: 7.3, консенсус: 0.7)
+2025-09-05 14:59:03,852 INFO Risk node
+2025-09-05 14:59:03,852 INFO ⚠️ Риск-менеджер оценивает риски...
+2025-09-05 14:59:18,266 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 14:59:31,563 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 14:59:49,528 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 15:00:03,932 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 15:00:17,395 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 15:00:32,432 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 15:00:32,435 INFO ✅ Оценены риски для 6 позиций
+2025-09-05 15:00:32,436 INFO ⚠️ GAZP: уровень риска 5/10
+2025-09-05 15:00:32,436 INFO ⚠️ SBER: уровень риска 5/10
+2025-09-05 15:00:32,436 INFO ⚠️ LKOH: уровень риска 5/10
+2025-09-05 15:00:32,436 INFO ⚠️ YNDX: уровень риска 5/10
+2025-09-05 15:00:32,436 INFO ⚠️ NVTK: уровень риска 5/10
+2025-09-05 15:00:32,436 INFO ⚠️ SMLT: уровень риска 5/10
+2025-09-05 15:00:32,440 INFO Finalizer node
+2025-09-05 15:00:32,441 INFO 📋 Формирование итоговых рекомендаций...
+2025-09-05 15:00:48,412 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 15:00:48,418 INFO ✅ Итоговые рекомендации сформированы
+2025-09-05 15:13:38,755 INFO Discussion node
+2025-09-05 15:13:38,755 INFO Checking user data
+2025-09-05 15:13:38,757 INFO User data node
+2025-09-05 15:13:38,757 INFO User data loaded
+2025-09-05 15:13:38,757 INFO Discussion node
+2025-09-05 15:13:38,757 INFO Checking user data
+2025-09-05 15:13:38,757 INFO Checking news data
+2025-09-05 15:13:38,758 INFO News data node
+2025-09-05 15:13:38,758 INFO News data loaded
+2025-09-05 15:13:38,758 INFO Discussion node
+2025-09-05 15:13:38,758 INFO Checking user data
+2025-09-05 15:13:38,758 INFO Checking news data
+2025-09-05 15:13:38,758 INFO 🤖 Агенты начинают обсуждение портфеля...
+2025-09-05 15:14:01,919 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 15:14:28,500 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 15:15:35,564 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 15:16:18,668 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 15:17:24,415 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 15:18:19,523 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 15:18:55,183 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 15:19:16,437 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 15:19:59,236 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 15:20:48,858 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 15:21:08,457 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 15:21:30,680 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 15:21:52,386 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 15:22:42,879 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 15:23:10,105 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 15:23:29,657 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 15:23:58,748 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 15:24:19,071 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 15:24:19,075 INFO 🔄 АГРЕГАЦИЯ РЕШЕНИЙ АГЕНТОВ
+2025-09-05 15:24:19,076 INFO ----------------------------------------
+2025-09-05 15:24:19,078 INFO ✅ Получено 18 мнений от агентов
+2025-09-05 15:24:19,078 INFO 📊 Агрегировано 6 решений
+2025-09-05 15:24:19,078 INFO 📋 SBER: HOLD (уверенность: 7.7, консенсус: 1.0)
+2025-09-05 15:24:19,078 INFO 📋 NVTK: HOLD (уверенность: 7.3, консенсус: 1.0)
+2025-09-05 15:24:19,078 INFO 📋 YNDX: HOLD (уверенность: 7.0, консенсус: 1.0)
+2025-09-05 15:24:19,078 INFO 📋 SMLT: SELL (уверенность: 7.3, консенсус: 0.7)
+2025-09-05 15:24:19,078 INFO 📋 GAZP: HOLD (уверенность: 7.0, консенсус: 1.0)
+2025-09-05 15:24:19,078 INFO 📋 LKOH: HOLD (уверенность: 7.3, консенсус: 1.0)
+2025-09-05 15:24:19,090 INFO Risk node
+2025-09-05 15:24:19,090 INFO ⚠️ Риск-менеджер оценивает риски...
+2025-09-05 15:24:33,048 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 15:24:46,873 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 15:24:47,243 ERROR Ошибка в оценке рисков: index 0 is out of bounds for axis 0 with size 0
+2025-09-05 15:24:47,246 INFO Finalizer node
+2025-09-05 15:24:47,246 INFO 📋 Формирование итоговых рекомендаций...
+2025-09-05 15:25:02,298 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 15:25:02,303 INFO ✅ Итоговые рекомендации сформированы
+2025-09-05 15:58:52,537 INFO Discussion node
+2025-09-05 15:58:52,537 INFO Checking user data
+2025-09-05 15:58:52,539 INFO User data node
+2025-09-05 15:58:52,539 INFO User data loaded
+2025-09-05 15:58:52,539 INFO Discussion node
+2025-09-05 15:58:52,539 INFO Checking user data
+2025-09-05 15:58:52,539 INFO Checking news data
+2025-09-05 15:58:52,539 INFO News data node
+2025-09-05 15:58:52,540 INFO News data loaded
+2025-09-05 15:58:52,540 INFO Discussion node
+2025-09-05 15:58:52,540 INFO Checking user data
+2025-09-05 15:58:52,540 INFO Checking news data
+2025-09-05 15:58:52,540 INFO 🤖 Агенты начинают обсуждение портфеля...
+2025-09-05 15:59:14,584 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 15:59:36,808 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 15:59:58,719 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:00:22,472 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:00:42,039 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:01:09,984 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:01:30,249 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:01:50,946 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:02:12,477 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:02:32,319 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:03:07,646 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:03:27,304 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:03:47,534 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:04:25,876 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:04:46,871 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:05:57,734 INFO Discussion node
+2025-09-05 16:05:57,735 INFO Checking user data
+2025-09-05 16:05:57,736 INFO User data node
+2025-09-05 16:05:57,736 INFO User data loaded
+2025-09-05 16:05:57,737 INFO Discussion node
+2025-09-05 16:05:57,737 INFO Checking user data
+2025-09-05 16:05:57,737 INFO Checking news data
+2025-09-05 16:05:57,737 INFO News data node
+2025-09-05 16:05:57,737 INFO News data loaded
+2025-09-05 16:05:57,737 INFO Discussion node
+2025-09-05 16:05:57,738 INFO Checking user data
+2025-09-05 16:05:57,738 INFO Checking news data
+2025-09-05 16:05:57,738 INFO 🤖 Агенты начинают обсуждение портфеля...
+2025-09-05 16:06:20,876 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:06:38,586 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:06:58,965 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:07:18,489 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:07:38,484 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:07:57,742 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:08:16,789 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:08:35,733 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:08:54,920 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:09:13,823 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:09:33,516 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:09:53,619 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:10:12,604 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:10:37,447 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:10:58,087 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:11:18,647 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:11:38,893 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:11:58,755 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:11:58,759 INFO 🔄 АГРЕГАЦИЯ РЕШЕНИЙ АГЕНТОВ
+2025-09-05 16:11:58,759 INFO ----------------------------------------
+2025-09-05 16:11:58,760 INFO ✅ Получено 18 мнений от агентов
+2025-09-05 16:11:58,760 INFO 📊 Агрегировано 6 решений
+2025-09-05 16:11:58,760 INFO 📋 SBER: HOLD (уверенность: 7.3, консенсус: 1.0)
+2025-09-05 16:11:58,760 INFO 📋 YNDX: HOLD (уверенность: 6.7, консенсус: 1.0)
+2025-09-05 16:11:58,760 INFO 📋 SMLT: SELL (уверенность: 7.3, консенсус: 0.7)
+2025-09-05 16:11:58,760 INFO 📋 NVTK: HOLD (уверенность: 7.7, консенсус: 1.0)
+2025-09-05 16:11:58,761 INFO 📋 LKOH: HOLD (уверенность: 7.3, консенсус: 1.0)
+2025-09-05 16:11:58,761 INFO 📋 GAZP: HOLD (уверенность: 7.0, консенсус: 1.0)
+2025-09-05 16:11:58,779 INFO Risk node
+2025-09-05 16:11:58,779 INFO ⚠️ Риск-менеджер оценивает риски...
+2025-09-05 16:12:18,866 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:12:18,978 ERROR Ошибка в оценке рисков: index 0 is out of bounds for axis 0 with size 0
+2025-09-05 16:12:18,979 INFO Finalizer node
+2025-09-05 16:12:18,980 INFO 📋 Формирование итоговых рекомендаций...
+2025-09-05 16:12:38,384 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:12:38,388 INFO ✅ Итоговые рекомендации сформированы
+2025-09-05 16:20:30,726 INFO Router node
+2025-09-05 16:20:31,274 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:20:31,287 INFO Router detected category: analysis
+2025-09-05 16:31:17,315 INFO Router node
+2025-09-05 16:31:19,471 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:31:19,484 INFO Router detected category: analysis
+2025-09-05 16:36:44,786 INFO Router node
+2025-09-05 16:36:45,413 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:36:45,426 INFO Router detected category: analysis
+2025-09-05 16:37:04,670 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:37:14,906 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:37:43,249 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:37:56,788 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:38:12,869 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:38:35,388 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:38:55,347 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:39:06,715 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:39:43,868 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:40:08,581 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:40:21,786 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:40:53,019 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:41:09,711 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:41:21,998 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:41:39,920 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:41:59,480 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:42:10,626 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:42:33,799 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:42:49,415 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:42:58,996 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:43:25,798 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:43:43,822 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:43:53,037 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:44:11,263 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:44:27,061 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:44:36,305 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:44:55,943 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:45:13,625 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:45:27,858 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:45:45,369 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:46:02,368 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:46:31,347 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:46:47,834 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:47:27,875 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:47:59,793 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:48:24,193 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:48:40,168 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:48:49,794 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:49:07,088 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:49:22,768 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:49:32,772 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:49:52,875 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:50:05,980 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:50:16,670 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:50:36,406 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:56:00,341 INFO Router node
+2025-09-05 16:56:56,813 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:56:56,822 INFO Router detected category: analysis
+2025-09-05 16:57:23,893 INFO Router node
+2025-09-05 16:57:58,895 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 16:57:58,911 INFO Router detected category: analysis
+2025-09-05 16:59:54,939 INFO Router node
+2025-09-05 17:00:37,185 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:00:37,201 INFO Router detected category: analysis
+2025-09-05 17:02:50,632 INFO Router node
+2025-09-05 17:03:13,553 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:03:13,576 INFO Router detected category: analysis
+2025-09-05 17:03:13,579 INFO ''
+2025-09-05 17:03:52,367 INFO Router node
+2025-09-05 17:04:46,269 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:04:46,279 INFO Router detected category: analysis
+2025-09-05 17:04:46,282 INFO ''
+2025-09-05 17:04:46,282 INFO <coroutine object ConnectionManager.broadcast at 0x10707f5a0>
+2025-09-05 17:06:49,355 INFO Router node
+2025-09-05 17:07:08,763 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:07:08,774 INFO Router detected category: analysis
+2025-09-05 17:07:08,776 INFO ''
+2025-09-05 17:07:47,166 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:08:14,402 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:08:49,943 INFO Router node
+2025-09-05 17:09:06,011 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:09:06,020 INFO Router detected category: analysis
+2025-09-05 17:09:06,022 INFO ''
+2025-09-05 17:11:35,919 INFO Router node
+2025-09-05 17:11:36,565 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:11:36,572 INFO Router detected category: analysis
+2025-09-05 17:11:36,574 ERROR Ошибка в анализе портфеля
+Traceback (most recent call last):
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/web_interface_fastapi.py", line 137, in run_analysis_background
+    result = agent_instance.process_message("Проанализируй мой портфель и дай рекомендации")
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/utils/agent.py", line 23, in process_message
+    result = self.graph.invoke(
+        state,
+        config={"configurable": {"thread_id": self.thread_id}}
+    )
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/pregel/main.py", line 3026, in invoke
+    for chunk in self.stream(
+                 ~~~~~~~~~~~^
+        input,
+        ^^^^^^
+    ...<10 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    ):
+    ^
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/pregel/main.py", line 2647, in stream
+    for _ in runner.tick(
+             ~~~~~~~~~~~^
+        [t for t in loop.tasks.values() if not t.writes],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        schedule_task=loop.accept_push,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/pregel/_runner.py", line 162, in tick
+    run_with_retry(
+    ~~~~~~~~~~~~~~^
+        t,
+        ^^
+    ...<10 lines>...
+        },
+        ^^
+    )
+    ^
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/pregel/_retry.py", line 42, in run_with_retry
+    return task.proc.invoke(task.input, config)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/_internal/_runnable.py", line 659, in invoke
+    input = step.invoke(input, config)
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/_internal/_runnable.py", line 401, in invoke
+    ret = self.func(*args, **kwargs)
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/graph/_branch.py", line 169, in _route
+    return self._finish(writer, input, result, config)
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/graph/_branch.py", line 205, in _finish
+    r if isinstance(r, Send) else self.ends[r] for r in result
+                                  ~~~~~~~~~^^^
+KeyError: ''
+During task with name 'router' and id '7f956bbd-e277-d32a-82dc-7fbd427cde09'
+2025-09-05 17:12:02,274 INFO Router node
+2025-09-05 17:12:02,554 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:12:02,565 INFO Router detected category: analysis
+2025-09-05 17:12:02,567 ERROR Ошибка в анализе портфеля
+Traceback (most recent call last):
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/web_interface_fastapi.py", line 137, in run_analysis_background
+    result = agent_instance.process_message("Проанализируй мой портфель и дай рекомендации")
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/utils/agent.py", line 23, in process_message
+    result = self.graph.invoke(
+        state,
+        config={"configurable": {"thread_id": self.thread_id}}
+    )
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/pregel/main.py", line 3026, in invoke
+    for chunk in self.stream(
+                 ~~~~~~~~~~~^
+        input,
+        ^^^^^^
+    ...<10 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    ):
+    ^
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/pregel/main.py", line 2647, in stream
+    for _ in runner.tick(
+             ~~~~~~~~~~~^
+        [t for t in loop.tasks.values() if not t.writes],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        schedule_task=loop.accept_push,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/pregel/_runner.py", line 162, in tick
+    run_with_retry(
+    ~~~~~~~~~~~~~~^
+        t,
+        ^^
+    ...<10 lines>...
+        },
+        ^^
+    )
+    ^
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/pregel/_retry.py", line 42, in run_with_retry
+    return task.proc.invoke(task.input, config)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/_internal/_runnable.py", line 659, in invoke
+    input = step.invoke(input, config)
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/_internal/_runnable.py", line 401, in invoke
+    ret = self.func(*args, **kwargs)
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/graph/_branch.py", line 169, in _route
+    return self._finish(writer, input, result, config)
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/graph/_branch.py", line 205, in _finish
+    r if isinstance(r, Send) else self.ends[r] for r in result
+                                  ~~~~~~~~~^^^
+KeyError: ''
+During task with name 'router' and id '13efdc7c-c382-bec1-0b90-c17bfce9d810'
+2025-09-05 17:14:37,292 INFO Router node
+2025-09-05 17:14:41,162 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:14:41,172 INFO Router detected category: analysis
+2025-09-05 17:15:13,515 INFO Router node
+2025-09-05 17:15:13,856 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:15:13,870 INFO Router detected category: analysis
+2025-09-05 17:15:13,872 ERROR Ошибка в анализе портфеля
+Traceback (most recent call last):
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/web_interface_fastapi.py", line 142, in run_analysis_background
+    result = agent_instance.process_message("Проанализируй мой портфель и дай рекомендации")
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/utils/agent.py", line 23, in process_message
+    result = self.graph.invoke(
+        state,
+        config={"configurable": {"thread_id": self.thread_id}}
+    )
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/pregel/main.py", line 3026, in invoke
+    for chunk in self.stream(
+                 ~~~~~~~~~~~^
+        input,
+        ^^^^^^
+    ...<10 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    ):
+    ^
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/pregel/main.py", line 2647, in stream
+    for _ in runner.tick(
+             ~~~~~~~~~~~^
+        [t for t in loop.tasks.values() if not t.writes],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        schedule_task=loop.accept_push,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/pregel/_runner.py", line 162, in tick
+    run_with_retry(
+    ~~~~~~~~~~~~~~^
+        t,
+        ^^
+    ...<10 lines>...
+        },
+        ^^
+    )
+    ^
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/pregel/_retry.py", line 42, in run_with_retry
+    return task.proc.invoke(task.input, config)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/_internal/_runnable.py", line 659, in invoke
+    input = step.invoke(input, config)
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/_internal/_runnable.py", line 401, in invoke
+    ret = self.func(*args, **kwargs)
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/graph/_branch.py", line 169, in _route
+    return self._finish(writer, input, result, config)
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/graph/_branch.py", line 205, in _finish
+    r if isinstance(r, Send) else self.ends[r] for r in result
+                                  ~~~~~~~~~^^^
+KeyError: ''
+During task with name 'router' and id 'c4e34864-4643-ff19-4eb6-fa111a4d1662'
+2025-09-05 17:17:54,538 INFO Router node
+2025-09-05 17:17:54,889 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:17:54,900 INFO Router detected category: analysis
+2025-09-05 17:17:54,904 ERROR Ошибка в анализе портфеля
+Traceback (most recent call last):
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/web_interface_fastapi.py", line 163, in run_analysis_background
+    result = agent_instance.process_message("Проанализируй мой портфель и дай рекомендации")
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/utils/agent.py", line 23, in process_message
+    result = self.graph.invoke(
+        state,
+        config={"configurable": {"thread_id": self.thread_id}}
+    )
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/pregel/main.py", line 3026, in invoke
+    for chunk in self.stream(
+                 ~~~~~~~~~~~^
+        input,
+        ^^^^^^
+    ...<10 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    ):
+    ^
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/pregel/main.py", line 2647, in stream
+    for _ in runner.tick(
+             ~~~~~~~~~~~^
+        [t for t in loop.tasks.values() if not t.writes],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        schedule_task=loop.accept_push,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/pregel/_runner.py", line 162, in tick
+    run_with_retry(
+    ~~~~~~~~~~~~~~^
+        t,
+        ^^
+    ...<10 lines>...
+        },
+        ^^
+    )
+    ^
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/pregel/_retry.py", line 42, in run_with_retry
+    return task.proc.invoke(task.input, config)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/_internal/_runnable.py", line 659, in invoke
+    input = step.invoke(input, config)
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/_internal/_runnable.py", line 401, in invoke
+    ret = self.func(*args, **kwargs)
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/graph/_branch.py", line 169, in _route
+    return self._finish(writer, input, result, config)
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/graph/_branch.py", line 205, in _finish
+    r if isinstance(r, Send) else self.ends[r] for r in result
+                                  ~~~~~~~~~^^^
+KeyError: ''
+During task with name 'router' and id '399b935b-09be-70ad-f8dc-19f90b0511a5'
+2025-09-05 17:19:53,079 INFO Router node
+2025-09-05 17:19:53,443 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:19:53,449 INFO Router detected category: analysis
+2025-09-05 17:19:53,451 ERROR Ошибка в анализе портфеля
+Traceback (most recent call last):
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/web_interface_fastapi.py", line 163, in run_analysis_background
+    result = agent_instance.process_message("Проанализируй мой портфель и дай рекомендации")
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/utils/agent.py", line 23, in process_message
+    result = self.graph.invoke(
+        state,
+        config={"configurable": {"thread_id": self.thread_id}}
+    )
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/pregel/main.py", line 3026, in invoke
+    for chunk in self.stream(
+                 ~~~~~~~~~~~^
+        input,
+        ^^^^^^
+    ...<10 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    ):
+    ^
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/pregel/main.py", line 2647, in stream
+    for _ in runner.tick(
+             ~~~~~~~~~~~^
+        [t for t in loop.tasks.values() if not t.writes],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        schedule_task=loop.accept_push,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/pregel/_runner.py", line 162, in tick
+    run_with_retry(
+    ~~~~~~~~~~~~~~^
+        t,
+        ^^
+    ...<10 lines>...
+        },
+        ^^
+    )
+    ^
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/pregel/_retry.py", line 42, in run_with_retry
+    return task.proc.invoke(task.input, config)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/_internal/_runnable.py", line 659, in invoke
+    input = step.invoke(input, config)
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/_internal/_runnable.py", line 401, in invoke
+    ret = self.func(*args, **kwargs)
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/graph/_branch.py", line 169, in _route
+    return self._finish(writer, input, result, config)
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/graph/_branch.py", line 205, in _finish
+    r if isinstance(r, Send) else self.ends[r] for r in result
+                                  ~~~~~~~~~^^^
+KeyError: ''
+During task with name 'router' and id 'e997f314-0f05-b3d6-89a1-f1fcb5eb0070'
+2025-09-05 17:21:25,385 INFO Router node
+2025-09-05 17:21:25,738 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:21:25,749 INFO Router detected category: analysis
+2025-09-05 17:21:25,751 ERROR Ошибка в анализе портфеля
+Traceback (most recent call last):
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/web_interface_fastapi.py", line 160, in run_analysis_background
+    result = agent_instance.process_message("Проанализируй мой портфель и дай рекомендации")
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/utils/agent.py", line 23, in process_message
+    result = self.graph.invoke(
+        state,
+        config={"configurable": {"thread_id": self.thread_id}}
+    )
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/pregel/main.py", line 3026, in invoke
+    for chunk in self.stream(
+                 ~~~~~~~~~~~^
+        input,
+        ^^^^^^
+    ...<10 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    ):
+    ^
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/pregel/main.py", line 2647, in stream
+    for _ in runner.tick(
+             ~~~~~~~~~~~^
+        [t for t in loop.tasks.values() if not t.writes],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        schedule_task=loop.accept_push,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/pregel/_runner.py", line 162, in tick
+    run_with_retry(
+    ~~~~~~~~~~~~~~^
+        t,
+        ^^
+    ...<10 lines>...
+        },
+        ^^
+    )
+    ^
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/pregel/_retry.py", line 42, in run_with_retry
+    return task.proc.invoke(task.input, config)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/_internal/_runnable.py", line 659, in invoke
+    input = step.invoke(input, config)
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/_internal/_runnable.py", line 401, in invoke
+    ret = self.func(*args, **kwargs)
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/graph/_branch.py", line 169, in _route
+    return self._finish(writer, input, result, config)
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/graph/_branch.py", line 205, in _finish
+    r if isinstance(r, Send) else self.ends[r] for r in result
+                                  ~~~~~~~~~^^^
+KeyError: ''
+During task with name 'router' and id '7e0ffd03-40e8-4e69-8347-c57b39d546ab'
+2025-09-05 17:23:49,426 INFO Router node
+2025-09-05 17:23:49,911 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:23:49,924 INFO Router detected category: analysis
+2025-09-05 17:23:49,927 ERROR Ошибка в анализе портфеля
+Traceback (most recent call last):
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/web_interface_fastapi.py", line 160, in run_analysis_background
+    result = agent_instance.process_message("Проанализируй мой портфель и дай рекомендации")
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/utils/agent.py", line 38, in process_message
+    result = self.graph.invoke(
+        state,
+        config={"configurable": {"thread_id": self.thread_id}}
+    )
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/pregel/main.py", line 3026, in invoke
+    for chunk in self.stream(
+                 ~~~~~~~~~~~^
+        input,
+        ^^^^^^
+    ...<10 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    ):
+    ^
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/pregel/main.py", line 2647, in stream
+    for _ in runner.tick(
+             ~~~~~~~~~~~^
+        [t for t in loop.tasks.values() if not t.writes],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        schedule_task=loop.accept_push,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/pregel/_runner.py", line 162, in tick
+    run_with_retry(
+    ~~~~~~~~~~~~~~^
+        t,
+        ^^
+    ...<10 lines>...
+        },
+        ^^
+    )
+    ^
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/pregel/_retry.py", line 42, in run_with_retry
+    return task.proc.invoke(task.input, config)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/_internal/_runnable.py", line 659, in invoke
+    input = step.invoke(input, config)
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/_internal/_runnable.py", line 401, in invoke
+    ret = self.func(*args, **kwargs)
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/graph/_branch.py", line 169, in _route
+    return self._finish(writer, input, result, config)
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/.venv/lib/python3.13/site-packages/langgraph/graph/_branch.py", line 205, in _finish
+    r if isinstance(r, Send) else self.ends[r] for r in result
+                                  ~~~~~~~~~^^^
+KeyError: 'default_stage'
+During task with name 'router' and id 'f88f45fa-49f7-5b1d-a28d-c6f7d58958b4'
+2025-09-05 17:38:27,677 INFO Router node
+2025-09-05 17:38:28,106 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:38:28,119 INFO Router detected category: analysis
+2025-09-05 17:38:28,121 INFO Discussion node
+2025-09-05 17:38:28,121 INFO Checking user data
+2025-09-05 17:38:28,122 INFO User data node
+2025-09-05 17:38:28,122 ERROR Ошибка загрузки портфеля: [Errno 2] No such file or directory: 'user_portfolio.json'
+2025-09-05 17:38:53,782 INFO Router node
+2025-09-05 17:38:53,979 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:38:53,983 INFO Router detected category: analysis
+2025-09-05 17:38:53,984 INFO Discussion node
+2025-09-05 17:38:53,986 INFO Checking user data
+2025-09-05 17:38:53,987 INFO User data node
+2025-09-05 17:38:53,988 ERROR Ошибка загрузки портфеля: [Errno 2] No such file or directory: 'user_portfolio.json'
+2025-09-05 17:40:15,601 INFO Router node
+2025-09-05 17:40:15,886 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:40:15,896 INFO Router detected category: analysis
+2025-09-05 17:40:15,898 INFO Discussion node
+2025-09-05 17:40:15,898 INFO Checking user data
+2025-09-05 17:40:15,899 INFO User data node
+2025-09-05 17:40:15,899 INFO User data loaded
+2025-09-05 17:40:15,900 INFO Discussion node
+2025-09-05 17:40:15,900 INFO Checking user data
+2025-09-05 17:40:15,900 INFO Checking news data
+2025-09-05 17:40:15,900 INFO News data node
+2025-09-05 17:40:15,900 ERROR Ошибка загрузки новостей: [Errno 2] No such file or directory: 'sample_news.json'
+2025-09-05 17:40:54,220 INFO Router node
+2025-09-05 17:40:54,670 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:40:54,685 INFO Router detected category: analysis
+2025-09-05 17:40:54,686 INFO Discussion node
+2025-09-05 17:40:54,687 INFO Checking user data
+2025-09-05 17:40:54,687 INFO User data node
+2025-09-05 17:40:54,688 INFO User data loaded
+2025-09-05 17:40:54,688 INFO Discussion node
+2025-09-05 17:40:54,688 INFO Checking user data
+2025-09-05 17:40:54,688 INFO Checking news data
+2025-09-05 17:40:54,689 INFO News data node
+2025-09-05 17:40:54,689 INFO News data loaded
+2025-09-05 17:40:54,689 INFO Discussion node
+2025-09-05 17:40:54,690 INFO Checking user data
+2025-09-05 17:40:54,690 INFO Checking news data
+2025-09-05 17:40:54,690 INFO 🤖 Агенты начинают обсуждение портфеля...
+2025-09-05 17:41:01,842 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:41:06,752 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:41:12,692 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:41:19,142 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:41:24,231 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:41:29,905 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:41:37,780 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:41:42,591 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:41:50,271 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:41:57,031 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:42:03,073 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:42:14,105 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:42:21,202 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:42:26,828 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:42:36,253 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:42:44,236 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:42:50,894 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:42:57,141 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:42:57,144 INFO 🔄 АГРЕГАЦИЯ РЕШЕНИЙ АГЕНТОВ
+2025-09-05 17:42:57,144 INFO ----------------------------------------
+2025-09-05 17:42:57,145 INFO ✅ Получено 18 мнений от агентов
+2025-09-05 17:42:57,145 INFO 📊 Агрегировано 6 решений
+2025-09-05 17:42:57,145 INFO 📋 GAZP: HOLD (уверенность: 7.0, консенсус: 1.0)
+2025-09-05 17:42:57,146 INFO 📋 SMLT: SELL (уверенность: 7.7, консенсус: 0.7)
+2025-09-05 17:42:57,146 INFO 📋 NVTK: HOLD (уверенность: 7.3, консенсус: 1.0)
+2025-09-05 17:42:57,146 INFO 📋 YNDX: HOLD (уверенность: 6.7, консенсус: 1.0)
+2025-09-05 17:42:57,146 INFO 📋 SBER: HOLD (уверенность: 7.3, консенсус: 1.0)
+2025-09-05 17:42:57,146 INFO 📋 LKOH: HOLD (уверенность: 7.3, консенсус: 1.0)
+2025-09-05 17:42:57,158 INFO Risk node
+2025-09-05 17:42:57,158 INFO ⚠️ Риск-менеджер оценивает риски...
+2025-09-05 17:43:12,093 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:43:25,812 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:43:38,105 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:43:51,539 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:44:00,831 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:44:10,138 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:44:10,140 INFO ✅ Оценены риски для 6 позиций
+2025-09-05 17:44:10,140 INFO ⚠️ GAZP: уровень риска 5/10
+2025-09-05 17:44:10,140 INFO ⚠️ SMLT: уровень риска 5/10
+2025-09-05 17:44:10,140 INFO ⚠️ NVTK: уровень риска 5/10
+2025-09-05 17:44:10,141 INFO ⚠️ YNDX: уровень риска 7/10
+2025-09-05 17:44:10,141 INFO ⚠️ SBER: уровень риска 5/10
+2025-09-05 17:44:10,141 INFO ⚠️ LKOH: уровень риска 5/10
+2025-09-05 17:44:10,147 INFO Finalizer node
+2025-09-05 17:44:10,147 INFO 📋 Формирование итоговых рекомендаций...
+2025-09-05 17:44:19,699 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:44:19,701 INFO ✅ Итоговые рекомендации сформированы
+2025-09-05 17:44:19,730 ERROR Ошибка в анализе портфеля
+Traceback (most recent call last):
+  File "/Users/nikitaboyandin/Desktop/news_parcer/ai-hedge-fund/web_interface_fastapi.py", line 179, in run_analysis_background
+    "agent_name": opinion.get("agent_name", "Unknown"),
+                  ^^^^^^^^^^^
+AttributeError: 'AgentOpinion' object has no attribute 'get'
+2025-09-05 17:52:59,371 INFO Router node
+2025-09-05 17:52:59,837 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:52:59,854 INFO Router detected category: analysis
+2025-09-05 17:52:59,855 INFO Discussion node
+2025-09-05 17:52:59,856 INFO Checking user data
+2025-09-05 17:52:59,856 INFO User data node
+2025-09-05 17:52:59,857 INFO User data loaded
+2025-09-05 17:52:59,857 INFO Discussion node
+2025-09-05 17:52:59,857 INFO Checking user data
+2025-09-05 17:52:59,857 INFO Checking news data
+2025-09-05 17:52:59,858 INFO News data node
+2025-09-05 17:52:59,858 INFO News data loaded
+2025-09-05 17:52:59,858 INFO Discussion node
+2025-09-05 17:52:59,858 INFO Checking user data
+2025-09-05 17:52:59,858 INFO Checking news data
+2025-09-05 17:52:59,859 INFO 🤖 Агенты начинают обсуждение портфеля...
+2025-09-05 17:53:08,453 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:53:13,894 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:53:23,106 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:53:29,866 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:53:35,396 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:53:43,385 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:53:49,631 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:53:54,238 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:54:02,328 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:54:08,574 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:54:16,027 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:54:24,142 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:54:31,001 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:54:37,349 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:54:44,927 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:54:49,943 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:54:53,709 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:55:04,279 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:55:04,282 INFO 🔄 АГРЕГАЦИЯ РЕШЕНИЙ АГЕНТОВ
+2025-09-05 17:55:04,282 INFO ----------------------------------------
+2025-09-05 17:55:04,282 INFO ✅ Получено 18 мнений от агентов
+2025-09-05 17:55:04,282 INFO 📊 Агрегировано 6 решений
+2025-09-05 17:55:04,282 INFO 📋 YNDX: HOLD (уверенность: 6.7, консенсус: 1.0)
+2025-09-05 17:55:04,282 INFO 📋 SBER: HOLD (уверенность: 7.3, консенсус: 1.0)
+2025-09-05 17:55:04,282 INFO 📋 NVTK: HOLD (уверенность: 7.3, консенсус: 1.0)
+2025-09-05 17:55:04,282 INFO 📋 SMLT: SELL (уверенность: 7.3, консенсус: 0.7)
+2025-09-05 17:55:04,282 INFO 📋 LKOH: HOLD (уверенность: 7.3, консенсус: 1.0)
+2025-09-05 17:55:04,283 INFO 📋 GAZP: HOLD (уверенность: 6.7, консенсус: 1.0)
+2025-09-05 17:55:04,286 INFO Risk node
+2025-09-05 17:55:04,289 INFO ⚠️ Риск-менеджер оценивает риски...
+2025-09-05 17:55:16,362 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:55:27,630 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:55:37,252 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:55:50,666 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:56:12,347 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:56:21,695 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:56:21,698 INFO ✅ Оценены риски для 6 позиций
+2025-09-05 17:56:21,699 INFO ⚠️ YNDX: уровень риска 5/10
+2025-09-05 17:56:21,699 INFO ⚠️ SBER: уровень риска 5/10
+2025-09-05 17:56:21,699 INFO ⚠️ NVTK: уровень риска 7/10
+2025-09-05 17:56:21,699 INFO ⚠️ SMLT: уровень риска 5/10
+2025-09-05 17:56:21,699 INFO ⚠️ LKOH: уровень риска 5/10
+2025-09-05 17:56:21,699 INFO ⚠️ GAZP: уровень риска 5/10
+2025-09-05 17:56:21,703 INFO Finalizer node
+2025-09-05 17:56:21,703 INFO 📋 Формирование итоговых рекомендаций...
+2025-09-05 17:56:37,464 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:56:37,466 INFO ✅ Итоговые рекомендации сформированы
+2025-09-05 17:57:49,145 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:57:54,981 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:58:12,291 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:58:20,274 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:58:26,519 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:58:32,454 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:58:38,309 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:58:43,794 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:58:50,484 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:58:58,413 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:59:03,593 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:59:08,914 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:59:19,359 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:59:24,375 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:59:31,030 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:59:35,498 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:59:39,017 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:59:47,005 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:59:51,870 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 17:59:55,608 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:00:12,811 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:00:21,001 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:00:49,066 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:00:55,732 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:01:03,221 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:01:09,647 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:01:17,642 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:01:26,131 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:01:33,604 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:01:45,175 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:01:52,329 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:01:57,873 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:02:07,777 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:02:15,105 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:02:20,195 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:02:28,284 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:02:34,739 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:02:38,935 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:02:48,994 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:02:56,754 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:03:04,270 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:03:12,420 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:03:17,472 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:03:21,623 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:03:27,369 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:03:34,415 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:03:42,223 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:03:50,389 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:03:58,603 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:04:03,619 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:04:11,698 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:04:17,293 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:04:22,154 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:04:28,912 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:04:36,391 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:04:43,630 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:04:50,620 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:04:56,911 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:05:03,931 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:05:11,247 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:05:17,568 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:05:22,773 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:05:33,190 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:05:41,719 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:05:46,403 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:05:52,470 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:06:00,868 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:06:05,924 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:06:16,638 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:06:24,520 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:06:30,466 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:06:38,449 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:06:43,464 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:06:48,264 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:06:55,754 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:07:02,306 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:07:06,607 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:07:15,828 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:07:24,425 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:07:30,569 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:07:39,375 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:07:48,900 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:07:54,442 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:08:02,008 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:08:08,013 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:08:14,395 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:08:21,975 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:08:31,091 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:08:35,081 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:08:47,014 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:08:52,796 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:08:58,269 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:09:06,489 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:09:13,466 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:09:20,955 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:09:29,251 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:09:36,420 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:09:42,971 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:10:00,213 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:10:07,957 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:10:13,180 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:10:22,452 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:10:29,992 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:13:58,359 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:14:04,705 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:14:15,253 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:14:22,268 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:14:27,529 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:14:37,964 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:14:45,675 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:14:52,869 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:15:00,126 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:15:06,658 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:15:13,006 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:15:39,589 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:15:48,251 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:15:55,808 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:16:33,094 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:19:03,521 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:19:09,858 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:19:15,898 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:19:23,278 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:19:29,107 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:19:35,250 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:19:41,909 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:19:56,474 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:20:04,086 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:20:10,637 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:20:17,098 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:20:26,371 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:20:38,792 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:21:38,093 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:21:45,966 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:21:54,975 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:22:02,348 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:22:09,452 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:22:17,824 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:22:25,081 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:22:30,410 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:22:41,363 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:22:48,380 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:22:54,543 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:23:02,116 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:23:13,212 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:23:18,739 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:23:28,928 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:27:10,783 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:27:17,334 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:27:27,773 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:27:35,454 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:27:41,042 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:27:47,860 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:28:01,146 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:28:54,751 INFO Router node
+2025-09-05 18:28:55,146 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:28:55,160 INFO Router detected category: analysis
+2025-09-05 18:28:55,162 INFO Discussion node
+2025-09-05 18:28:55,162 INFO Checking user data
+2025-09-05 18:28:55,163 INFO User data node
+2025-09-05 18:28:55,163 INFO User data loaded
+2025-09-05 18:28:55,164 INFO Discussion node
+2025-09-05 18:28:55,164 INFO Checking user data
+2025-09-05 18:28:55,164 INFO Checking news data
+2025-09-05 18:28:55,164 INFO News data node
+2025-09-05 18:28:55,165 INFO News data loaded
+2025-09-05 18:28:55,165 INFO Discussion node
+2025-09-05 18:28:55,165 INFO Checking user data
+2025-09-05 18:28:55,165 INFO Checking news data
+2025-09-05 18:28:55,165 INFO 🤖 Агенты начинают обсуждение портфеля...
+2025-09-05 18:29:07,211 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:29:10,895 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:29:54,135 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:29:59,414 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:30:05,681 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:31:10,461 INFO Router node
+2025-09-05 18:31:11,014 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:31:11,029 INFO Router detected category: analysis
+2025-09-05 18:31:11,031 INFO Discussion node
+2025-09-05 18:31:11,031 INFO Checking user data
+2025-09-05 18:31:11,032 INFO User data node
+2025-09-05 18:31:11,032 INFO User data loaded
+2025-09-05 18:31:11,033 INFO Discussion node
+2025-09-05 18:31:11,033 INFO Checking user data
+2025-09-05 18:31:11,033 INFO Checking news data
+2025-09-05 18:31:11,033 INFO News data node
+2025-09-05 18:31:11,034 INFO News data loaded
+2025-09-05 18:31:11,034 INFO Discussion node
+2025-09-05 18:31:11,034 INFO Checking user data
+2025-09-05 18:31:11,034 INFO Checking news data
+2025-09-05 18:31:11,034 INFO 🤖 Агенты начинают обсуждение портфеля...
+2025-09-05 18:31:18,219 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:31:26,066 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:31:38,970 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:31:45,623 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:31:51,098 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:31:59,551 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-05 18:32:08,049 INFO HTTP Request: POST https://foundation-models.api.cloud.ru/v1/chat/completions "HTTP/1.1 200 OK"

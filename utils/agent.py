@@ -1,7 +1,6 @@
 import os
 from uuid import uuid4
-from utils import create_initial_state
-
+from .utils import create_initial_state
 
 class Agent:
 

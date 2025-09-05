@@ -5,10 +5,11 @@ import json
 import datetime as dt
 from typing import Dict, List, Any, Optional, Tuple
 from dataclasses import dataclass
-from utils import moex_candles_by_date
-from investor_agents import InvestorAgentRoom
-from models import AgentOpinion, AggregatedDecision
-from utils import aggregate_agent_opinions
+from .utils import moex_candles_by_date
+from .investor_agents import InvestorAgentRoom
+from .models import AgentOpinion, AggregatedDecision
+from .utils import aggregate_agent_opinions
+
 
 
 @dataclass

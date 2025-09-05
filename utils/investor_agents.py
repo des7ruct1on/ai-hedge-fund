@@ -1,13 +1,12 @@
 import json
 import re
 from typing import List, Dict
-from models import AgentOpinion
-from prompts import PROMPTS
-from llm.yandexgpt import YandexGPT
-
+from .models import AgentOpinion
+from .prompts import PROMPTS
+from llm.cloudrugpt import CloudRuGPT
 
 class InvestorAgent:
-    def __init__(self, name: str, llm: YandexGPT):
+    def __init__(self, name: str, llm: CloudRuGPT):
         self.name = name
         self.llm = llm
         self.prompt = PROMPTS.get(name, "")
@@ -100,7 +99,7 @@ class InvestorAgent:
 
 
 class InvestorAgentRoom:
-    def __init__(self, llm: YandexGPT):
+    def __init__(self, llm: CloudRuGPT):
         self.llm = llm
         self.agents = {
             "Buffett": InvestorAgent("Buffett", llm),

@@ -12,3 +12,4 @@ __pycache__
 .env.test.local
 .env.production.local
 .venv
+web_workflow.log

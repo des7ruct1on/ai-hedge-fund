@@ -28,10 +28,10 @@ class CloudRuGPT:
 
             response = self.client.chat.completions.create(
                 model=self.model,
-                max_tokens=10000,
+                max_tokens=500,
                 temperature=temperature,
                 presence_penalty=0,
-                top_p=0.95,
+                top_p=0.7,
                 messages=[
                     {
                         "role": "user",

@@ -10,15 +10,20 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 import asyncio
-import json
-from llm.yandexgpt import YandexGPT
 from llm.cloudrugpt import CloudRuGPT
 from web_workflow import WebGraph, get_web_analysis_results
-from agent import Agent
-from models import AgentOpinion, AggregatedDecision, RiskAssessment
-from utils import aggregate_agent_opinions
-from backtest import BacktestEngine
+from utils.agent import Agent
+from utils.models import AgentOpinion, AggregatedDecision, RiskAssessment
+from utils.utils import aggregate_agent_opinions
+from utils.backtest import BacktestEngine
 from dotenv import load_dotenv
+import logging
+
+logging.basicConfig(
+    filename='web_workflow.log',
+    level=logging.INFO,
+    format='%(asctime)s %(levelname)s %(message)s'
+)
 app = FastAPI(title="Мультиагентная система анализа акций", version="1.0.0")
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -73,32 +78,15 @@ async def initialize_agent():
     """Инициализирует агента при запуске приложения"""
     global agent_instance
     
-    try:
-        folder_id = os.getenv("YANDEX_FOLDER_ID")
-        api_key = os.getenv("YANDEX_API_KEY")
-        cloudru_api_key = os.getenv("CLOUDRU_API_KEY")
-        if not folder_id or not api_key:
-            print("⚠️ Переменные окружения YANDEX_FOLDER_ID и YANDEX_API_KEY не установлены")
-            print("📝 Используется мок-версия для демонстрации")
-            from mock_llm import MockYandexGPT
-            llm = MockYandexGPT(folder_id="demo", api_key="demo")
-        else:
-            # llm = YandexGPT(folder_id=folder_id, api_key=api_key)
-            llm = CloudRuGPT(api_key=cloudru_api_key)
+    cloudru_api_key = os.getenv("CLOUDRU_API_KEY")
+       
+    llm = CloudRuGPT(api_key=cloudru_api_key)
         
-        graph = WebGraph(llm)
-        compiled_graph = graph.get_graph()
-        agent_instance = Agent(llm, compiled_graph)
+    graph = WebGraph(llm)
+    compiled_graph = graph.get_graph()
+    agent_instance = Agent(llm, compiled_graph)
         
-        print("✅ Агент успешно инициализирован")
-        
-    except Exception as e:
-        print(f"❌ Ошибка инициализации агента: {e}")
-        from mock_llm import MockYandexGPT
-        llm = MockYandexGPT(folder_id="demo", api_key="demo")
-        graph = WebGraph(llm)
-        compiled_graph = graph.get_graph()
-        agent_instance = Agent(llm, compiled_graph)
+    print("✅ Агент успешно инициализирован")
 
 async def run_analysis_background():
     """Запускает анализ портфеля в фоновом режиме"""
@@ -120,10 +108,10 @@ async def run_analysis_background():
             "status": "loading_data"
         }))
         
-        with open("user_portfolio.json", "r", encoding="utf-8") as f:
+        with open("info/user_portfolio.json", "r", encoding="utf-8") as f:
             analysis_results["portfolio"] = json.load(f)
         
-        with open("sample_news.json", "r", encoding="utf-8") as f:
+        with open("info/sample_news.json", "r", encoding="utf-8") as f:
             analysis_results["news"] = json.load(f)
         
         if not agent_instance:
@@ -265,7 +253,7 @@ async def get_status():
 async def get_portfolio():
     """Возвращает данные портфеля"""
     try:
-        with open("user_portfolio.json", "r", encoding="utf-8") as f:
+        with open("info/user_portfolio.json", "r", encoding="utf-8") as f:
             portfolio = json.load(f)
         return portfolio
     except Exception as e:
@@ -276,7 +264,7 @@ async def get_portfolio():
 async def get_news():
     """Возвращает новости"""
     try:
-        with open("sample_news.json", "r", encoding="utf-8") as f:
+        with open("info/sample_news.json", "r", encoding="utf-8") as f:
             news = json.load(f)
         return news
     except Exception as e:
@@ -328,10 +316,10 @@ async def run_backtest(days: int = 7):
     
     try:
         # Загружаем данные портфеля и новостей
-        with open("user_portfolio.json", "r", encoding="utf-8") as f:
+        with open("info/user_portfolio.json", "r", encoding="utf-8") as f:
             user_portfolio = json.load(f)
         
-        with open("sample_news.json", "r", encoding="utf-8") as f:
+        with open("info/sample_news.json", "r", encoding="utf-8") as f:
             news_data = json.load(f)
         
         # Создаем движок бэктеста
