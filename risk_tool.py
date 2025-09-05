@@ -45,9 +45,6 @@ def max_drawdown(series: pd.Series) -> tuple[float, float]:
 
 def rolling_beta(asset_ret: pd.Series, bench_ret: pd.Series, window: int = 20) -> float | None:
     both = pd.concat([asset_ret, bench_ret], axis=1).dropna()
-    print(asset_ret)
-    print(bench_ret)
-    print(len(both))
     if len(both) < window:
         return None
     cov = both.iloc[-window:, 0].cov(both.iloc[-window:, 1])
