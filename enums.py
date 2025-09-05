@@ -9,4 +9,5 @@ class StageEnum(StrEnum):
     FINALIZER_NODE = "finalizer"
     FACT_NODE = "fact"
     OTHER_NODE = "other"
+    BACKTEST_NODE = "backtest"
     END = "__end__"

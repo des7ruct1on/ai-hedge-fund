@@ -13,6 +13,7 @@ from investor_agents import InvestorAgentRoom
 from utils import aggregate_agent_opinions
 from prompts import RISK_MANAGER_PROMPT, PORTFOLIO_AGENT_PROMPT, ROUTER_PROMPT, FACT_NODE_PROMPT, OTHER_NODE_PROMPT
 from langgraph.types import Command
+from backtest import BacktestEngine
 
 logging.basicConfig(
     filename='web_workflow.log',
@@ -32,6 +33,7 @@ class WebGraph(StateGraph):
         self.llm = llm
         self.memory = MemorySaver()
         self.agent_room = InvestorAgentRoom(llm)
+        self.backtest_engine = BacktestEngine(llm)
 
     def get_graph(self):
         graph = StateGraph(State)
@@ -43,6 +45,7 @@ class WebGraph(StateGraph):
         graph.add_node(StageEnum.RISK_NODE, self.risk_node)
         graph.add_node(StageEnum.FINALIZER_NODE, self.finalizer_node)
         graph.add_node(StageEnum.FACT_NODE, self.fact_node)
+        graph.add_node(StageEnum.BACKTEST_NODE, self.backtest_node)
         graph.add_node(StageEnum.OTHER_NODE, self.other_node)
 
         # graph.add_edge(START, StageEnum.DISCUSSION_NODE)
@@ -57,6 +60,7 @@ class WebGraph(StateGraph):
             StageEnum.DISCUSSION_NODE: StageEnum.DISCUSSION_NODE,
             StageEnum.FACT_NODE: StageEnum.FACT_NODE,
             StageEnum.OTHER_NODE: StageEnum.OTHER_NODE,
+            StageEnum.BACKTEST_NODE: StageEnum.BACKTEST_NODE,
             }
         )
 
@@ -74,6 +78,8 @@ class WebGraph(StateGraph):
 
         graph.add_edge(StageEnum.FACT_NODE, END)
         graph.add_edge(StageEnum.OTHER_NODE, END)
+        graph.add_edge(StageEnum.BACKTEST_NODE, END)
+
 
         return graph.compile(checkpointer=self.memory)
     
@@ -97,6 +103,8 @@ class WebGraph(StateGraph):
                 return Command(goto=StageEnum.DISCUSSION_NODE)
             elif category == "fact":
                 return Command(goto=StageEnum.FACT_NODE)
+            elif category == "backtest":
+                return Command(goto=StageEnum.BACKTEST_NODE)
             else:
                 return Command(goto=StageEnum.OTHER_NODE)
 
@@ -106,20 +114,19 @@ class WebGraph(StateGraph):
                 goto=StageEnum.OTHER_NODE,
                 update={"message_to_user": "Не удалось определить тип запроса."}
             )
-        
-
+    
     def fact_node(self, state: State) -> State:
-        logging.info("Fact node")
-        try:
-            user_input = state.get("message_from_user", "")
-            user_data = state.get("user_data", {})
-            news_data = state.get("news_data", {})
+        logging.info("fact node")
+        user_input = state.get("message_from_user", "").strip()
 
-            prompt = FACT_NODE_PROMPT.format(
-                user_input=user_input,
-                user_data=json.dumps(user_data, ensure_ascii=False, indent=2),
-                news_data=json.dumps(news_data, ensure_ascii=False, indent=2)
-            )
+        try:
+            with open("user_portfolio.json", "r", encoding="utf-8") as f:
+                user_portfolio = json.load(f)
+            
+            with open("sample_news.json", "r", encoding="utf-8") as f:
+                news_data = json.load(f)
+
+            prompt = FACT_NODE_PROMPT.format(user_input=user_input, user_data=user_portfolio, news_data=news_data)
 
             response = self.llm.complete(prompt, temperature=0.3, max_tokens=500)
 
@@ -130,15 +137,72 @@ class WebGraph(StateGraph):
                     "stage": END
                 }
             )
+
         except Exception as e:
             logging.error(f"Ошибка в fact_node: {e}")
             return Command(
+                goto=StageEnum.OTHER_NODE,
+                update={"message_to_user": "Не удалось обработать запрос."}
+            )
+ 
+    def backtest_node(self, state: State) -> State:
+
+        try:
+        # Загружаем данные портфеля и новостей
+            with open("user_portfolio.json", "r", encoding="utf-8") as f:
+                user_portfolio = json.load(f)
+            
+            with open("sample_news.json", "r", encoding="utf-8") as f:
+                news_data = json.load(f)
+            
+            # Запускаем бэктест
+            result = self.backtest_engine.run_backtest(30, user_portfolio, news_data)
+            
+            # Преобразуем результат в JSON-сериализуемый формат
+            backtest_result = {
+                "start_date": result.start_date.isoformat(),
+                "end_date": result.end_date.isoformat(),
+                "initial_portfolio_value": result.initial_portfolio_value,
+                "final_portfolio_value": result.final_portfolio_value,
+                "total_pnl": result.total_pnl,
+                "total_return_pct": result.total_return_pct,
+                "ticker_performance": result.ticker_performance,
+                "daily_results": [
+                    {
+                        "date": day.date.isoformat(),
+                        "ticker": day.ticker,
+                        "open_price": day.open_price,
+                        "close_price": day.close_price,
+                        "high_price": day.high_price,
+                        "low_price": day.low_price,
+                        "volume": day.volume,
+                        "signal": day.signal,
+                        "confidence": day.confidence,
+                        "daily_pnl": day.daily_pnl,
+                        "cumulative_pnl": day.cumulative_pnl
+                    }
+                    for day in result.daily_results
+                ]
+            }
+
+            return Command(
                 goto=END,
                 update={
-                    "message_to_user": "Ошибка при обработке фактического запроса.",
+                    "message_to_user": backtest_result,
                     "stage": END
                 }
             )
+        
+        except Exception as e:
+            logging.error(f"Ошибка в backtest_node: {e}")
+            return Command(
+                goto=END,
+                update={
+                    "message_to_user": "Не удалось обработать запрос.",
+                    "stage": END
+                }
+            )
+
         
     def other_node(self, state: State) -> State:
         logging.info("Other node")
