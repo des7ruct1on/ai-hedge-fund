@@ -4,6 +4,9 @@ from typing import List, Dict
 from .models import AgentOpinion
 from .prompts import PROMPTS
 from llm.cloudrugpt import CloudRuGPT
+from ui.server.logger import ChatLogger
+
+logger = ChatLogger("main")
 
 class InvestorAgent:
     def __init__(self, name: str, llm: CloudRuGPT):
@@ -15,7 +18,7 @@ class InvestorAgent:
         """Анализирует конкретный тикер и возвращает мнение агента"""
         
         print(f"\n💭 {self.name} анализирует {ticker}...")
-        
+        logger.log_read_message(f"💭 {self.name}", f"анализирует {ticker}...")
         context = self._build_context(ticker, news_data, user_portfolio)
         
         full_prompt = f"{self.prompt}\n\n{context}"
@@ -25,10 +28,11 @@ class InvestorAgent:
             
             print(f"📝 {self.name} говорит:")
             print(f"   {response.strip()}")
-            
+            logger.log_read_message(f"📝 {self.name} говорит:", f"   {response.strip()}")
             opinion = self._parse_agent_response(ticker, response)
             
             print(f"✅ {self.name} решает: {opinion.action} {ticker} (уверенность: {opinion.confidence}/10)")
+            logger.log_read_message(f"✅ {self.name} решает:", f"{opinion.action} {ticker} (уверенность: {opinion.confidence}/10)")
             
             return opinion
             
@@ -107,7 +111,7 @@ class InvestorAgentRoom:
             "Dalio": InvestorAgent("Dalio", llm)
         }
     
-    def discuss_portfolio(self, user_portfolio: Dict, news_data: List[Dict]) -> List[AgentOpinion]:
+    def discuss_portfolio(self, user_portfolio: Dict, news_data: List[Dict], logger=None) -> List[AgentOpinion]:
         """Проводит обсуждение портфеля всеми агентами"""
         all_opinions = []
         
@@ -119,23 +123,24 @@ class InvestorAgentRoom:
             if news.get('ticker'):
                 tickers.add(news['ticker'])
         
-        print(f"\n🏛️ НАЧИНАЕТСЯ СОВЕЩАНИЕ ИНВЕСТИЦИОННОГО КОМИТЕТА")
-        print(f"📊 Анализируем {len(tickers)} тикеров: {', '.join(sorted(tickers))}")
-        print(f"👥 Участники: {', '.join(self.agents.keys())}")
+        logger.log_read_message("", f"\n🏛️ НАЧИНАЕТСЯ СОВЕЩАНИЕ ИНВЕСТИЦИОННОГО КОМИТЕТА")
+        logger.log_read_message("", f"📊 Анализируем {len(tickers)} тикеров: {', '.join(sorted(tickers))}")
+        logger.log_read_message("", f"👥 Участники: {', '.join(self.agents.keys())}")
         print("=" * 60)
         
         for i, ticker in enumerate(tickers, 1):
-            print(f"\n📈 ОБСУЖДЕНИЕ ТИКЕРА {i}/{len(tickers)}: {ticker}")
+            logger.log_read_message("", f"\n📈 ОБСУЖДЕНИЕ ТИКЕРА {i}/{len(tickers)}: {ticker}")
             print("-" * 40)
             
             for agent_name, agent in self.agents.items():
+                # Передаем логгер агенту для рассуждений
                 opinion = agent.analyze_ticker(ticker, news_data, user_portfolio)
                 all_opinions.append(opinion)
             
             print(f"🏁 Обсуждение {ticker} завершено")
         
-        print(f"\n🎯 СОВЕЩАНИЕ ЗАВЕРШЕНО")
-        print(f"📋 Получено {len(all_opinions)} мнений от агентов")
+        logger.log_read_message("", f"\n🎯 СОВЕЩАНИЕ ЗАВЕРШЕНО")
+        logger.log_read_message("", f"📋 Получено {len(all_opinions)} мнений от агентов")
         print("=" * 60)
         
         return all_opinions

@@ -65,3 +65,5 @@ xxhash==3.5.0
 yandex-cloud-ml-sdk==0.15.0
 yandexcloud==0.358.0
 zstandard==0.24.0
+aiohttp>=3.8.0
+asyncio

@@ -64,6 +64,9 @@ class BacktestResult:
     ticker_performance: Dict[str, Dict[str, float]]
 
 
+
+
+
 class BacktestEngine:
     """Движок для бэктестинга торговых стратегий"""
     
@@ -76,7 +79,8 @@ class BacktestEngine:
         self, 
         days: int, 
         user_portfolio: Dict[str, Any],
-        news_data: List[Dict[str, Any]]
+        news_data: List[Dict[str, Any]],
+        logger
     ) -> BacktestResult:
         """
         Запускает бэктест на указанное количество дней
@@ -92,14 +96,14 @@ class BacktestEngine:
         end_date = dt.date.today()
         start_date = end_date - dt.timedelta(days=days)
         
-        print(f"🚀 Запуск бэктеста с {start_date} по {end_date} ({days} дней)")
+        logger.info(f"🚀 Запуск бэктеста с {start_date} по {end_date} ({days} дней)")
         
         # Получаем список тикеров из портфеля
         tickers = list(user_portfolio.keys())
         if not tickers:
             raise ValueError("Портфель пуст - нет тикеров для бэктеста")
         
-        print(f"📊 Анализируем {len(tickers)} тикеров: {', '.join(tickers)}")
+        logger.info(f"📊 Анализируем {len(tickers)} тикеров: {', '.join(tickers)}")
         
         # Загружаем исторические данные для всех тикеров
         historical_data = self._load_historical_data(tickers, start_date, end_date)
@@ -116,28 +120,34 @@ class BacktestEngine:
         # Проходим по каждому дню
         current_date = start_date
         while current_date <= end_date:
-            print(f"📅 Обрабатываем день: {current_date}")
+            logger.info(f"📅 Обрабатываем день: {current_date}")
             
             # Получаем решения агентов для текущего дня
+            logger.info(f"Получаем решения агентов для {current_date}")
             day_decisions = self._get_day_decisions(
-                current_date, portfolio, news_data, historical_data
+                current_date, portfolio, news_data, historical_data, logger
             )
+            logger.info(f"Получили решения агентов для {current_date}")
             
             # Применяем решения и обновляем портфель
+            logger.info(f"Применяем решения и обновляем портфель для {current_date}")
             day_pnl = self._apply_decisions(
                 current_date, day_decisions, portfolio, historical_data
             )
+            logger.info(f"Применили решения и обновлили портфель для {current_date}")
             
             cumulative_pnl += day_pnl
+            logger.info(f"Обновили накопленный PnL для {current_date}")
             
             # Сохраняем результаты дня
+            day_results = []
             for ticker in tickers:
                 if ticker in historical_data and current_date in historical_data[ticker]:
                     candle = historical_data[ticker][current_date]
                     decision = day_decisions.get(ticker)
                     
                     if decision and ticker in portfolio:
-                        daily_results.append(BacktestDay(
+                        day_result = BacktestDay(
                             date=current_date,
                             ticker=ticker,
                             open_price=candle['open'],
@@ -151,17 +161,33 @@ class BacktestEngine:
                             position_after=portfolio[ticker],
                             daily_pnl=day_pnl / len(tickers),  # Распределяем PnL по тикерам
                             cumulative_pnl=cumulative_pnl
-                        ))
+                        )
+                        daily_results.append(day_result)
+                        day_results.append(day_result)
+            
+            # Логируем результаты дня
+            logger.info(f"Логируем результаты дня для {current_date}")
+            self._log_day_results(current_date, day_results, day_pnl, cumulative_pnl, initial_value, logger)
             
             current_date += dt.timedelta(days=1)
         
         # Вычисляем финальную стоимость портфеля
+        logger.info(f"Вычисляем финальную стоимость портфеля")
         final_value = sum(pos.market_value for pos in portfolio.values())
         total_pnl = final_value - initial_value
         total_return_pct = (total_pnl / initial_value) * 100 if initial_value > 0 else 0
         
         # Анализируем производительность по тикерам
+        logger.info(f"Анализируем производительность по тикерам")
         ticker_performance = self._analyze_ticker_performance(daily_results)
+        logger.info(f"Анализировали производительность по тикерам")
+
+        logger.info(f"Логируем итоговый результат")
+        # Логируем итоговый результат
+        self._log_final_results(
+            start_date, end_date, initial_value, final_value, 
+            total_pnl, total_return_pct, ticker_performance, logger
+        )
         
         return BacktestResult(
             start_date=start_date,
@@ -233,9 +259,12 @@ class BacktestEngine:
         current_date: dt.date,
         portfolio: Dict[str, BacktestPosition],
         news_data: List[Dict[str, Any]],
-        historical_data: Dict[str, Dict[dt.date, Dict[str, float]]]
+        historical_data: Dict[str, Dict[dt.date, Dict[str, float]]],
+        logger
     ) -> Dict[str, AggregatedDecision]:
         """Получает решения агентов для конкретного дня"""
+        logger.info(f"🤖 Агенты обсуждают портфель на {current_date}")
+        
         # Создаем "текущий" портфель для агентов
         current_portfolio = {}
         for ticker, pos in portfolio.items():
@@ -245,10 +274,20 @@ class BacktestEngine:
             }
         
         # Получаем мнения агентов
-        agent_opinions = self.agent_room.discuss_portfolio(current_portfolio, news_data)
+        agent_opinions = self.agent_room.discuss_portfolio(current_portfolio, news_data, logger=logger)
         
         # Агрегируем решения
         aggregated_decisions = aggregate_agent_opinions(agent_opinions)
+        
+        # Логируем решения агентов
+        logger.info(f"📋 Решения агентов на {current_date}:")
+        for decision in aggregated_decisions:
+            signal_emoji = {
+                'BUY': '🟢',
+                'SELL': '🔴', 
+                'HOLD': '🟡'
+            }.get(decision.final_action, '⚪')
+            logger.info(f"  {signal_emoji} {decision.ticker}: {decision.final_action} (уверенность: {decision.confidence_score:.1f}/10)")
         
         # Преобразуем в словарь для удобства
         decisions_dict = {decision.ticker: decision for decision in aggregated_decisions}
@@ -322,3 +361,81 @@ class BacktestEngine:
                     ticker_data['total_return_pct'] = (ticker_data['total_pnl'] / initial_value) * 100
         
         return ticker_performance
+    
+    def _log_day_results(
+        self, 
+        current_date: dt.date, 
+        day_results: List[BacktestDay], 
+        day_pnl: float, 
+        cumulative_pnl: float, 
+        initial_value: float,
+        logger
+    ) -> None:
+        """Логирует результаты за день"""
+        logger.info(f"Логируем результаты за день для {current_date}")
+        if not day_results:
+            logger.info(f"📊 {current_date}: Нет данных для отображения")
+            return
+        
+        # Вычисляем текущую стоимость портфеля
+        logger.info(f"Вычисляем текущую стоимость портфеля для {current_date}")
+        current_portfolio_value = initial_value + cumulative_pnl
+        daily_return_pct = (day_pnl / current_portfolio_value) * 100 if current_portfolio_value > 0 else 0
+        total_return_pct = (cumulative_pnl / initial_value) * 100 if initial_value > 0 else 0
+        
+
+        # Детали по тикерам
+        tmp_message = "Детали по тикерам:\n"
+        for result in day_results:
+            price_change = result.close_price - result.open_price
+            price_change_pct = (price_change / result.open_price) * 100 if result.open_price > 0 else 0
+            
+            # Эмодзи для сигнала
+            signal_emoji = {
+                'BUY': '🟢',
+                'SELL': '🔴', 
+                'HOLD': '🟡'
+            }.get(result.signal, '⚪')
+            
+            tmp_message += f"  {signal_emoji} {result.ticker}: {result.open_price:.2f} → {result.close_price:.2f} ₽ ({price_change_pct:+.2f}%) | {result.signal} (уверенность: {result.confidence:.1f}/10)\n"
+        
+        logger.message(
+            "",
+            (
+                f"📊 {current_date}: Результаты дня\n"
+                f"💰 PnL за день: {day_pnl:,.2f} ₽ ({daily_return_pct:+.2f}%)\n"
+                f"📈 Общий PnL: {cumulative_pnl:,.2f} ₽ ({total_return_pct:+.2f}%)\n"
+                f"💼 Стоимость портфеля: {current_portfolio_value:,.2f} ₽\n"
+                f"{tmp_message}"
+            )
+        )
+
+        logger.info("─" * 50)
+    
+    def _log_final_results(
+        self,
+        start_date: dt.date,
+        end_date: dt.date, 
+        initial_value: float,
+        final_value: float,
+        total_pnl: float,
+        total_return_pct: float,
+        ticker_performance: Dict[str, Dict[str, float]],
+        logger
+    ) -> None:
+        """Логирует итоговые результаты бэктеста"""
+        logger.info("🎯 ИТОГОВЫЕ РЕЗУЛЬТАТЫ БЭКТЕСТА")
+        logger.info("=" * 60)
+        logger.info(f"📅 Период: {start_date} - {end_date}")
+        logger.info(f"💰 Начальная стоимость: {initial_value:,.2f} ₽")
+        logger.info(f"💰 Финальная стоимость: {final_value:,.2f} ₽")
+        logger.info(f"📈 Общий PnL: {total_pnl:,.2f} ₽")
+        logger.info(f"📊 Общая доходность: {total_return_pct:+.2f}%")
+        
+        # Производительность по тикерам
+        if ticker_performance:
+            logger.info("📊 Производительность по тикерам:")
+            for ticker, perf in ticker_performance.items():
+                logger.info(f"  {ticker}: PnL {perf['total_pnl']:,.2f} ₽ ({perf['total_return_pct']:+.2f}%) | Уверенность: {perf['avg_confidence']:.1f}/10")
+        
+        logger.info("=" * 60)

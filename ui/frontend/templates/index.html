@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="static/css/style.css">
+    <title>АРМ Тестирования. Управление развития AI, Wealth Management B2C</title>
+</head>
+
+<body>
+<header>
+    <span>АРМ Тестирования. Управление развития AI, Wealth Management B2C</span>
+    <div class="controls">
+        <div class="login-container">
+            <input type="text" id="login-input" placeholder="Введите логин..." />
+            <button id="login-button">Войти</button>
+        </div>
+        <button id="mobile-toggle" title="Переключить мобильный режим">📱</button>
+        <div class="token-counter" id="token-counter">
+            <div>Токены: <span id="total-tokens">0</span></div>
+            <div class="token-stats">
+                Prompt: <span id="prompt-tokens">0</span> | 
+                Completion: <span id="completion-tokens">0</span> |
+                Модель: <span id="current-model">-</span>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main>
+    <!-- Мобильный режим: iPhone с чатом -->
+    <div id="iphone-container" class="iphone-container">
+        <div class="iphone-frame">
+            <div class="iphone-screen">
+                <!-- Мобильный хедер -->
+                <div class="mobile-header">
+                    <div class="mobile-header-left">
+                        <button id="mobile-back-button" class="mobile-back-button" aria-label="Назад">‹</button>
+                    </div>
+                    <div class="mobile-header-center">Ассистент</div>
+                    <div class="mobile-header-right">
+                        <a href="/" target="_blank">
+                            <div class="mobile-logo">🏦</div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Чат -->
+                <div id="mobile-chat-messages" class="mobile-chat-messages"></div>
+
+                <!-- Контейнер для саггестов -->
+                <div id="mobile-suggests-bar" class="mobile-suggests-bar hidden">
+                    <div class="mobile-suggests-header">Спросить ещё</div>
+                    <div class="suggested-messages-container">
+                        <div class="suggested-messages"></div>
+                    </div>
+                </div>
+
+                <!-- Контейнер рассуждений агентов -->
+                <div id="mobile-reasoning-container" class="mobile-reasoning-container hidden">
+                    <div class="mobile-reasoning-header">
+                        <span class="mobile-reasoning-title">🤖 Рассуждения агентов</span>
+                        <button id="mobile-reasoning-toggle" class="mobile-reasoning-toggle">−</button>
+                    </div>
+                    <div id="mobile-reasoning-content" class="mobile-reasoning-content"></div>
+                </div>
+
+                <!-- Поле ввода -->
+                <div class="mobile-input-bar">
+                    <input type="text" id="mobile-message-input" placeholder="Сообщение..." />
+                    <button id="mobile-send-button">➤</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Десктопный чат и логи -->
+    <div id="chat-messages"></div>
+    <div class="logs-container">
+        <div id="log-messages"></div>
+        <div id="log-llm-messages"></div>
+    </div>
+</main>
+<div id="input-bar">
+    <input id="message-input" type="text" placeholder="Ваше сообщение..." />
+    <button id="send-button">Отправить</button>
+</div>
+<script src="/static/js/app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</body>
+</html>

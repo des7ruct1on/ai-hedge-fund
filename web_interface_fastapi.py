@@ -4,18 +4,15 @@ FastAPI веб-интерфейс для мультиагентной систе
 import os
 import json
 import asyncio
-from typing import Dict, List, Optional
-from fastapi import FastAPI, HTTPException, BackgroundTasks, WebSocket, WebSocketDisconnect
-from fastapi.staticfiles import StaticFiles
+from typing import Optional, List
+from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
-import asyncio
 from llm.cloudrugpt import CloudRuGPT
 from web_workflow import WebGraph, get_web_analysis_results
 from utils.agent import Agent
-from utils.models import AgentOpinion, AggregatedDecision, RiskAssessment
-from utils.utils import aggregate_agent_opinions
-from utils.backtest import BacktestEngine
+from utils.agent_logger import agent_logger
 from dotenv import load_dotenv
 import logging
 
@@ -28,17 +25,6 @@ app = FastAPI(title="Мультиагентная система анализа 
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
-analysis_results = {
-    "status": "ready",
-    "portfolio": {},
-    "news": [],
-    "agent_opinions": [],
-    "aggregated_decisions": [],
-    "risk_assessments": [],
-    "final_recommendations": "",
-    "error": None
-}
-
 agent_instance = None
 
 class ConnectionManager:
@@ -50,31 +36,98 @@ class ConnectionManager:
         self.active_connections.append(websocket)
 
     def disconnect(self, websocket: WebSocket):
-        self.active_connections.remove(websocket)
+        if websocket in self.active_connections:
+            self.active_connections.remove(websocket)
 
     async def send_personal_message(self, message: str, websocket: WebSocket):
-        await websocket.send_text(message)
+        try:
+            await websocket.send_text(message)
+        except:
+            self.disconnect(websocket)
 
     async def broadcast(self, message: str):
-        for connection in self.active_connections:
+        for connection in self.active_connections.copy():
             try:
                 await connection.send_text(message)
             except:
-                self.active_connections.remove(connection)
+                self.disconnect(connection)
+    
+    def broadcast_sync(self, message: str):
+        """Синхронная версия broadcast для использования из синхронного кода"""
+        import asyncio
+        
+        if not self.active_connections:
+            return  # Нет подключений
+        
+        try:
+            # Получаем текущий event loop
+            loop = asyncio.get_event_loop()
+            if loop.is_running():
+                # Если loop уже запущен, создаем задачу
+                asyncio.create_task(self.broadcast(message))
+            else:
+                # Если loop не запущен, запускаем его
+                loop.run_until_complete(self.broadcast(message))
+        except RuntimeError:
+            # Если нет event loop, создаем новый
+            asyncio.run(self.broadcast(message))
 
 manager = ConnectionManager()
 
-class AnalysisRequest(BaseModel):
-    message: str = "Проанализируй мой портфель и дай рекомендации"
+class AgentLogger:
+    def __init__(self, agent_name: str):
+        self.agent_name = agent_name
+        self.current_reasoning = ""
+        
+    async def log_reasoning(self, text: str, is_final: bool = False):
+        """Логирует рассуждения агента через WebSocket"""
+        self.current_reasoning += text
+        
+        message = {
+            "type": "agent_reasoning",
+            "agent_name": self.agent_name,
+            "text": text,
+            "full_reasoning": self.current_reasoning,
+            "is_final": is_final
+        }
+        
+        await manager.broadcast(json.dumps(message))
+        
+        if is_final:
+            self.current_reasoning = ""
+    
+    async def log_decision(self, decision: str, confidence: float):
+        """Логирует решение агента"""
+        message = {
+            "type": "agent_decision",
+            "agent_name": self.agent_name,
+            "decision": decision,
+            "confidence": confidence
+        }
+        
+        await manager.broadcast(json.dumps(message))
+    
+    async def log_start_thinking(self):
+        """Начинает процесс рассуждения"""
+        message = {
+            "type": "agent_start_thinking",
+            "agent_name": self.agent_name
+        }
+        
+        await manager.broadcast(json.dumps(message))
 
-class AnalysisResponse(BaseModel):
+
+class InvokeRequest(BaseModel):
+    message: str
+
+class InvokeResponse(BaseModel):
     status: str
-    message: Optional[str] = None
+    result: Optional[dict] = None
     error: Optional[str] = None
 
 load_dotenv()
 
-async def initialize_agent():
+def initialize_agent():
     """Инициализирует агента при запуске приложения"""
     global agent_instance
     
@@ -88,135 +141,13 @@ async def initialize_agent():
         
     print("✅ Агент успешно инициализирован")
 
-async def run_analysis_background():
-    """Запускает анализ портфеля в фоновом режиме"""
-    global analysis_results, agent_instance
-    
-    try:
-        analysis_results["status"] = "analyzing"
-        analysis_results["error"] = None
-        
-        await manager.broadcast(json.dumps({
-            "type": "status",
-            "message": "🚀 Начинаем анализ портфеля...",
-            "status": "analyzing"
-        }))
-        
-        await manager.broadcast(json.dumps({
-            "type": "status", 
-            "message": "📊 Загружаем данные портфеля и новости...",
-            "status": "loading_data"
-        }))
-        
-        with open("info/user_portfolio.json", "r", encoding="utf-8") as f:
-            analysis_results["portfolio"] = json.load(f)
-        
-        with open("info/sample_news.json", "r", encoding="utf-8") as f:
-            analysis_results["news"] = json.load(f)
-        
-        if not agent_instance:
-            raise Exception("Агент не инициализирован")
-        
-        await manager.broadcast(json.dumps({
-            "type": "status",
-            "message": "🤖 Агенты начинают обсуждение...",
-            "status": "agents_discussing"
-        }))
-        
-        result = agent_instance.process_message("Проанализируй мой портфель и дай рекомендации")
-        
-        web_results = get_web_analysis_results()
-        
-        for opinion in web_results["agent_opinions"]:
-            await manager.broadcast(json.dumps({
-                "type": "agent_opinion",
-                "data": {
-                    "agent_name": opinion.agent_name,
-                    "ticker": opinion.ticker,
-                    "action": opinion.action,
-                    "confidence": opinion.confidence,
-                    "reasoning": opinion.reasoning
-                }
-            }))
-            await asyncio.sleep(0.5)  
-        
-        await manager.broadcast(json.dumps({
-            "type": "status",
-            "message": "🔄 Агрегируем решения агентов...",
-            "status": "aggregating"
-        }))
-        
-        for decision in web_results["aggregated_decisions"]:
-            await manager.broadcast(json.dumps({
-                "type": "aggregated_decision",
-                "data": {
-                    "ticker": decision.ticker,
-                    "final_action": decision.final_action,
-                    "confidence_score": decision.confidence_score,
-                    "consensus_strength": decision.consensus_strength
-                }
-            }))
-            await asyncio.sleep(0.3)
-        
-        await manager.broadcast(json.dumps({
-            "type": "status",
-            "message": "⚠️ Оцениваем риски...",
-            "status": "risk_assessment"
-        }))
-        
-        for risk in web_results["risk_assessments"]:
-            await manager.broadcast(json.dumps({
-                "type": "risk_assessment",
-                "data": {
-                    "ticker": risk.ticker,
-                    "risk_level": risk.risk_level,
-                    "risk_factors": risk.risk_factors,
-                    "recommendations": risk.recommendations
-                }
-            }))
-            await asyncio.sleep(0.3)
-        
-        await manager.broadcast(json.dumps({
-            "type": "status",
-            "message": "📋 Формируем итоговые рекомендации...",
-            "status": "finalizing"
-        }))
-        
-        await manager.broadcast(json.dumps({
-            "type": "final_recommendations",
-            "data": {
-                "recommendations": web_results["final_recommendations"]
-            }
-        }))
-        
-        analysis_results["agent_opinions"] = web_results["agent_opinions"]
-        analysis_results["aggregated_decisions"] = web_results["aggregated_decisions"]
-        analysis_results["risk_assessments"] = web_results["risk_assessments"]
-        analysis_results["final_recommendations"] = web_results["final_recommendations"]
-        analysis_results["status"] = "completed"
-        
-        await manager.broadcast(json.dumps({
-            "type": "status",
-            "message": "✅ Анализ завершен!",
-            "status": "completed"
-        }))
-        
-        print("✅ Анализ завершен успешно")
-        
-    except Exception as e:
-        analysis_results["status"] = "error"
-        analysis_results["error"] = str(e)
-        await manager.broadcast(json.dumps({
-            "type": "error",
-            "message": f"❌ Ошибка анализа: {e}",
-            "status": "error"
-        }))
-        print(f"❌ Ошибка анализа: {e}")
-
 @app.on_event("startup")
-async def startup_event():
+def startup_event():
     """Инициализация при запуске приложения"""
-    await initialize_agent()
+    initialize_agent()
+    # Устанавливаем WebSocket менеджер в глобальный логгер
+    agent_logger.set_manager(manager)
+    print("✅ WebSocket менеджер установлен в глобальный логгер")
 
 @app.get("/", response_class=HTMLResponse)
 async def read_root():
@@ -224,145 +155,82 @@ async def read_root():
     with open("templates/index.html", "r", encoding="utf-8") as f:
         return HTMLResponse(content=f.read())
 
-@app.post("/api/start_analysis", response_model=AnalysisResponse)
-async def start_analysis(background_tasks: BackgroundTasks):
-    """Запускает анализ портфеля"""
-    if analysis_results["status"] == "analyzing":
-        raise HTTPException(status_code=400, detail="Анализ уже выполняется")
-    
-    analysis_results["status"] = "ready"
-    analysis_results["agent_opinions"] = []
-    analysis_results["aggregated_decisions"] = []
-    analysis_results["risk_assessments"] = []
-    analysis_results["final_recommendations"] = ""
-    analysis_results["error"] = None
-    
-    background_tasks.add_task(run_analysis_background)
-    
-    return AnalysisResponse(
-        status="started",
-        message="Анализ запущен"
-    )
-
-@app.get("/api/status")
-async def get_status():
-    """Возвращает статус анализа"""
-    return analysis_results
-
-@app.get("/api/portfolio")
-async def get_portfolio():
-    """Возвращает данные портфеля"""
-    try:
-        with open("info/user_portfolio.json", "r", encoding="utf-8") as f:
-            portfolio = json.load(f)
-        return portfolio
-    except Exception as e:
-        print(f"Ошибка загрузки портфеля: {e}")
-        return {}
-
-@app.get("/api/news")
-async def get_news():
-    """Возвращает новости"""
-    try:
-        with open("info/sample_news.json", "r", encoding="utf-8") as f:
-            news = json.load(f)
-        return news
-    except Exception as e:
-        print(f"Ошибка загрузки новостей: {e}")
-        return []
-
-@app.get("/api/agent_opinions")
-async def get_agent_opinions():
-    """Возвращает мнения агентов"""
-    return analysis_results.get("agent_opinions", [])
-
-@app.get("/api/risk_assessments")
-async def get_risk_assessments():
-    """Возвращает оценки рисков"""
-    return analysis_results.get("risk_assessments", [])
-
-@app.get("/api/recommendations")
-async def get_recommendations():
-    """Возвращает итоговые рекомендации"""
-    return {
-        "recommendations": analysis_results.get("final_recommendations", "")
-    }
-
-@app.get("/api/health")
-async def health_check():
-    """Проверка состояния системы"""
-    return {
-        "status": "healthy",
-        "agent_initialized": agent_instance is not None,
-        "analysis_status": analysis_results["status"]
-    }
-
-@app.get("/api/backtest")
-async def run_backtest(days: int = 7):
-    """
-    Запускает бэктест на указанное количество дней
-    
-    Args:
-        days: количество дней для бэктеста (по умолчанию 7)
-    
-    Returns:
-        Результаты бэктеста
-    """
+@app.post("/invoke", response_model=InvokeResponse)
+async def invoke_agent(request: InvokeRequest):
+    """Отправляет сообщение агенту и возвращает результат"""
     if not agent_instance:
         raise HTTPException(status_code=500, detail="Агент не инициализирован")
     
-    if days < 1 or days > 30:
-        raise HTTPException(status_code=400, detail="Количество дней должно быть от 1 до 30")
-    
     try:
-        # Загружаем данные портфеля и новостей
-        with open("info/user_portfolio.json", "r", encoding="utf-8") as f:
-            user_portfolio = json.load(f)
+        # Обрабатываем сообщение агентом
+        result = agent_instance.process_message(request.message)
+        print(f"Agent result: {result}")
         
-        with open("info/sample_news.json", "r", encoding="utf-8") as f:
-            news_data = json.load(f)
+        # Получаем результаты анализа
+        web_results = get_web_analysis_results()
+        print(f"Web results: {web_results}")
         
-        # Создаем движок бэктеста
-        backtest_engine = BacktestEngine(agent_instance.llm)
-        
-        # Запускаем бэктест
-        result = backtest_engine.run_backtest(days, user_portfolio, news_data)
-        
-        # Преобразуем результат в JSON-сериализуемый формат
-        backtest_result = {
-            "start_date": result.start_date.isoformat(),
-            "end_date": result.end_date.isoformat(),
-            "initial_portfolio_value": result.initial_portfolio_value,
-            "final_portfolio_value": result.final_portfolio_value,
-            "total_pnl": result.total_pnl,
-            "total_return_pct": result.total_return_pct,
-            "ticker_performance": result.ticker_performance,
-            "daily_results": [
-                {
-                    "date": day.date.isoformat(),
-                    "ticker": day.ticker,
-                    "open_price": day.open_price,
-                    "close_price": day.close_price,
-                    "high_price": day.high_price,
-                    "low_price": day.low_price,
-                    "volume": day.volume,
-                    "signal": day.signal,
-                    "confidence": day.confidence,
-                    "daily_pnl": day.daily_pnl,
-                    "cumulative_pnl": day.cumulative_pnl
-                }
-                for day in result.daily_results
-            ]
+        # Формируем простой ответ для начала
+        response_data = {
+            "message": request.message,
+            "agent_response": str(result) if result else "Агент обработал сообщение",
+            "agent_opinions": [],
+            "aggregated_decisions": [],
+            "risk_assessments": [],
+            "final_recommendations": "Анализ завершен. Результаты будут доступны после полной настройки системы."
         }
         
-        return {
-            "status": "completed",
-            "message": f"Бэктест завершен за {days} дней",
-            "result": backtest_result
-        }
+        # Если есть результаты анализа, добавляем их
+        if web_results and isinstance(web_results, dict):
+            if "agent_opinions" in web_results and web_results["agent_opinions"]:
+                response_data["agent_opinions"] = [
+                    {
+                        "agent_name": opinion.agent_name,
+                        "ticker": opinion.ticker,
+                        "action": opinion.action,
+                        "confidence": opinion.confidence,
+                        "reasoning": opinion.reasoning
+                    }
+                    for opinion in web_results["agent_opinions"]
+                ]
+            
+            if "aggregated_decisions" in web_results and web_results["aggregated_decisions"]:
+                response_data["aggregated_decisions"] = [
+                    {
+                        "ticker": decision.ticker,
+                        "final_action": decision.final_action,
+                        "confidence_score": decision.confidence_score,
+                        "consensus_strength": decision.consensus_strength
+                    }
+                    for decision in web_results["aggregated_decisions"]
+                ]
+            
+            if "risk_assessments" in web_results and web_results["risk_assessments"]:
+                response_data["risk_assessments"] = [
+                    {
+                        "ticker": risk.ticker,
+                        "risk_level": risk.risk_level,
+                        "risk_factors": risk.risk_factors,
+                        "recommendations": risk.recommendations
+                    }
+                    for risk in web_results["risk_assessments"]
+                ]
+            
+            if "final_recommendations" in web_results and web_results["final_recommendations"]:
+                response_data["final_recommendations"] = web_results["final_recommendations"]
+        
+        print(f"Response data: {response_data}")
+        
+        return InvokeResponse(
+            status="success",
+            result=response_data
+        )
         
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Ошибка бэктеста: {str(e)}")
+        return InvokeResponse(
+            status="error",
+            error=str(e)
+        )
 
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
@@ -371,6 +239,7 @@ async def websocket_endpoint(websocket: WebSocket):
     try:
         while True:
             data = await websocket.receive_text()
+            # Отправляем pong обратно
             await manager.send_personal_message(json.dumps({
                 "type": "pong",
                 "message": "Соединение активно"

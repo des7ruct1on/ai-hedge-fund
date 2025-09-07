@@ -1,3 +1,6 @@
+"""
+Упрощенная версия workflow для работы без FastAPI
+"""
 import json
 import logging
 from langgraph.graph import StateGraph, START, END
@@ -7,25 +10,27 @@ from langgraph.checkpoint.memory import MemorySaver
 from langgraph.prebuilt import ToolNode
 from langgraph.graph.message import add_messages
 from utils.investor_agents import InvestorAgentRoom
-from utils.utils  import aggregate_agent_opinions
+from ui.server.logger import ChatLogger
+from utils.utils import aggregate_agent_opinions
 from utils.prompts import RISK_MANAGER_PROMPT, PORTFOLIO_AGENT_PROMPT, ROUTER_PROMPT, FACT_NODE_PROMPT, OTHER_NODE_PROMPT
 from langgraph.types import Command
 from utils.backtest import BacktestEngine
 
 logging.basicConfig(
-    filename='web_workflow.log',
+    filename='simple_workflow.log',
     level=logging.INFO,
     format='%(asctime)s %(levelname)s %(message)s'
 )
 
-web_analysis_results = {
+# Глобальные переменные для хранения результатов
+analysis_results = {
     "agent_opinions": [],
     "aggregated_decisions": [],
     "risk_assessments": [],
     "final_recommendations": ""
 }
 
-class WebGraph(StateGraph):
+class SimpleGraph(StateGraph):
     def __init__(self, llm):
         self.llm = llm
         self.memory = MemorySaver()
@@ -45,18 +50,17 @@ class WebGraph(StateGraph):
         graph.add_node(StageEnum.OTHER_NODE, self.other_node)
         graph.add_node(StageEnum.BACKTEST_NODE, self.backtest_node)
 
-        # graph.add_edge(START, StageEnum.DISCUSSION_NODE)
-
         graph.add_edge(START, StageEnum.ROUTER_NODE)
 
-    # Роутер выбирает путь
+        # Роутер выбирает путь
         graph.add_conditional_edges(
             StageEnum.ROUTER_NODE,
             lambda x: x["stage"],
             {
-            StageEnum.DISCUSSION_NODE: StageEnum.DISCUSSION_NODE,
-            StageEnum.FACT_NODE: StageEnum.FACT_NODE,
-            StageEnum.OTHER_NODE: StageEnum.OTHER_NODE,
+                StageEnum.DISCUSSION_NODE: StageEnum.DISCUSSION_NODE,
+                StageEnum.FACT_NODE: StageEnum.FACT_NODE,
+                StageEnum.OTHER_NODE: StageEnum.OTHER_NODE,
+                StageEnum.BACKTEST_NODE: StageEnum.BACKTEST_NODE,
             }
         )
 
@@ -71,9 +75,9 @@ class WebGraph(StateGraph):
         )
         graph.add_edge(StageEnum.RISK_NODE, StageEnum.FINALIZER_NODE)
         graph.add_edge(StageEnum.FINALIZER_NODE, END)
-
         graph.add_edge(StageEnum.FACT_NODE, END)
         graph.add_edge(StageEnum.OTHER_NODE, END)
+        graph.add_edge(StageEnum.BACKTEST_NODE, END)
 
         return graph.compile(checkpointer=self.memory)
     
@@ -108,7 +112,6 @@ class WebGraph(StateGraph):
                 goto=StageEnum.OTHER_NODE,
                 update={"message_to_user": "Не удалось определить тип запроса."}
             )
-        
 
     def fact_node(self, state: State) -> State:
         logging.info("Fact node")
@@ -239,9 +242,15 @@ class WebGraph(StateGraph):
                 )
             
             logging.info("🤖 Агенты начинают обсуждение портфеля...")
+            
+            # Создаем логгер для рассуждений
+            logger = ChatLogger('agent_reasoning')
+            
+            # Передаем логгер в agent_room для рассуждений
             agent_opinions = self.agent_room.discuss_portfolio(
                 state["user_data"], 
-                state["news_data"]
+                state["news_data"],
+                logger=logger
             )
             
             logging.info("🔄 АГРЕГАЦИЯ РЕШЕНИЙ АГЕНТОВ")
@@ -258,8 +267,8 @@ class WebGraph(StateGraph):
                     f"консенсус: {decision.consensus_strength:.1f})"
                 )
 
-            web_analysis_results["agent_opinions"] = agent_opinions
-            web_analysis_results["aggregated_decisions"] = aggregated_decisions
+            analysis_results["agent_opinions"] = agent_opinions
+            analysis_results["aggregated_decisions"] = aggregated_decisions
 
             return Command(
                 goto=StageEnum.RISK_NODE,
@@ -279,41 +288,13 @@ class WebGraph(StateGraph):
                     "message_to_user": f"Ошибка в обсуждении агентов: {e}"
                 }
             )
-                
-    def fact_node(self, state: State) -> State:
-        logging.info("fact node")
-        user_input = state.get("message_from_user", "").strip()
 
-        try:
-            with open("info/user_portfolio.json", "r", encoding="utf-8") as f:
-                user_portfolio = json.load(f)
-            
-            with open("info/sample_news.json", "r", encoding="utf-8") as f:
-                news_data = json.load(f)
-
-            prompt = FACT_NODE_PROMPT.format(user_input=user_input, user_data=user_portfolio, news_data=news_data)
-
-            response = self.llm.complete(prompt, temperature=0.3, max_tokens=500)
-
-            return Command(
-                goto=END,
-                update={
-                    "message_to_user": response,
-                    "stage": END
-                }
-            )
-
-        except Exception as e:
-            logging.error(f"Ошибка в fact_node: {e}")
-            return Command(
-                goto=StageEnum.OTHER_NODE,
-                update={"message_to_user": "Не удалось обработать запрос."}
-            )
-        
     def backtest_node(self, state: State) -> State:
-
         try:
-        # Загружаем данные портфеля и новостей
+            # Создаем логгер для бэктеста
+            logger = ChatLogger('backtest')
+            
+            # Загружаем данные портфеля и новостей
             with open("info/user_portfolio.json", "r", encoding="utf-8") as f:
                 user_portfolio = json.load(f)
             
@@ -321,39 +302,16 @@ class WebGraph(StateGraph):
                 news_data = json.load(f)
             
             # Запускаем бэктест
-            result = self.backtest_engine.run_backtest(30, user_portfolio, news_data)
-            
-            # Преобразуем результат в JSON-сериализуемый формат
-            backtest_result = {
-                "start_date": result.start_date.isoformat(),
-                "end_date": result.end_date.isoformat(),
-                "initial_portfolio_value": result.initial_portfolio_value,
-                "final_portfolio_value": result.final_portfolio_value,
-                "total_pnl": result.total_pnl,
-                "total_return_pct": result.total_return_pct,
-                "ticker_performance": result.ticker_performance,
-                "daily_results": [
-                    {
-                        "date": day.date.isoformat(),
-                        "ticker": day.ticker,
-                        "open_price": day.open_price,
-                        "close_price": day.close_price,
-                        "high_price": day.high_price,
-                        "low_price": day.low_price,
-                        "volume": day.volume,
-                        "signal": day.signal,
-                        "confidence": day.confidence,
-                        "daily_pnl": day.daily_pnl,
-                        "cumulative_pnl": day.cumulative_pnl
-                    }
-                    for day in result.daily_results
-                ]
-            }
+            logger.info("Запускаем бэктест")
+            result = self.backtest_engine.run_backtest(3, user_portfolio, news_data, logger)
+            logger.info("Пишу результаты бэктеста")
+            # Форматируем результаты в markdown таблицу
+            markdown_result = self._format_backtest_results(result)
 
             return Command(
                 goto=END,
                 update={
-                    "message_to_user": backtest_result,
+                    "message_to_user": markdown_result,
                     "stage": END
                 }
             )
@@ -363,12 +321,11 @@ class WebGraph(StateGraph):
             return Command(
                 goto=END,
                 update={
-                    "message_to_user": "Не удалось обработать запрос.",
+                    "message_to_user": "Не удалось выполнить бэктест.",
                     "stage": END
                 }
             )
 
-                    
     def risk_node(self, state: State) -> State:
         logging.info("Risk node")
         try:
@@ -420,7 +377,7 @@ class WebGraph(StateGraph):
             for risk in risk_assessments:
                 logging.info(f"⚠️ {risk.ticker}: уровень риска {risk.risk_level}/10")
 
-            web_analysis_results["risk_assessments"] = risk_assessments
+            analysis_results["risk_assessments"] = risk_assessments
 
             return Command(
                 goto=StageEnum.FINALIZER_NODE,
@@ -438,7 +395,7 @@ class WebGraph(StateGraph):
                     "stage": END,
                     "message_to_user": f"Ошибка в оценке рисков: {e}"
                 }
-            )   
+            )
             
     def finalizer_node(self, state: State) -> State:
         logging.info("Finalizer node")
@@ -447,14 +404,13 @@ class WebGraph(StateGraph):
             
             context = self._build_finalizer_context(state)
             
-            
             full_prompt = f"{PORTFOLIO_AGENT_PROMPT}\n\n{context}"
             
             final_recommendations = self.llm.complete(full_prompt, temperature=0.5, max_tokens=2000)
             
             logging.info("✅ Итоговые рекомендации сформированы")
 
-            web_analysis_results["final_recommendations"] = final_recommendations
+            analysis_results["final_recommendations"] = final_recommendations
 
             return Command(
                 goto=END,
@@ -523,7 +479,61 @@ class WebGraph(StateGraph):
         context += "Сформируй четкие рекомендации по управлению портфелем."
         
         return context
+    
+    def _format_backtest_results(self, result) -> str:
+        """Форматирует результаты бэктеста в markdown таблицу"""
+        # Заголовок
+        markdown = f"# 📊 Результаты бэктеста\n\n"
+        
+        # Общая информация
+        markdown += f"**Период:** {result.start_date.strftime('%d.%m.%Y')} - {result.end_date.strftime('%d.%m.%Y')}\n\n"
+        markdown += f"**Начальная стоимость портфеля:** {result.initial_portfolio_value:,.2f} ₽\n\n"
+        markdown += f"**Финальная стоимость портфеля:** {result.final_portfolio_value:,.2f} ₽\n\n"
+        markdown += f"**Общий PnL:** {result.total_pnl:,.2f} ₽\n\n"
+        markdown += f"**Общая доходность:** {result.total_return_pct:+.2f}%\n\n"
+        
+        # Производительность по тикерам
+        if result.ticker_performance:
+            markdown += "## 📈 Производительность по тикерам\n\n"
+            markdown += "| Тикер | PnL (₽) | Доходность (%) | Уверенность |\n"
+            markdown += "|-------|---------|----------------|-------------|\n"
+            
+            for ticker, perf in result.ticker_performance.items():
+                markdown += f"| {ticker} | {perf['total_pnl']:,.2f} | {perf['total_return_pct']:+.2f} | {perf['avg_confidence']:.1f}/10 |\n"
+            
+            markdown += "\n"
+        
+        # Ежедневные результаты
+        if result.daily_results:
+            markdown += "## 📅 Ежедневные результаты\n\n"
+            markdown += "| Дата | Тикер | Открытие | Закрытие | Изменение | Сигнал | Уверенность | PnL дня |\n"
+            markdown += "|------|-------|----------|----------|-----------|--------|-------------|----------|\n"
+            
+            for day in result.daily_results:
+                price_change = day.close_price - day.open_price
+                price_change_pct = (price_change / day.open_price) * 100 if day.open_price > 0 else 0
+                
+                # Эмодзи для сигнала
+                signal_emoji = {
+                    'BUY': '🟢',
+                    'SELL': '🔴', 
+                    'HOLD': '🟡'
+                }.get(day.signal, '⚪')
+                
+                markdown += f"| {day.date.strftime('%d.%m.%Y')} | {day.ticker} | {day.open_price:.2f} | {day.close_price:.2f} | {price_change_pct:+.2f}% | {signal_emoji} {day.signal} | {day.confidence:.1f}/10 | {day.daily_pnl:,.2f} |\n"
+            
+            markdown += "\n"
+        
+        # Итоговая статистика
+        markdown += "## 🎯 Итоговая статистика\n\n"
+        markdown += f"- **Общее количество дней:** {len(result.daily_results)}\n"
+        markdown += f"- **Средний PnL в день:** {result.total_pnl / len(result.daily_results):,.2f} ₽\n"
+        markdown += f"- **Лучший день:** {max(result.daily_results, key=lambda x: x.daily_pnl).date.strftime('%d.%m.%Y')} ({max(result.daily_results, key=lambda x: x.daily_pnl).daily_pnl:,.2f} ₽)\n"
+        markdown += f"- **Худший день:** {min(result.daily_results, key=lambda x: x.daily_pnl).date.strftime('%d.%m.%Y')} ({min(result.daily_results, key=lambda x: x.daily_pnl).daily_pnl:,.2f} ₽)\n"
+        
+        return markdown
 
-def get_web_analysis_results():
-    """Возвращает результаты анализа для веб-интерфейса"""
-    return web_analysis_results
+def get_analysis_results():
+    """Возвращает результаты анализа"""
+    return analysis_results
+
