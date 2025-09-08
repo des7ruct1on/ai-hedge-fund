@@ -7,6 +7,7 @@ from langgraph.prebuilt import ToolNode
 from langgraph.graph.message import add_messages
 from langgraph.types import Command
 
+from utils.moex_parcer import MoexISS
 from utils.models import State, AgentOpinion, AggregatedDecision, RiskAssessment
 from utils.enums import StageEnum
 from utils.investor_agents import InvestorAgentRoom
@@ -202,15 +203,18 @@ class SimpleGraph(StateGraph):
     def user_data_node(self, state: State) -> State:
         logging.info("User data node")
         try:
-            with open(
-                "info/user_portfolio.json", "r", encoding="utf-8"
-            ) as f:
+            with open("info/user_portfolio.json", "r", encoding="utf-8") as f:
                 user_data = json.load(f)
 
             logging.info("User data loaded")
+            moex_parser = MoexISS()
+            updated_user_data = moex_parser.get_latest_price(user_data)
+            logging.info(updated_user_data)
+            
+            logging.info("Stock prices updated")
             return Command(
                 goto=StageEnum.ROUTER_NODE,
-                update={"user_data": user_data, "stage": StageEnum.ROUTER_NODE},
+                update={"user_data": updated_user_data, "stage": StageEnum.ROUTER_NODE},
             )
 
         except Exception as e:

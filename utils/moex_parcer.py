@@ -3,6 +3,7 @@ import time
 from typing import Dict, Optional, Literal
 import requests
 import pandas as pd
+import logging
 
 ISS_BASE = "https://iss.moex.com/iss"
 DEFAULT_ENGINE = "stock"
@@ -115,20 +116,39 @@ class MoexISS:
         df.columns = [c.lower() for c in df.columns]
         df.rename(columns=rename_map, inplace=True)
         return df
-
-    # Unified helper: get preferred daily price series
-    def get_daily_close_series(self, secid: str, start_date: str, end_date: str, board: str = DEFAULT_BOARD) -> pd.Series:
-        """Return a pd.Series of preferred closes indexed by date (uses LEGALCLOSEPRICE if available)."""
-        h = self.get_history_daily(secid, start_date, end_date, board=board)
-        if h.empty:
-            # fallback to daily candles close
-            c = self.get_candles(secid, start_date, end_date, interval=24)
-            if c.empty:
-                return pd.Series(dtype=float)
-            s = c[["end", "close"]].copy()
-            s["date"] = pd.to_datetime(s["end"]).dt.date
-            return s.set_index("date")["close"].astype(float).sort_index()
-        else:
-            s = h[["date", "close_pref"]].copy()
-            s["date"] = pd.to_datetime(s["date"]).dt.date
-            return s.set_index("date")["close_pref"].astype(float).sort_index()
+    
+    def get_latest_price(self, user_data: dict) -> dict:
+        """Обновляет текущие цены всех акций в портфеле"""
+        from datetime import datetime, timedelta
+        
+        updated_data = user_data.copy()
+        
+        for ticker, stock_data in user_data.items():
+            try:
+                # Получаем даты для последнего торгового дня
+                end_date = datetime.now().strftime("%Y-%m-%d")
+                start_date = (datetime.now() - timedelta(days=3)).strftime("%Y-%m-%d")
+                
+                # Получаем свечи для конкретного тикера
+                candles = self.get_candles(
+                    secid=ticker,
+                    start_date=start_date,
+                    end_date=end_date,
+                    interval=24
+                )
+                
+                if not candles.empty:
+                    latest_price = float(candles.iloc[-1]['close'])
+                    updated_data[ticker]['current_price'] = latest_price
+                    logging.info(f"Updated {ticker} price: {latest_price}")
+                else:
+                    logging.warning(f"No candle data for {ticker}, keeping old price: {stock_data['current_price']}")
+                    # Оставляем старую цену
+                    continue
+                    
+            except Exception as e:
+                logging.error(f"Error updating price for {ticker}: {e}")
+                # Оставляем старую цену в случае ошибки
+                continue
+        
+        return updated_data
