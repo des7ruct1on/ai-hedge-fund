@@ -153,7 +153,91 @@ class MoexISS:
                 continue
         
         return updated_data
-    
+
+    def get_price_by_date(self, ticker: str, target_date: str) -> Optional[float]:
+        """Получает цену акции на конкретную дату"""
+        from datetime import datetime, timedelta
+        
+        try:
+            # Преобразуем target_date в datetime если это строка
+            if isinstance(target_date, str):
+                target_dt = datetime.strptime(target_date, "%Y-%m-%d")
+            else:
+                target_dt = target_date
+            
+            # Получаем данные за несколько дней вокруг целевой даты
+            start_date = (target_dt - timedelta(days=5)).strftime("%Y-%m-%d")
+            end_date = (target_dt + timedelta(days=5)).strftime("%Y-%m-%d")
+            
+            # Получаем свечи для конкретного тикера
+            candles = self.get_candles(
+                secid=ticker,
+                start_date=start_date,
+                end_date=end_date,
+                interval=24
+            )
+            
+            if not candles.empty:
+                # Ищем цену на целевую дату или ближайшую торговую дату
+                target_date_str = target_dt.strftime("%Y-%m-%d")
+                
+                # Сначала ищем точную дату
+                exact_match = candles[candles['begin'].str[:10] == target_date_str]
+                if not exact_match.empty:
+                    price = float(exact_match.iloc[0]['close'])
+                    logging.info(f"Found exact price for {ticker} on {target_date_str}: {price}")
+                    return price
+                
+                # Если точной даты нет, ищем ближайшую торговую дату до целевой
+                candles['date'] = pd.to_datetime(candles['begin']).dt.date
+                target_date_only = target_dt.date()
+                
+                # Фильтруем даты до целевой даты включительно
+                before_target = candles[candles['date'] <= target_date_only]
+                if not before_target.empty:
+                    # Берем последнюю доступную дату
+                    latest_candle = before_target.iloc[-1]
+                    price = float(latest_candle['close'])
+                    actual_date = latest_candle['date'].strftime("%Y-%m-%d")
+                    logging.info(f"Found nearest price for {ticker} on {actual_date} (target: {target_date_str}): {price}")
+                    return price
+                
+                # Если нет данных до целевой даты, берем первую доступную дату после
+                after_target = candles[candles['date'] > target_date_only]
+                if not after_target.empty:
+                    earliest_candle = after_target.iloc[0]
+                    price = float(earliest_candle['close'])
+                    actual_date = earliest_candle['date'].strftime("%Y-%m-%d")
+                    logging.info(f"Found next available price for {ticker} on {actual_date} (target: {target_date_str}): {price}")
+                    return price
+            
+            logging.warning(f"No price data found for {ticker} around {target_date}")
+            return None
+            
+        except Exception as e:
+            logging.error(f"Error getting price for {ticker} on {target_date}: {e}")
+            return None
+
+
+    def get_prices_by_date(self, user_data: dict, target_date: str) -> dict:
+        """Обновляет цены всех акций в портфеле на конкретную дату"""
+        updated_data = user_data.copy()
+        
+        for ticker, stock_data in user_data.items():
+            try:
+                price = self.get_price_by_date(ticker, target_date)
+                if price is not None:
+                    updated_data[ticker]['current_price'] = price
+                    logging.info(f"Updated {ticker} price for {target_date}: {price}")
+                else:
+                    logging.warning(f"Could not get price for {ticker} on {target_date}, keeping old price: {stock_data.get('current_price', 'N/A')}")
+                    
+            except Exception as e:
+                logging.error(f"Error updating price for {ticker} on {target_date}: {e}")
+                continue
+        
+        return updated_data    
+        
     def _candles_to_price_series(self, candles: Any, price_field: str = "close") -> pd.Series:
         """
         Приводит результат MoexISS.get_candles (DataFrame или list[dict]) к pd.Series цен,

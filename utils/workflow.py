@@ -552,9 +552,59 @@ class SimpleGraph(StateGraph):
         markdown += f"**Общий PnL:** {result.total_pnl:,.2f} ₽\n\n"
         markdown += f"**Общая доходность:** {result.total_return_pct:+.2f}%\n\n"
 
+        # Финальный портфель
+        if result.final_portfolio:
+            markdown += "## �� Финальный портфель\n\n"
+            markdown += (
+                "| Тикер | Количество | Средняя цена | Текущая цена | "
+                "Стоимость | PnL | Доходность |\n"
+            )
+            markdown += (
+                "|-------|------------|--------------|--------------|"
+                "-----------|-----|------------|\n"
+            )
+
+            for ticker, position in result.final_portfolio.items():
+                if position.quantity > 0:  # Показываем только позиции с акциями
+                    cost_basis = position.cost_basis
+                    market_value = position.market_value
+                    pnl = position.pnl
+                    return_pct = (pnl / cost_basis * 100) if cost_basis > 0 else 0
+                    
+                    # Эмодзи для доходности
+                    if return_pct > 5:
+                        emoji = "🟢"
+                    elif return_pct < -5:
+                        emoji = "🔴"
+                    else:
+                        emoji = "🟡"
+
+                    markdown += (
+                        f"| {ticker} | {position.quantity} | "
+                        f"{position.avg_price:.2f} ₽ | {position.current_price:.2f} ₽ | "
+                        f"{market_value:,.2f} ₽ | {pnl:+,.2f} ₽ | "
+                        f"{emoji} {return_pct:+.2f}% |\n"
+                    )
+
+            markdown += "\n"
+
+        # Доступные средства
+        if hasattr(result, 'available_cash'):
+            markdown += f"**Доступные средства:** {result.available_cash:,.2f} ₽\n\n"
+
+        # Сводка по сделкам
+        if result.trades_summary and result.trades_summary.get('total_trades', 0) > 0:
+            markdown += "## 📈 Сводка по сделкам\n\n"
+            trades = result.trades_summary
+            markdown += f"- **Всего сделок:** {trades.get('total_trades', 0)}\n"
+            markdown += f"- **Покупок:** {trades.get('buy_trades', 0)}\n"
+            markdown += f"- **Продаж:** {trades.get('sell_trades', 0)}\n"
+            markdown += f"- **Общий объем:** {trades.get('total_volume', 0):,.2f} ₽\n"
+            markdown += f"- **Комиссии:** {trades.get('total_commission', 0):,.2f} ₽\n\n"
+
         # Производительность по тикерам
         if result.ticker_performance:
-            markdown += "## 📈 Производительность по тикерам\n\n"
+            markdown += "## �� Производительность по тикерам\n\n"
             markdown += (
                 "| Тикер | PnL (₽) | Доходность (%) | Уверенность |\n"
             )
@@ -569,9 +619,9 @@ class SimpleGraph(StateGraph):
 
             markdown += "\n"
 
-        # Ежедневные результаты
+        # Ежедневные результаты (сокращенная версия)
         if result.daily_results:
-            markdown += "## 📅 Ежедневные результаты\n\n"
+            markdown += "## 📅 Последние 5 дней торгов\n\n"
             markdown += (
                 "| Дата | Тикер | Открытие | Закрытие | Изменение | "
                 "Сигнал | Уверенность | PnL дня |\n"
@@ -581,7 +631,10 @@ class SimpleGraph(StateGraph):
                 "--------|-------------|----------|\n"
             )
 
-            for day in result.daily_results:
+            # Показываем только последние 5 дней
+            recent_days = result.daily_results
+
+            for day in recent_days:
                 price_change = day.close_price - day.open_price
                 price_change_pct = (
                     (price_change / day.open_price) * 100
@@ -607,23 +660,26 @@ class SimpleGraph(StateGraph):
 
         # Итоговая статистика
         markdown += "## 🎯 Итоговая статистика\n\n"
-        markdown += (
-            f"- **Средний PnL в день:** "
-            f"{result.total_pnl / len(result.daily_results):,.2f} ₽\n"
-        )
-        markdown += (
-            f"- **Лучший день:** "
-            f"{max(result.daily_results, key=lambda x: x.daily_pnl).date.strftime('%d.%m.%Y')} "
-            f"({max(result.daily_results, key=lambda x: x.daily_pnl).daily_pnl:,.2f} ₽)\n"
-        )
-        markdown += (
-            f"- **Худший день:** "
-            f"{min(result.daily_results, key=lambda x: x.daily_pnl).date.strftime('%d.%m.%Y')} "
-            f"({min(result.daily_results, key=lambda x: x.daily_pnl).daily_pnl:,.2f} ₽)\n"
-        )
+        if result.daily_results:
+            markdown += (
+                f"- **Средний PnL в день:** "
+                f"{result.total_pnl / len(result.daily_results):,.2f} ₽\n"
+            )
+            markdown += (
+                f"- **Лучший день:** "
+                f"{max(result.daily_results, key=lambda x: x.daily_pnl).date.strftime('%d.%m.%Y')} "
+                f"({max(result.daily_results, key=lambda x: x.daily_pnl).daily_pnl:,.2f} ₽)\n"
+            )
+            markdown += (
+                f"- **Худший день:** "
+                f"{min(result.daily_results, key=lambda x: x.daily_pnl).date.strftime('%d.%m.%Y')} "
+                f"({min(result.daily_results, key=lambda x: x.daily_pnl).daily_pnl:,.2f} ₽)\n"
+            )
+        else:
+            markdown += "- **Нет данных для статистики**\n"
 
         return markdown
-
+        
     def _infer_backtest_days(self, user_message: str) -> int:
         """Определяет количество дней для бэктеста из сообщения пользователя через LLM.
         Возвращает целое число или 7, если определить не удалось.

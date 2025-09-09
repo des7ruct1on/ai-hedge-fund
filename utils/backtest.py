@@ -11,6 +11,183 @@ from .models import AgentOpinion, AggregatedDecision
 from .utils import aggregate_agent_opinions
 
 
+@dataclass
+class Trade:
+    """Сделка в бэктесте"""
+    date: dt.date
+    ticker: str
+    action: str  # BUY/SELL
+    quantity: int
+    price: float
+    value: float  # quantity * price
+    commission: float = 0.0  # комиссия
+    
+    @property
+    def net_value(self) -> float:
+        return self.value - self.commission
+
+
+class TradingEngine:
+    """Движок для исполнения торговых решений"""
+    
+    def __init__(self, initial_cash: float = 1000000.0, commission_rate: float = 0.001):
+        self.initial_cash = initial_cash
+        self.current_cash = initial_cash
+        self.commission_rate = commission_rate
+        self.positions: Dict[str, BacktestPosition] = {}
+        self.trades: List[Trade] = []
+    
+    def initialize_portfolio(self, user_portfolio: Dict[str, Any], historical_data: Dict, start_date: dt.date) -> None:
+        """Инициализирует портфель из пользовательских данных"""
+        self.positions = {}
+        
+        for ticker, position_data in user_portfolio.items():
+            if ticker in historical_data and start_date in historical_data[ticker]:
+                current_price = historical_data[ticker][start_date]['close']
+                
+                self.positions[ticker] = BacktestPosition(
+                    ticker=ticker,
+                    quantity=position_data.get('quantity', 0),
+                    avg_price=position_data.get('avg_price', current_price),
+                    current_price=current_price
+                )
+    
+    def update_prices(self, current_date: dt.date, historical_data: Dict) -> None:
+        """Обновляет текущие цены всех позиций"""
+        for ticker, position in self.positions.items():
+            if ticker in historical_data and current_date in historical_data[ticker]:
+                position.current_price = historical_data[ticker][current_date]['close']
+    
+    def calculate_position_size(self, ticker: str, action: str, confidence: float, current_price: float) -> int:
+        """Вычисляет размер позиции на основе уверенности агента и доступных средств"""
+        if action not in ['BUY', 'SELL']:
+            return 0
+        
+        # Базовый размер позиции как процент от портфеля
+        base_position_pct = 0.1  # 10% от портфеля на одну позицию
+        confidence_multiplier = confidence / 10.0  # от 0.1 до 1.0
+        
+        total_portfolio_value = self.get_total_portfolio_value()
+        target_position_value = total_portfolio_value * base_position_pct * confidence_multiplier
+        
+        if action == 'BUY':
+            # Ограничиваем размер покупки доступными средствами
+            max_affordable = self.current_cash * 0.95  # оставляем 5% на комиссии
+            target_position_value = min(target_position_value, max_affordable)
+            quantity = int(target_position_value / current_price) if current_price > 0 else 0
+        else:  # SELL
+            # Продаем весь объем позиции или часть
+            current_position = self.positions.get(ticker)
+            if current_position and current_position.quantity > 0:
+                # Продаем от 25% до 100% позиции в зависимости от уверенности
+                sell_pct = 0.25 + (confidence_multiplier * 0.75)  # от 25% до 100%
+                quantity = int(current_position.quantity * sell_pct)
+            else:
+                quantity = 0
+        
+        return max(0, quantity)
+    
+    def execute_trades(self, current_date: dt.date, decisions: Dict[str, AggregatedDecision], historical_data: Dict) -> List[Trade]:
+        """Исполняет торговые решения"""
+        executed_trades = []
+        
+        for ticker, decision in decisions.items():
+            if ticker not in historical_data or current_date not in historical_data[ticker]:
+                continue
+            
+            current_price = historical_data[ticker][current_date]['close']
+            action = decision.final_action
+            confidence = decision.confidence_score
+            
+            if action not in ['BUY', 'SELL']:
+                continue
+            
+            # Вычисляем размер сделки
+            quantity = self.calculate_position_size(ticker, action, confidence, current_price)
+            
+            if quantity <= 0:
+                continue
+            
+            # Исполняем сделку
+            trade = self._execute_trade(current_date, ticker, action, quantity, current_price)
+            if trade:
+                executed_trades.append(trade)
+        
+        return executed_trades
+    
+    def _execute_trade(self, date: dt.date, ticker: str, action: str, quantity: int, price: float) -> Optional[Trade]:
+        """Исполняет одну сделку"""
+        value = quantity * price
+        commission = value * self.commission_rate
+        net_value = value + commission  # для покупки добавляем комиссию, для продажи вычитаем
+        
+        if action == 'BUY':
+            if self.current_cash < net_value:
+                # Недостаточно средств
+                return None
+            
+            # Создаем или обновляем позицию
+            if ticker not in self.positions:
+                self.positions[ticker] = BacktestPosition(
+                    ticker=ticker, quantity=0, avg_price=0.0, current_price=price
+                )
+            
+            self.positions[ticker].add_shares(quantity, price)
+            self.current_cash -= net_value
+            
+        elif action == 'SELL':
+            if ticker not in self.positions or self.positions[ticker].quantity < quantity:
+                # Недостаточно акций для продажи
+                return None
+            
+            self.positions[ticker].remove_shares(quantity)
+            self.current_cash += value - commission  # вычитаем комиссию из выручки
+        
+        # Создаем запись о сделке
+        trade = Trade(
+            date=date,
+            ticker=ticker,
+            action=action,
+            quantity=quantity,
+            price=price,
+            value=value,
+            commission=commission
+        )
+        
+        self.trades.append(trade)
+        return trade
+    
+    def get_total_portfolio_value(self) -> float:
+        """Вычисляет общую стоимость портфеля"""
+        positions_value = sum(pos.market_value for pos in self.positions.values())
+        return self.current_cash + positions_value
+    
+    def get_position_value(self, ticker: str) -> float:
+        """Возвращает стоимость позиции по тикеру"""
+        if ticker in self.positions:
+            return self.positions[ticker].market_value
+        return 0.0
+    
+    def get_available_cash(self) -> float:
+        """Возвращает доступные средства"""
+        return self.current_cash
+    
+    def get_trades_summary(self) -> Dict[str, Any]:
+        """Возвращает сводку по сделкам"""
+        if not self.trades:
+            return {"total_trades": 0, "total_volume": 0, "total_commission": 0}
+        
+        total_volume = sum(trade.value for trade in self.trades)
+        total_commission = sum(trade.commission for trade in self.trades)
+        
+        return {
+            "total_trades": len(self.trades),
+            "total_volume": total_volume,
+            "total_commission": total_commission,
+            "buy_trades": len([t for t in self.trades if t.action == 'BUY']),
+            "sell_trades": len([t for t in self.trades if t.action == 'SELL'])
+        }
+
 
 @dataclass
 class BacktestPosition:
@@ -31,6 +208,29 @@ class BacktestPosition:
     @property
     def pnl(self) -> float:
         return self.market_value - self.cost_basis
+
+    def add_shares(self, quantity: int, price: float) -> None:
+        """Добавляет акции к позиции (покупка)"""
+        if quantity <= 0:
+            return
+        
+        total_cost = self.cost_basis + (quantity * price)
+        self.quantity += quantity
+        self.avg_price = total_cost / self.quantity if self.quantity > 0 else 0.0
+
+    def remove_shares(self, quantity: int) -> int:
+        """Удаляет акции из позиции (продажа)"""
+        if quantity <= 0 or self.quantity <= 0:
+            return 0
+        
+        actual_quantity = min(quantity, self.quantity)
+        self.quantity -= actual_quantity
+        
+        # Если позиция полностью закрыта, сбрасываем среднюю цену
+        if self.quantity == 0:
+            self.avg_price = 0.0
+            
+        return actual_quantity
 
 
 @dataclass
@@ -62,6 +262,9 @@ class BacktestResult:
     total_return_pct: float
     daily_results: List[BacktestDay]
     ticker_performance: Dict[str, Dict[str, float]]
+    final_portfolio: Dict[str, BacktestPosition] = None  # Добавляем финальный портфель
+    available_cash: float = 0.0  # Добавляем доступные средства
+    trades_summary: Dict[str, Any] = None  # Добавляем сводку по сделкам
 
 
 
@@ -70,11 +273,11 @@ class BacktestResult:
 class BacktestEngine:
     """Движок для бэктестинга торговых стратегий"""
     
-    def __init__(self, llm, initial_cash: float = 1000000.0):
+    def __init__(self, llm, initial_cash: float = 100000.0):
         self.llm = llm
         self.initial_cash = initial_cash
         self.agent_room = InvestorAgentRoom(llm)
-    
+        self.trading_engine = TradingEngine(initial_cash)  # Новый торговый движок
 
     def run_backtest(
             self, 
@@ -107,16 +310,20 @@ class BacktestEngine:
         
         # Инициализируем портфель (объекты позиций с полями quantity, market_value и т.д.)
         portfolio = self._initialize_portfolio(user_portfolio, historical_data, start_date)
-        
-        # Начальная стоимость портфеля — вычислим на базе начальных цен (если market_value валиден — используем его)
+        logger.info(f"Инициализирован портфель: {portfolio}")
+        # Начальная стоимость портфеля — вычислим на базе начальных цен
         initial_value = 0.0
-        for t, pos in portfolio.items():
-            # если есть цена открытия для start_date, можно точнее, но используем pos.market_value как начальную оценку
-            try:
-                initial_value += float(pos.market_value)
-            except Exception:
-                initial_value += 0.0
+        for ticker, pos in portfolio.items():
+            if ticker in historical_data and start_date in historical_data[ticker]:
+                start_price = historical_data[ticker][start_date]['close']
+                ticker_value = pos.quantity * start_price
+                initial_value += ticker_value
+                logger.info(f"Начальная стоимость {ticker}: {pos.quantity} * {start_price:.2f} = {ticker_value:.2f}")
+            else:
+                initial_value += pos.market_value  # fallback
+                logger.info(f"Начальная стоимость {ticker} (fallback): {pos.market_value:.2f}")
         logger.info(f"Начальная стоимость портфеля: {initial_value:.2f}")
+
         
         daily_results: List[BacktestDay] = []
         cumulative_pnl = 0.0
@@ -137,8 +344,8 @@ class BacktestEngine:
             for ticker, pos in portfolio.items():
                 # Сохраняем минимум: quantity и market_value
                 position_snapshot[ticker] = {
-                    "quantity": getattr(pos, "quantity", 0),
-                    "market_value": getattr(pos, "market_value", 0.0)
+                    "quantity": pos.quantity,
+                    "market_value": pos.market_value
                 }
             
             # Вычисляем PnL от изменения цен (по движению open->close) исходя из quantity на начало дня
@@ -233,18 +440,8 @@ class BacktestEngine:
         
         logger.info("Вычисляем финальную стоимость портфеля")
         final_value = 0.0
-        # попробуем использовать последние close из historical_data (end_date)
-        for ticker, pos in portfolio.items():
-            last_known_value = None
-            if ticker in historical_data and end_date in historical_data[ticker]:
-                last_candle = historical_data[ticker][end_date]
-                last_close = last_candle.get("close")
-                if last_close is not None:
-                    qty = getattr(pos, "quantity", 0.0)
-                    last_known_value = qty * last_close
-            if last_known_value is None:
-                last_known_value = float(getattr(pos, "market_value", 0.0) or 0.0)
-            final_value += last_known_value
+        # Используем цены на end_date
+        final_value = initial_value + cumulative_pnl
         
         total_pnl = final_value - initial_value
         total_return_pct = (total_pnl / initial_value) * 100 if initial_value > 0 else 0.0
@@ -260,6 +457,7 @@ class BacktestEngine:
             start_date, end_date, initial_value, final_value, 
             total_pnl, total_return_pct, ticker_performance, logger
         )
+        logger.info(f"start_value: {initial_value}, end_value: {final_value}, total_pnl: {total_pnl}, total_return_pct: {total_return_pct}")
         
         return BacktestResult(
             start_date=start_date,
@@ -367,37 +565,24 @@ class BacktestEngine:
         
         return decisions_dict
     
-    def _apply_decisions(
-        self,
-        current_date: dt.date,
-        decisions: Dict[str, AggregatedDecision],
-        portfolio: Dict[str, BacktestPosition],
-        historical_data: Dict[str, Dict[dt.date, Dict[str, float]]]
-    ) -> float:
-        """Применяет решения агентов и обновляет портфель"""
-        total_pnl = 0.0
+    def _apply_decisions(self, current_date, decisions, portfolio, historical_data) -> float:
+        """Применяет решения агентов через торговый движок"""
+        # Обновляем цены в торговом движке
+        self.trading_engine.update_prices(current_date, historical_data)
         
-        for ticker, decision in decisions.items():
-            if ticker not in portfolio or ticker not in historical_data:
-                continue
-            
-            if current_date not in historical_data[ticker]:
-                continue
-            
-            current_price = historical_data[ticker][current_date]['close']
-            position = portfolio[ticker]
-            
-            # Обновляем текущую цену
-            position.current_price = current_price
-            
-            # Вычисляем PnL для текущей позиции
-            position_pnl = position.pnl
-            total_pnl += position_pnl
-            
-            # Здесь можно добавить логику исполнения сделок
-            # Пока просто обновляем цены и фиксируем PnL
+        # Исполняем сделки
+        executed_trades = self.trading_engine.execute_trades(current_date, decisions, historical_data)
         
-        return total_pnl
+        # Обновляем портфель из торгового движка
+        for ticker, position in self.trading_engine.positions.items():
+            if ticker in portfolio:
+                portfolio[ticker] = position
+        
+        # Вычисляем PnL от сделок
+        trades_pnl = sum(trade.net_value for trade in executed_trades if trade.action == 'SELL') - \
+                    sum(trade.net_value for trade in executed_trades if trade.action == 'BUY')
+        
+        return trades_pnl
     
     def _analyze_ticker_performance(
         self, 
@@ -429,7 +614,11 @@ class BacktestEngine:
                 ticker_data['avg_confidence'] /= len(ticker_days)
                 
                 # Вычисляем общую доходность
-                initial_value = ticker_days[0].position_before.market_value
+                position_before = ticker_days[0].position_before
+                if isinstance(position_before, dict):
+                    initial_value = position_before.get('market_value', 0.0)
+                else:
+                    initial_value = position_before.market_value
                 if initial_value > 0:
                     ticker_data['total_return_pct'] = (ticker_data['total_pnl'] / initial_value) * 100
         
