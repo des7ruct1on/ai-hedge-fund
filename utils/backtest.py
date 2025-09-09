@@ -75,49 +75,52 @@ class BacktestEngine:
         self.initial_cash = initial_cash
         self.agent_room = InvestorAgentRoom(llm)
     
+
     def run_backtest(
-        self, 
-        days: int, 
-        user_portfolio: Dict[str, Any],
-        news_data: List[Dict[str, Any]],
-        logger
-    ) -> BacktestResult:
+            self, 
+            days: int, 
+            user_portfolio: Dict[str, Any],
+            news_data: List[Dict[str, Any]],
+            logger
+        ) -> BacktestResult:
         """
-        Запускает бэктест на указанное количество дней
-        
-        Args:
-            days: количество дней для бэктеста
-            user_portfolio: начальный портфель пользователя
-            news_data: новости для анализа
-            
-        Returns:
-            BacktestResult с результатами бэктеста
+        Запускает бэктест на указанное количество дней.
+        Расчёт дневного PnL сделан корректно: 
+        - PnL от изменения цен рассчитывается по количеству позиций, удерживаемых **в начале дня** (position_before).
+        - PnL от исполненных решений (realized trades) добавляется если _apply_decisions возвращает значение.
+        - Доходность портфеля (в процентах) — это взвешенное по стоимости портфеля изменение (price PnL / total_value_before).
         """
         end_date = dt.date.today()
         start_date = end_date - dt.timedelta(days=days)
         
         logger.info(f"🚀 Запуск бэктеста с {start_date} по {end_date} ({days} дней)")
         
-        # Получаем список тикеров из портфеля
+        # tickers
         tickers = list(user_portfolio.keys())
         if not tickers:
             raise ValueError("Портфель пуст - нет тикеров для бэктеста")
         
         logger.info(f"📊 Анализируем {len(tickers)} тикеров: {', '.join(tickers)}")
         
-        # Загружаем исторические данные для всех тикеров
+        # Загружаем исторические данные
         historical_data = self._load_historical_data(tickers, start_date, end_date)
         
-        # Инициализируем портфель
+        # Инициализируем портфель (объекты позиций с полями quantity, market_value и т.д.)
         portfolio = self._initialize_portfolio(user_portfolio, historical_data, start_date)
         
-        # Вычисляем начальную стоимость портфеля
-        initial_value = sum(pos.market_value for pos in portfolio.values())
+        # Начальная стоимость портфеля — вычислим на базе начальных цен (если market_value валиден — используем его)
+        initial_value = 0.0
+        for t, pos in portfolio.items():
+            # если есть цена открытия для start_date, можно точнее, но используем pos.market_value как начальную оценку
+            try:
+                initial_value += float(pos.market_value)
+            except Exception:
+                initial_value += 0.0
+        logger.info(f"Начальная стоимость портфеля: {initial_value:.2f}")
         
-        daily_results = []
+        daily_results: List[BacktestDay] = []
         cumulative_pnl = 0.0
         
-        # Проходим по каждому дню
         current_date = start_date
         while current_date <= end_date:
             logger.info(f"📅 Обрабатываем день: {current_date}")
@@ -129,61 +132,130 @@ class BacktestEngine:
             )
             logger.info(f"Получили решения агентов для {current_date}")
             
-            # Применяем решения и обновляем портфель
-            logger.info(f"Применяем решения и обновляем портфель для {current_date}")
-            day_pnl = self._apply_decisions(
-                current_date, day_decisions, portfolio, historical_data
+            # Снимаем snapshot позиций на начало дня (quantity и market_value)
+            position_snapshot = {}
+            for ticker, pos in portfolio.items():
+                # Сохраняем минимум: quantity и market_value
+                position_snapshot[ticker] = {
+                    "quantity": getattr(pos, "quantity", 0),
+                    "market_value": getattr(pos, "market_value", 0.0)
+                }
+            
+            # Вычисляем PnL от изменения цен (по движению open->close) исходя из quantity на начало дня
+            price_pnl_total = 0.0
+            total_value_before = 0.0  
+            per_ticker_price_pnls = {}  # ticker -> pnl по движению цен
+            
+            for ticker in tickers:
+                pos_snap = position_snapshot.get(ticker)
+                if not pos_snap:
+                    continue
+                
+                
+                if ticker in historical_data and current_date in historical_data[ticker]:
+                    candle = historical_data[ticker][current_date]
+                    open_price = candle.get("open")
+                    close_price = candle.get("close")
+                    
+                    if open_price is None or close_price is None:
+                        per_ticker_price_pnls[ticker] = 0.0
+                        continue
+                    
+                    qty = float(pos_snap["quantity"] or 0.0)
+                    pos_value_before = qty * open_price if open_price and qty else float(pos_snap["market_value"] or 0.0)
+                    total_value_before += pos_value_before
+                    
+                    ticker_price_pnl = qty * (close_price - open_price)
+                    per_ticker_price_pnls[ticker] = ticker_price_pnl
+                    price_pnl_total += ticker_price_pnl
+                else:
+                    per_ticker_price_pnls[ticker] = 0.0
+            
+            if total_value_before > 0:
+                weighted_return_pct = (price_pnl_total / total_value_before) * 100.0
+            else:
+                weighted_return_pct = 0.0
+            
+            logger.info(
+                f"Доходность по изменению цен за {current_date}: {weighted_return_pct:.4f}% "
+                f"(price_pnl_total={price_pnl_total:.2f}, total_value_before={total_value_before:.2f})"
             )
-            logger.info(f"Применили решения и обновлили портфель для {current_date}")
             
+            logger.info(f"Применяем решения и обновляем портфель для {current_date}")
+            try:
+                trades_pnl = self._apply_decisions(
+                    current_date, day_decisions, portfolio, historical_data
+                )
+                # если _apply_decisions возвращает None, считаем 0
+                trades_pnl = float(trades_pnl or 0.0)
+            except Exception as e:
+                logger.exception(f"Ошибка при применении решений на {current_date}: {e}")
+                trades_pnl = 0.0
+            logger.info(f"Применили решения для {current_date}, trades_pnl={trades_pnl:.2f}")
+            
+            day_pnl = price_pnl_total + trades_pnl
             cumulative_pnl += day_pnl
-            logger.info(f"Обновили накопленный PnL для {current_date}")
             
-            # Сохраняем результаты дня
-            day_results = []
+            day_results_for_log = []
             for ticker in tickers:
                 if ticker in historical_data and current_date in historical_data[ticker]:
                     candle = historical_data[ticker][current_date]
                     decision = day_decisions.get(ticker)
                     
-                    if decision and ticker in portfolio:
-                        day_result = BacktestDay(
-                            date=current_date,
-                            ticker=ticker,
-                            open_price=candle['open'],
-                            close_price=candle['close'],
-                            high_price=candle['high'],
-                            low_price=candle['low'],
-                            volume=candle['volume'],
-                            signal=decision.final_action,
-                            confidence=decision.confidence_score,
-                            position_before=portfolio[ticker],
-                            position_after=portfolio[ticker],
-                            daily_pnl=day_pnl / len(tickers),  # Распределяем PnL по тикерам
-                            cumulative_pnl=cumulative_pnl
-                        )
-                        daily_results.append(day_result)
-                        day_results.append(day_result)
+                    ticker_price_pnl = per_ticker_price_pnls.get(ticker, 0.0)
+                    
+
+                    pos_after = portfolio.get(ticker)
+                    pos_before_snapshot = position_snapshot.get(ticker)
+                    
+                    day_result = BacktestDay(
+                        date=current_date,
+                        ticker=ticker,
+                        open_price=candle['open'],
+                        close_price=candle['close'],
+                        high_price=candle.get('high'),
+                        low_price=candle.get('low'),
+                        volume=candle.get('volume'),
+                        signal=getattr(decision, "final_action", None) if decision else None,
+                        confidence=getattr(decision, "confidence_score", None) if decision else None,
+                        position_before=pos_before_snapshot,
+                        position_after=pos_after,
+                        daily_pnl=ticker_price_pnl,
+                        cumulative_pnl=cumulative_pnl
+                    )
+                    daily_results.append(day_result)
+                    day_results_for_log.append(day_result)
             
-            # Логируем результаты дня
-            logger.info(f"Логируем результаты дня для {current_date}")
-            self._log_day_results(current_date, day_results, day_pnl, cumulative_pnl, initial_value, logger)
-            
+            logger.info(f"День {current_date}: price_pnl={price_pnl_total:.2f}, trades_pnl={trades_pnl:.2f}, day_pnl={day_pnl:.2f}, cumulative_pnl={cumulative_pnl:.2f}")
+            self._log_day_results(current_date, day_results_for_log, day_pnl, cumulative_pnl, initial_value, logger)
+
             current_date += dt.timedelta(days=1)
         
-        # Вычисляем финальную стоимость портфеля
-        logger.info(f"Вычисляем финальную стоимость портфеля")
-        final_value = sum(pos.market_value for pos in portfolio.values())
-        total_pnl = final_value - initial_value
-        total_return_pct = (total_pnl / initial_value) * 100 if initial_value > 0 else 0
+        logger.info("Вычисляем финальную стоимость портфеля")
+        final_value = 0.0
+        # попробуем использовать последние close из historical_data (end_date)
+        for ticker, pos in portfolio.items():
+            last_known_value = None
+            if ticker in historical_data and end_date in historical_data[ticker]:
+                last_candle = historical_data[ticker][end_date]
+                last_close = last_candle.get("close")
+                if last_close is not None:
+                    qty = getattr(pos, "quantity", 0.0)
+                    last_known_value = qty * last_close
+            if last_known_value is None:
+                last_known_value = float(getattr(pos, "market_value", 0.0) or 0.0)
+            final_value += last_known_value
         
-        # Анализируем производительность по тикерам
-        logger.info(f"Анализируем производительность по тикерам")
+        total_pnl = final_value - initial_value
+        total_return_pct = (total_pnl / initial_value) * 100 if initial_value > 0 else 0.0
+        
+        logger.info(f"Финальная стоимость: {final_value:.2f}, Total PnL: {total_pnl:.2f}, Total Return: {total_return_pct:.2f}%")
+        
+        # Анализ производительности по тикерам (используем дневные записи)
+        logger.info("Анализируем производительность по тикерам")
         ticker_performance = self._analyze_ticker_performance(daily_results)
-        logger.info(f"Анализировали производительность по тикерам")
-
-        logger.info(f"Логируем итоговый результат")
-        # Логируем итоговый результат
+        
+        logger.info("Логируем итоговый результат")
         self._log_final_results(
             start_date, end_date, initial_value, final_value, 
             total_pnl, total_return_pct, ticker_performance, logger
@@ -199,6 +271,7 @@ class BacktestEngine:
             daily_results=daily_results,
             ticker_performance=ticker_performance
         )
+
     
     def _load_historical_data(
         self, 

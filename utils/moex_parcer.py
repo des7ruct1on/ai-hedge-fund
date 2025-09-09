@@ -1,9 +1,10 @@
 from __future__ import annotations
 import time
-from typing import Dict, Optional, Literal
+from typing import Dict, Optional, Literal, Any
 import requests
 import pandas as pd
 import logging
+from .finance_metrics import MetricsResult, PortfolioMetrics
 
 ISS_BASE = "https://iss.moex.com/iss"
 DEFAULT_ENGINE = "stock"
@@ -152,3 +153,127 @@ class MoexISS:
                 continue
         
         return updated_data
+    
+    def _candles_to_price_series(self, candles: Any, price_field: str = "close") -> pd.Series:
+        """
+        Приводит результат MoexISS.get_candles (DataFrame или list[dict]) к pd.Series цен,
+        индекс = pd.DatetimeIndex (даты), значения = float цены.
+        Попытки распознать поля: 'begin' -> datetime, иначе пытается использовать индекс.
+        """
+        if candles is None:
+            raise ValueError("candles is None")
+
+        # DataFrame или list/dict -> DataFrame
+        if isinstance(candles, pd.DataFrame):
+            df = candles.copy()
+        else:
+            # допускаем list[dict] или iterable
+            df = pd.DataFrame(candles)
+
+        if df.empty:
+            raise ValueError("candles пустые")
+
+        # Найдём колонку с датой (понижая регистр для поиска)
+        lowered = {c.lower(): c for c in df.columns}
+        for candidate in ("begin", "date", "tradedate", "trade_date", "datetime"):
+            if candidate in lowered:
+                df['__date'] = pd.to_datetime(df[lowered[candidate]])
+                break
+        else:
+            if isinstance(df.index, pd.DatetimeIndex):
+                df = df.copy()
+                df['__date'] = pd.to_datetime(df.index)
+            else:
+                # если нет явной date колонке — попробуем привести первую колонку, содержащую ISO-строки
+                try:
+                    df['__date'] = pd.to_datetime(df.iloc[:, 0])
+                except Exception:
+                    raise ValueError("Не удалось определить колонку с датой в candles")
+
+        df.set_index('__date', inplace=True)
+        df.index.name = None
+
+        # Найдём колонку цены
+        possible_price_cols = [c for c in df.columns if c.lower() == price_field.lower()]
+        if not possible_price_cols:
+            # fallback: common names
+            for name in ("close", "last", "close_price", "c", "open"):
+                if name in df.columns:
+                    possible_price_cols = [name]
+                    break
+        if not possible_price_cols:
+            raise ValueError(f"Не найдена колонка цены ('{price_field}' или fallback) в candles: {list(df.columns)}")
+
+        col = possible_price_cols[0]
+        ser = df[col].astype(float).sort_index()
+        # убрать дубли по индексу
+        ser = ser[~ser.index.duplicated(keep='first')]
+        return ser
+
+
+    def metrics_from_moex_candles(
+        self,
+        candles: Any,
+        *,
+        price_field: str = "close",
+        market_price_field: str = "close",
+        rf: float = 0.0,
+        days_per_year: int = 252,
+        alpha: float = 0.05
+    ):
+        """
+        Основной wrapper: берёт свечи инструмента и (опционально) бенчмарка,
+        формирует series цен и вызывает PortfolioMetrics.build_metrics.
+        Возвращает MetricsResult.
+        """
+        # transform main asset candles -> price series
+        prices = self._candles_to_price_series(candles, price_field=price_field)
+        if prices.empty or len(prices) < 2:
+            raise ValueError("Недостаточно точек в ценах инструмента для расчёта метрик")
+
+        # подготовим market_returns (если есть)
+
+
+        # вызываем build_metrics: передаём values=prices (PortfolioMetrics сам посчитает returns)
+        metrics = PortfolioMetrics.build_metrics(
+            values=prices,
+            returns=None, 
+            rf=rf,
+            days_per_year=days_per_year,
+            alpha=alpha
+        )
+        return metrics
+    
+
+from datetime import datetime, timedelta
+
+# Инициализируем MoexISS
+moex_iss = MoexISS()
+
+# Параметры для запроса
+secid = "SBER"  # Тикер, например, Сбербанк
+end_date = datetime.now().strftime("%Y-%m-%d")
+start_date = (datetime.now() - timedelta(days=365)).strftime("%Y-%m-%d")  # Данные за год
+
+
+candles = moex_iss.get_candles(
+        secid=secid,
+        start_date=start_date,
+        end_date=end_date,
+        interval=24  
+    )
+print(f"Получено {len(candles)} свечей для {secid}")
+print(candles)
+
+    # Запускаем функцию
+result = moex_iss.metrics_from_moex_candles(
+        candles=candles,
+        price_field="close",
+        market_price_field="close",
+        rf=0.0,
+        days_per_year=252,
+        alpha=0.05
+    )
+    # Выводим результат
+print("Результат метрик:")
+print(result)
