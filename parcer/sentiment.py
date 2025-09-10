@@ -2,7 +2,6 @@ import json
 import re
 from openai import OpenAI
 
-api_key = "sk-vjQ4lniRpUzAV0l3fLu06z1Dnxqxkg8E"
 
 class NewsSentimentAnalyzer:
     def __init__(self, api_key, base_url="https://api.proxyapi.ru/openrouter/v1", model="mistralai/mistral-medium-3.1"):
