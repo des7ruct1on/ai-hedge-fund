@@ -1,5 +1,7 @@
 import json
 import logging
+import os
+from datetime import datetime, timedelta
 
 from langgraph.graph import StateGraph, START, END
 from langgraph.checkpoint.memory import MemorySaver
@@ -22,12 +24,18 @@ from utils.prompts import (
     DAYS_GET_BACKTEST_PROMPT,
 )
 from utils.backtest import BacktestEngine
+from dateutil.tz import UTC
 
 logging.basicConfig(
     filename="simple_workflow.log",
     level=logging.INFO,
     format="%(asctime)s %(levelname)s %(message)s",
 )
+
+from ui.server.logger import ChatLogger
+
+logger = ChatLogger("simple_workflow")
+
 
 
 class SimpleGraph(StateGraph):
@@ -228,21 +236,72 @@ class SimpleGraph(StateGraph):
             )
 
     def news_data_node(self, state: State) -> State:
-        logging.info("News data node")
+        logger.info("News data node")
         try:
-            with open(
-                "info/sample_news.json", "r", encoding="utf-8"
-            ) as f:
-                news_data = json.load(f)
+            # Если включен режим парсера, запускаем пайплайн парсинга + сентимент
+            if os.getenv("TEST_MODE") == "PARSER":
+                logger.info("TEST_MODE=PARSER — запускаю пайплайн парсинга новостей за 7 дней")
+                try:
+                    # Импортируем локальные парсерные инструменты
+                    from parcer.main import FinancialNewsScraper, NewsParser
+                    from parcer.sentiment import NewsSentimentAnalyzer
 
-            logging.info("News data loaded")
+                    # Определяем диапазон дат: последние 7 дней
+                    start_dt = datetime.now(tz=UTC) - timedelta(days=7)
+                    end_dt = datetime.now(tz=UTC)
+
+                    # Формируем список интересующих тикеров из пользовательского портфеля
+                    user_data = state.get("user_data", {}) or {}
+                    selected_tickers = [t for t in user_data.keys() if not str(t).startswith("__")]
+                    
+                    if not selected_tickers:
+                        selected_tickers = None  # если нет тикеров, не фильтруем по ним
+
+                    feed_urls = list(NewsParser.PARSERS_BY_FEED.keys())
+                    scraper = FinancialNewsScraper(feed_urls)
+
+                    output_news_file = "parcer/news_by_ticker.json"
+                    news_json = scraper.scrape(
+                        start_dt=start_dt,
+                        end_dt=end_dt,
+                        filter_by_ticker=True,
+                        output_file=output_news_file,
+                        selected_tickers=selected_tickers,
+                    )
+
+                    # Анализ сентимента (не обязателен; если не получится — вернем сырые новости)
+                    try:
+                        output_sentiment_file = "parcer/output_with_sentiment.json"
+                        analyzer = NewsSentimentAnalyzer(api_key=os.getenv("OPENAI_API_KEY", ""))
+                        sentiment_results = analyzer.process_file(output_news_file, output_sentiment_file)
+                        if isinstance(sentiment_results, list):
+                            news_data = sentiment_results
+                        else:
+                            # читаем файл, если класс вернул None, но файл записан
+                            with open(output_sentiment_file, "r", encoding="utf-8") as sf:
+                                news_data = json.load(sf)
+                    except Exception as e:
+                        logger.warning(f"Sentiment анализ не выполнен, использую сырые новости: {e}")
+                        news_data = news_json
+
+                except Exception as e:
+                    logger.error(f"Ошибка пайплайна парсера, откатываюсь к sample_news.json: {e}")
+                    with open("info/sample_news.json", "r", encoding="utf-8") as f:
+                        news_data = json.load(f)
+            else:
+                with open(
+                    "info/sample_news.json", "r", encoding="utf-8"
+                ) as f:
+                    news_data = json.load(f)
+
+            logger.info("News data loaded")
             return Command(
                 goto=StageEnum.ROUTER_NODE,
                 update={"news_data": news_data, "stage": StageEnum.ROUTER_NODE},
             )
 
         except Exception as e:
-            logging.error(f"Ошибка загрузки новостей: {e}")
+            logger.error(f"Ошибка загрузки новостей: {e}")
             return Command(
                 goto=END,
                 update={
@@ -448,6 +507,8 @@ class SimpleGraph(StateGraph):
             final_recommendations = self.llm.complete(
                 full_prompt, temperature=0.5, max_tokens=30000
             )
+            logger.info("✅ Итоговые рекомендации сформированы")
+            logger.info(final_recommendations)
 
             logging.info("✅ Итоговые рекомендации сформированы")
 
@@ -501,6 +562,9 @@ class SimpleGraph(StateGraph):
         if user_data:
             context += "Текущий портфель:\n"
             for ticker, position in user_data.items():
+                # Пропускаем специальные ключи типа __cash__
+                if str(ticker).startswith("__"):
+                    continue
                 context += (
                     f"- {ticker}: {position.get('quantity', 0)} акций, "
                     f"средняя цена: {position.get('avg_price', 0)} руб.\n"

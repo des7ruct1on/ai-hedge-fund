@@ -90,29 +90,39 @@ class TradingEngine:
     def execute_trades(self, current_date: dt.date, decisions: Dict[str, AggregatedDecision], historical_data: Dict) -> List[Trade]:
         """Исполняет торговые решения"""
         executed_trades = []
-        
+
+        # Разделяем решения: сначала выполняем продажи, затем покупки, чтобы покупки могли
+        # финансироваться за счет выручки от продаж в тот же день
+        sell_first: Dict[str, AggregatedDecision] = {}
+        buy_later: Dict[str, AggregatedDecision] = {}
+
         for ticker, decision in decisions.items():
-            if ticker not in historical_data or current_date not in historical_data[ticker]:
-                continue
-            
-            current_price = historical_data[ticker][current_date]['close']
             action = decision.final_action
-            confidence = decision.confidence_score
-            
-            if action not in ['BUY', 'SELL']:
-                continue
-            
-            # Вычисляем размер сделки
-            quantity = self.calculate_position_size(ticker, action, confidence, current_price)
-            
-            if quantity <= 0:
-                continue
-            
-            # Исполняем сделку
-            trade = self._execute_trade(current_date, ticker, action, quantity, current_price)
-            if trade:
-                executed_trades.append(trade)
-        
+            if action == 'SELL':
+                sell_first[ticker] = decision
+            elif action == 'BUY':
+                buy_later[ticker] = decision
+
+        def process(decisions_batch: Dict[str, AggregatedDecision]) -> None:
+            for ticker, decision in decisions_batch.items():
+                if ticker not in historical_data or current_date not in historical_data[ticker]:
+                    continue
+                current_price = historical_data[ticker][current_date]['close']
+                action = decision.final_action
+                confidence = decision.confidence_score
+                if action not in ['BUY', 'SELL']:
+                    continue
+                quantity = self.calculate_position_size(ticker, action, confidence, current_price)
+                if quantity <= 0:
+                    continue
+                trade = self._execute_trade(current_date, ticker, action, quantity, current_price)
+                if trade:
+                    executed_trades.append(trade)
+
+        # Сначала SELL, потом BUY (расчет количества для BUY делается уже после обновления self.current_cash после SELL)
+        process(sell_first)
+        process(buy_later)
+
         return executed_trades
     
     def _execute_trade(self, date: dt.date, ticker: str, action: str, quantity: int, price: float) -> Optional[Trade]:
@@ -311,6 +321,16 @@ class BacktestEngine:
         # Инициализируем портфель (объекты позиций с полями quantity, market_value и т.д.)
         portfolio = self._initialize_portfolio(user_portfolio, historical_data, start_date)
         logger.info(f"Инициализирован портфель: {portfolio}")
+        # Логируем стартовое состояние портфеля с кэшем
+        try:
+            self._log_portfolio_state(
+                logger=logger,
+                title=f"Стартовый портфель на {start_date}",
+                positions=self.trading_engine.positions,
+                cash=self.trading_engine.current_cash
+            )
+        except Exception as e:
+            logger.info(f"Не удалось вывести стартовый портфель: {e}")
         # Начальная стоимость портфеля — вычислим на базе начальных цен
         initial_value = 0.0
         for ticker, pos in portfolio.items():
@@ -457,6 +477,17 @@ class BacktestEngine:
             start_date, end_date, initial_value, final_value, 
             total_pnl, total_return_pct, ticker_performance, logger
         )
+        # Перед выводом финального портфеля обновим цены на конечную дату и выведем состояние портфеля
+        try:
+            self.trading_engine.update_prices(end_date, historical_data)
+            self._log_portfolio_state(
+                logger=logger,
+                title=f"Финальный портфель на {end_date}",
+                positions=self.trading_engine.positions,
+                cash=self.trading_engine.current_cash
+            )
+        except Exception as e:
+            logger.info(f"Не удалось вывести финальный портфель: {e}")
         logger.info(f"start_value: {initial_value}, end_value: {final_value}, total_pnl: {total_pnl}, total_return_pct: {total_return_pct}")
         
         return BacktestResult(
@@ -469,6 +500,37 @@ class BacktestEngine:
             daily_results=daily_results,
             ticker_performance=ticker_performance
         )
+
+    def _log_portfolio_state(
+        self,
+        logger,
+        title: str,
+        positions: Dict[str, BacktestPosition],
+        cash: float
+    ) -> None:
+        """Выводит в лог текущее состояние портфеля: кэш, позиции и итоги."""
+        total_positions_value = sum((pos.market_value for pos in positions.values())) if positions else 0.0
+        total_portfolio_value = total_positions_value + float(cash or 0.0)
+
+        lines = [
+            f"{title}",
+            f"💵 Кэш: {cash:,.2f} ₽",
+            f"📦 Стоимость позиций: {total_positions_value:,.2f} ₽",
+            f"💼 Итого портфель: {total_portfolio_value:,.2f} ₽",
+            "",
+            "Позиции:" if positions else "Позиции: (нет)"
+        ]
+        for ticker, pos in sorted(positions.items()):
+            lines.append(
+                f"  • {ticker}: qty={pos.quantity}, avg={pos.avg_price:.2f} ₽, price={pos.current_price:.2f} ₽, value={pos.market_value:,.2f} ₽"
+            )
+
+        message = "\n".join(lines)
+        # Используем message для красивого многострочного вывода, если доступно
+        try:
+            logger.message("", message)
+        except Exception:
+            logger.info(message)
 
     
     def _load_historical_data(
@@ -512,7 +574,16 @@ class BacktestEngine:
         """Инициализирует портфель для бэктеста"""
         portfolio = {}
         
+        # Извлекаем стартовый кэш, если указан специальным ключом
+        starting_cash = user_portfolio.get("__cash__")
+        if isinstance(starting_cash, (int, float)):
+            self.trading_engine.current_cash = float(starting_cash)
+        else:
+            self.trading_engine.current_cash = self.initial_cash
+
         for ticker, position_data in user_portfolio.items():
+            if ticker == "__cash__":
+                continue
             if ticker in historical_data and start_date in historical_data[ticker]:
                 current_price = historical_data[ticker][start_date]['close']
                 
@@ -523,6 +594,13 @@ class BacktestEngine:
                     current_price=current_price
                 )
         
+        # Синхронизируем стартовые позиции в торговом движке
+        self.trading_engine.positions = {t: BacktestPosition(
+            ticker=pos.ticker,
+            quantity=pos.quantity,
+            avg_price=pos.avg_price,
+            current_price=pos.current_price
+        ) for t, pos in portfolio.items()}
         return portfolio
     
     def _get_day_decisions(
@@ -575,8 +653,7 @@ class BacktestEngine:
         
         # Обновляем портфель из торгового движка
         for ticker, position in self.trading_engine.positions.items():
-            if ticker in portfolio:
-                portfolio[ticker] = position
+            portfolio[ticker] = position
         
         # Вычисляем PnL от сделок
         trades_pnl = sum(trade.net_value for trade in executed_trades if trade.action == 'SELL') - \

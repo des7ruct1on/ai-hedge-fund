@@ -207,7 +207,8 @@ class InvestorAgentRoom:
         
         tickers = set()
         if user_portfolio:
-            tickers.update(user_portfolio.keys())
+            # Игнорируем специальные ключи, такие как __cash__
+            tickers.update([t for t in user_portfolio.keys() if not str(t).startswith("__")])
         
         for news in news_data:
             if news.get('ticker'):
