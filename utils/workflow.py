@@ -8,6 +8,7 @@ from langgraph.checkpoint.memory import MemorySaver
 from langgraph.prebuilt import ToolNode
 from langgraph.graph.message import add_messages
 from langgraph.types import Command
+from langchain_core.prompts import ChatPromptTemplate
 
 from utils.moex_parcer import MoexISS
 from utils.models import State, AgentOpinion, AggregatedDecision, RiskAssessment
@@ -99,29 +100,42 @@ class SimpleGraph(StateGraph):
                 update={"message_to_user": "Пустой запрос.", "stage": END},
             )
 
+
         # Предзагрузка обязательных данных перед маршрутизацией
         try:
-            logging.info("Checking user and news data in router")
+            logger.info("Checking user and news data in router")
             if not state.get("user_data"):
+                logger.info("User data not found, going to user data node")
                 return Command(
                     goto=StageEnum.USER_DATA_NODE,
                     update={"stage": StageEnum.USER_DATA_NODE},
                 )
+            else:
+                logger.info("User data found, going to news data node")
 
             if not state.get("news_data"):
+                logger.info("News data not found, going to news data node")
                 return Command(
                     goto=StageEnum.NEWS_DATA_NODE,
                     update={"stage": StageEnum.NEWS_DATA_NODE},
                 )
+            else:
+                logger.info("News data found, going to discussion node")
+
         except Exception as e:
             logging.error(
                 f"Ошибка предварительной проверки данных в router_node: {e}"
             )
 
+        logger.message("state_news", state.get("news_data", {}))
         try:
-            prompt = ROUTER_PROMPT.format(user_input=user_input)
-            response = self.llm.complete(prompt, temperature=0.0, max_tokens=10)
-            category = response.strip().lower()
+            prompt = ChatPromptTemplate.from_template(ROUTER_PROMPT)
+
+            chain = prompt | self.llm
+            response = chain.invoke({"user_input": user_input})
+
+            print(f"Router response: {response}")
+            category = response.content.strip().lower()
 
             logging.info(f"Router detected category: {category}")
 
@@ -160,19 +174,14 @@ class SimpleGraph(StateGraph):
             user_data = state.get("user_data", {})
             news_data = state.get("news_data", {})
 
-            prompt = FACT_NODE_PROMPT.format(
-                user_input=user_input,
-                user_data=json.dumps(user_data, ensure_ascii=False, indent=2),
-                news_data=json.dumps(news_data, ensure_ascii=False, indent=2),
-            )
+            prompt = ChatPromptTemplate.from_template(FACT_NODE_PROMPT)
+            chain = prompt | self.llm
+            response = chain.invoke({"user_input": user_input, "user_data": json.dumps(user_data, ensure_ascii=False, indent=2), "news_data": json.dumps(news_data, ensure_ascii=False, indent=2)})
 
-            response = self.llm.complete(
-                prompt, temperature=0.3, max_tokens=500
-            )
 
             return Command(
                 goto=END,
-                update={"message_to_user": response, "stage": END},
+                update={"message_to_user": response.content, "stage": END},
             )
         except Exception as e:
             logging.error(f"Ошибка в fact_node: {e}")
@@ -189,14 +198,13 @@ class SimpleGraph(StateGraph):
         try:
             user_input = state.get("message_from_user", "")
 
-            prompt = OTHER_NODE_PROMPT.format(user_input=user_input)
-            response = self.llm.complete(
-                prompt, temperature=0.7, max_tokens=300
-            )
+            prompt = ChatPromptTemplate.from_template(OTHER_NODE_PROMPT)
+            chain = prompt | self.llm
+            response = chain.invoke({"user_input": user_input})
 
             return Command(
                 goto=END,
-                update={"message_to_user": response, "stage": END},
+                update={"message_to_user": response.content, "stage": END},
             )
         except Exception as e:
             logging.error(f"Ошибка в other_node: {e}")
@@ -353,6 +361,7 @@ class SimpleGraph(StateGraph):
                     f"📋 {decision.ticker}: {decision.final_action} "
                     f"(уверенность: {decision.confidence_score:.1f}, "
                     f"консенсус: {decision.consensus_strength:.1f})"
+                    f"Обоснование: {decision.summary_reasoning}"
                 )
 
             # Все результаты сохраняем в state через update ниже
@@ -424,7 +433,7 @@ class SimpleGraph(StateGraph):
                     f"Рекомендуемое действие: {decision.final_action}\n"
                     f"Уровень уверенности: {decision.confidence_score}\n"
                     f"Сила консенсуса: {decision.consensus_strength}\n\n"
-                    f"Мнения агентов:\n"
+                    f"Мнения агентов: {decision.summary_reasoning}\n"
                 )
 
                 for opinion in decision.agent_opinions:
@@ -434,12 +443,11 @@ class SimpleGraph(StateGraph):
                     )
                     context += f"  Обоснование: {opinion.reasoning}\n"
 
-                full_prompt = f"{RISK_MANAGER_PROMPT}\n\n{context}"
+                prompt = ChatPromptTemplate.from_template(RISK_MANAGER_PROMPT)
 
                 try:
-                    response = self.llm.complete(
-                        full_prompt, temperature=0.3, max_tokens=500
-                    )
+                    chain = prompt | self.llm
+                    response = chain.invoke({"context": context})  
 
                     risk_level = self._extract_risk_level(response)
                     risk_factors = self._extract_risk_factors(response)
@@ -477,6 +485,7 @@ class SimpleGraph(StateGraph):
 
             # Все результаты сохраняем в state через update ниже
 
+            logger.message("risk", risk_assessments)
             return Command(
                 goto=StageEnum.FINALIZER_NODE,
                 update={
@@ -502,21 +511,20 @@ class SimpleGraph(StateGraph):
 
             context = self._build_finalizer_context(state)
 
-            full_prompt = f"{PORTFOLIO_AGENT_PROMPT}\n\n{context}"
+            prompt = ChatPromptTemplate.from_template(PORTFOLIO_AGENT_PROMPT)
+            chain = prompt | self.llm
+            response = chain.invoke({"recommendations": context, "risks": state.get("risk_assessments", [])})
 
-            final_recommendations = self.llm.complete(
-                full_prompt, temperature=0.5, max_tokens=30000
-            )
             logger.info("✅ Итоговые рекомендации сформированы")
-            logger.info(final_recommendations)
+            logger.info(response)
 
             logging.info("✅ Итоговые рекомендации сформированы")
 
             return Command(
                 goto=END,
                 update={
-                    "final_recommendations": final_recommendations,
-                    "message_to_user": final_recommendations,
+                    "final_recommendations": response,
+                    "message_to_user": response.content,
                     "stage": END,
                 },
             )
@@ -579,6 +587,7 @@ class SimpleGraph(StateGraph):
                     f"- {decision.ticker}: {decision.final_action} "
                     f"(уверенность: {decision.confidence_score:.1f}, "
                     f"консенсус: {decision.consensus_strength:.1f})\n"
+                    f"Обоснование: {decision.summary_reasoning}\n"
                 )
             context += "\n"
 
@@ -593,6 +602,7 @@ class SimpleGraph(StateGraph):
 
         context += "Сформируй четкие рекомендации по управлению портфелем."
 
+        logger.message("recs", context)
         return context
 
     def _format_backtest_results(self, result) -> str:
@@ -749,8 +759,10 @@ class SimpleGraph(StateGraph):
         Возвращает целое число или 7, если определить не удалось.
         """
         try:
-            prompt = DAYS_GET_BACKTEST_PROMPT.format(user_message=user_message)
-            raw = self.llm.complete(prompt, temperature=0.0, max_tokens=20).strip()
+            prompt = ChatPromptTemplate.from_template(DAYS_GET_BACKTEST_PROMPT)
+            chain = prompt | self.llm
+            raw = chain.invoke({"user_message": user_message})
+            raw = raw.content.strip()
             import re
             match = re.search(r"\d+", raw)
             if match:

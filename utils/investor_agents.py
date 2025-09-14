@@ -7,7 +7,7 @@ from llm.cloudrugpt import CloudRuGPT
 from ui.server.logger import ChatLogger
 from .moex_parcer import MoexISS
 from datetime import date, timedelta, datetime
-
+from langchain_core.prompts import ChatPromptTemplate
 
 logger = ChatLogger("main")
 
@@ -64,20 +64,23 @@ class InvestorAgent:
 
         # Формируем контекст
         context = self._build_context(ticker, news_data, user_portfolio)
+        metrics_str = "Метрики отсутствуют"
         if metrics:
             metrics_str = self._format_metrics(metrics)
             context += f"\n\n📊 Метрики тикера {ticker}:\n{metrics_str}"
 
-        full_prompt = f"{self.prompt}\n\n{context}"
+
+        prompt = ChatPromptTemplate.from_template(self.prompt)
+        chain = prompt | self.llm
 
         # Запрашиваем LLM
         try:
-            response = self.llm.complete(full_prompt, temperature=0.7, max_tokens=1000)
+            response = chain.invoke({"context": context, "metrics": metrics_str})
             print(f"📝 {self.name} говорит:")
-            print(f"   {response.strip()}")
-            logger.log_read_message(f"📝 {self.name} говорит:", f"   {response.strip()}")
+            print(f"   {response.content.strip()}")
+            logger.log_read_message(f"📝 {self.name} говорит:", f"   {response.content.strip()}")
 
-            opinion = self._parse_agent_response(ticker, response)
+            opinion = self._parse_agent_response(ticker, response.content)
             print(f"✅ {self.name} решает: {opinion.action} {ticker} (уверенность: {opinion.confidence}/10)")
             logger.log_read_message(
                 f"✅ {self.name} решает:",
@@ -144,7 +147,8 @@ class InvestorAgent:
         if ticker_news:
             context += "Новости по акции:\n"
             for news in ticker_news[:5]:  
-                context += f"- {news.get('title', '')}: {news.get('summary', '')}\n"
+                context += f"- {news.get('title', '')}: {news.get('summary', '')}, {news.get('news', '')}\n"
+                context += f"- Сентимент: {news.get('sentiment', '')}, значимость: {news.get('significance', '')}\n"
             context += "\n"
         
         if ticker in user_portfolio:
@@ -156,7 +160,7 @@ class InvestorAgent:
         context += "ДЕЙСТВИЕ: [КУПИТЬ/ПРОДАТЬ/ДЕРЖАТЬ]\n"
         context += "УВЕРЕННОСТЬ: [1-10]\n"
         context += "ОБОСНОВАНИЕ: [подробное объяснение решения]"
-        
+        logger.message("investor_agents", f"{context}")
         return context
     
     def _parse_agent_response(self, ticker: str, response: str) -> AgentOpinion:
@@ -221,15 +225,18 @@ class InvestorAgentRoom:
         
         for i, ticker in enumerate(tickers, 1):
             logger.log_read_message("", f"\n📈 ОБСУЖДЕНИЕ ТИКЕРА {i}/{len(tickers)}: {ticker}")
+            logger.message("investor_agents", f"📈 ОБСУЖДЕНИЕ ТИКЕРА {i}/{len(tickers)}: {ticker}")
             print("-" * 40)
             
             # Получаем метрики для текущего тикера, если они есть
             ticker_metrics = metrics.get(ticker) if metrics else None
             if ticker_metrics:
                 logger.log_read_message("", f"📊 Метрики для {ticker}: {ticker_metrics}")
+                logger.message("investor_agents", f"📊 Метрики для {ticker}: {ticker_metrics}")
             
             for agent_name, agent in self.agents.items():
                 opinion = agent.analyze_ticker(ticker, news_data, user_portfolio, metrics=ticker_metrics)
+                logger.message("investor_agents", f"💭 {agent_name} говорит: {opinion}")
                 all_opinions.append(opinion)
             
             print(f"🏁 Обсуждение {ticker} завершено")

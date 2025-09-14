@@ -233,7 +233,7 @@ class NewsTransformer:
                     continue
 
                 record = {
-                    "ticket": ticket,
+                    "ticker": ticket,
                     "news": title,
                     "text": summary,
                     "link": it.get("link") or "",

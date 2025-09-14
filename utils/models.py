@@ -18,6 +18,7 @@ class AggregatedDecision:
     confidence_score: float
     agent_opinions: List[AgentOpinion]
     consensus_strength: float
+    summary_reasoning: str  # Краткая суммаризация мнений агентов
 
 
 @dataclass

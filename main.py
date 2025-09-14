@@ -4,6 +4,7 @@ from ui.server.handlers import web_input_handler, web_login_handler
 from llm.cloudrugpt import CloudRuGPT
 from utils.workflow import SimpleGraph
 from utils.agent import Agent
+from utils.utils import create_initial_state
 from dotenv import load_dotenv
 import time
 import random
@@ -19,7 +20,6 @@ def initialize_agent():
     """Инициализирует агента"""
     global agent_instance
     print("🔄 Инициализация агента...")
-    
     load_dotenv()
     cloudru_api_key = os.getenv("CLOUDRU_API_KEY")
     
@@ -39,7 +39,7 @@ def initialize_agent():
         print(f"❌ Ошибка инициализации агента: {e}")
         return None
 
-def process_user_message(user_message: str, logger: ChatLogger) -> str:
+def process_user_message(user_message: str, logger: ChatLogger, state: dict) -> str:
     """Обрабатывает сообщение пользователя через агента"""
     global agent_instance
     
@@ -51,7 +51,7 @@ def process_user_message(user_message: str, logger: ChatLogger) -> str:
         
         
         
-        result = agent_instance.process_message(user_message)
+        result = agent_instance.process_message(user_message, state)
         
         
         
@@ -73,8 +73,9 @@ def main() -> None:
 
     ChatLogger.setup(ws_manager.get_loop())
 
-    
+    state = create_initial_state()
     agent = initialize_agent()
+
     if not agent:
         logger.error("Не удалось инициализировать агента. Приложение завершается.")
         return
@@ -99,7 +100,7 @@ def main() -> None:
                 
                 
                 
-                response = process_user_message(user_message, logger)
+                response = process_user_message(user_message, logger, state)
                 
                 
                 logger.message("Bot", response)

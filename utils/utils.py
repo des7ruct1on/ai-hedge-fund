@@ -19,6 +19,38 @@ def create_initial_state() -> State:
     )
 
 
+def _generate_summary_reasoning(ticker_ops: list, final_action: str, action_votes: dict) -> str:
+    """Генерирует краткую суммаризацию мнений агентов"""
+    if not ticker_ops:
+        return "Нет мнений агентов для данного тикера."
+    
+    # Группируем мнения по действиям
+    buy_opinions = [op for op in ticker_ops if op.action == "BUY"]
+    sell_opinions = [op for op in ticker_ops if op.action == "SELL"]
+    hold_opinions = [op for op in ticker_ops if op.action == "HOLD"]
+    
+    # Собираем основные аргументы для финального решения
+    main_reasons = []
+    if final_action == "BUY" and buy_opinions:
+        main_reasons.extend([f"• {op.reasoning}" for op in buy_opinions[:2]])  # Берем до 2 основных аргументов
+    elif final_action == "SELL" and sell_opinions:
+        main_reasons.extend([f"• {op.reasoning}" for op in sell_opinions[:2]])
+    elif final_action == "HOLD" and hold_opinions:
+        main_reasons.extend([f"• {op.reasoning}" for op in hold_opinions[:2]])
+    
+    # Добавляем информацию о консенсусе
+    total_agents = len(ticker_ops)
+    consensus_info = f"Консенсус: {total_agents} агентов, {final_action} ({action_votes[final_action]:.1f} из {sum(action_votes.values()):.1f})"
+    
+    # Собираем финальную суммаризацию
+    summary_parts = [consensus_info]
+    if main_reasons:
+        summary_parts.append("Основные аргументы:")
+        summary_parts.extend(main_reasons[:2])  # Ограничиваем до 2 аргументов
+    
+    return "\n".join(summary_parts)
+
+
 def aggregate_agent_opinions(opinions: list) -> list:
     """Агрегирует мнения агентов в общие решения"""
     ticker_opinions = {}
@@ -50,12 +82,16 @@ def aggregate_agent_opinions(opinions: list) -> list:
         # Средняя уверенность
         avg_confidence = total_confidence / len(ticker_ops) if ticker_ops else 0
         
+        # Генерируем суммаризацию мнений
+        summary_reasoning = _generate_summary_reasoning(ticker_ops, final_action, action_votes)
+        
         aggregated.append(AggregatedDecision(
             ticker=ticker,
             final_action=final_action,
             confidence_score=avg_confidence,
             agent_opinions=ticker_ops,
-            consensus_strength=consensus_strength
+            consensus_strength=consensus_strength,
+            summary_reasoning=summary_reasoning
         ))
     
     return aggregated
