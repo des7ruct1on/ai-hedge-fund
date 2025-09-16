@@ -160,7 +160,7 @@ class InvestorAgent:
         context += "ДЕЙСТВИЕ: [КУПИТЬ/ПРОДАТЬ/ДЕРЖАТЬ]\n"
         context += "УВЕРЕННОСТЬ: [1-10]\n"
         context += "ОБОСНОВАНИЕ: [подробное объяснение решения]"
-        logger.message("investor_agents", f"{context}")
+        # logger.message("investor_agents", f"{context}")
         return context
     
     def _parse_agent_response(self, ticker: str, response: str) -> AgentOpinion:
@@ -225,18 +225,18 @@ class InvestorAgentRoom:
         
         for i, ticker in enumerate(tickers, 1):
             logger.log_read_message("", f"\n📈 ОБСУЖДЕНИЕ ТИКЕРА {i}/{len(tickers)}: {ticker}")
-            logger.message("investor_agents", f"📈 ОБСУЖДЕНИЕ ТИКЕРА {i}/{len(tickers)}: {ticker}")
+            # logger.message("investor_agents", f"📈 ОБСУЖДЕНИЕ ТИКЕРА {i}/{len(tickers)}: {ticker}")
             print("-" * 40)
             
             # Получаем метрики для текущего тикера, если они есть
             ticker_metrics = metrics.get(ticker) if metrics else None
             if ticker_metrics:
                 logger.log_read_message("", f"📊 Метрики для {ticker}: {ticker_metrics}")
-                logger.message("investor_agents", f"📊 Метрики для {ticker}: {ticker_metrics}")
+                # logger.message("investor_agents", f"📊 Метрики для {ticker}: {ticker_metrics}")
             
             for agent_name, agent in self.agents.items():
                 opinion = agent.analyze_ticker(ticker, news_data, user_portfolio, metrics=ticker_metrics)
-                logger.message("investor_agents", f"💭 {agent_name} говорит: {opinion}")
+                # logger.message("investor_agents", f"💭 {agent_name} говорит: {opinion}")
                 all_opinions.append(opinion)
             
             print(f"🏁 Обсуждение {ticker} завершено")

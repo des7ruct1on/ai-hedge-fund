@@ -410,7 +410,7 @@ class BacktestEngine:
             
             logger.info(f"Применяем решения и обновляем портфель для {current_date}")
             try:
-                trades_pnl = self._apply_decisions(
+                trades_pnl, executed_trades = self._apply_decisions(
                     current_date, day_decisions, portfolio, historical_data
                 )
                 # если _apply_decisions возвращает None, считаем 0
@@ -418,7 +418,35 @@ class BacktestEngine:
             except Exception as e:
                 logger.exception(f"Ошибка при применении решений на {current_date}: {e}")
                 trades_pnl = 0.0
+                executed_trades = []
             logger.info(f"Применили решения для {current_date}, trades_pnl={trades_pnl:.2f}")
+
+            # Логируем сделки за день (если были) и состояние портфеля на конец дня
+            if executed_trades:
+                try:
+                    lines = [f"🧾 Сделки за {current_date}:"]
+                    for t in executed_trades:
+                        lines.append(
+                            f"  • {t.date} {t.action} {t.ticker}: qty={t.quantity} по {t.price:.2f} ₽ | "
+                            f"сумма={t.value:,.2f} ₽, комиссия={t.commission:,.2f} ₽, нетто={t.net_value:,.2f} ₽"
+                        )
+                    message = "\n".join(lines)
+                    try:
+                        logger.message("", message)
+                    except Exception:
+                        logger.info(message)
+                except Exception:
+                    pass
+
+            try:
+                self._log_portfolio_state(
+                    logger=logger,
+                    title=f"Портфель на конец дня {current_date}",
+                    positions=self.trading_engine.positions,
+                    cash=self.trading_engine.current_cash,
+                )
+            except Exception:
+                pass
             
             day_pnl = price_pnl_total + trades_pnl
             cumulative_pnl += day_pnl
@@ -498,7 +526,10 @@ class BacktestEngine:
             total_pnl=total_pnl,
             total_return_pct=total_return_pct,
             daily_results=daily_results,
-            ticker_performance=ticker_performance
+            ticker_performance=ticker_performance,
+            final_portfolio=self.trading_engine.positions,
+            available_cash=self.trading_engine.current_cash,
+            trades_summary=self.trading_engine.get_trades_summary(),
         )
 
     def _log_portfolio_state(
@@ -643,8 +674,8 @@ class BacktestEngine:
         
         return decisions_dict
     
-    def _apply_decisions(self, current_date, decisions, portfolio, historical_data) -> float:
-        """Применяет решения агентов через торговый движок"""
+    def _apply_decisions(self, current_date, decisions, portfolio, historical_data) -> Tuple[float, List[Trade]]:
+        """Применяет решения агентов через торговый движок и возвращает (PnL от сделок, список сделок за день)."""
         # Обновляем цены в торговом движке
         self.trading_engine.update_prices(current_date, historical_data)
         
@@ -659,7 +690,7 @@ class BacktestEngine:
         trades_pnl = sum(trade.net_value for trade in executed_trades if trade.action == 'SELL') - \
                     sum(trade.net_value for trade in executed_trades if trade.action == 'BUY')
         
-        return trades_pnl
+        return trades_pnl, executed_trades
     
     def _analyze_ticker_performance(
         self, 

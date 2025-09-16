@@ -11,7 +11,7 @@ reasoning_websockets = set()
 
 class WebInputHandler:
     def __init__(self):
-        self.message_queue = deque(maxlen=100)
+        self.message_queue = deque(maxlen=10000)
         self.new_message_event = asyncio.Event()
         self._shutdown = False
 
@@ -36,7 +36,7 @@ web_input_handler = WebInputHandler()
 
 class WebLoginHandler:
     def __init__(self):
-        self.login_queue = deque(maxlen=100)
+        self.login_queue = deque(maxlen=10000)
         self.new_login_event = asyncio.Event()
         self._shutdown = False
 

@@ -127,7 +127,7 @@ class SimpleGraph(StateGraph):
                 f"Ошибка предварительной проверки данных в router_node: {e}"
             )
 
-        logger.message("state_news", state.get("news_data", {}))
+        # logger.message("state_news", state.get("news_data", {}))
         try:
             prompt = ChatPromptTemplate.from_template(ROUTER_PROMPT)
 
@@ -485,7 +485,7 @@ class SimpleGraph(StateGraph):
 
             # Все результаты сохраняем в state через update ниже
 
-            logger.message("risk", risk_assessments)
+            # logger.message("risk", risk_assessments)
             return Command(
                 goto=StageEnum.FINALIZER_NODE,
                 update={
@@ -602,7 +602,7 @@ class SimpleGraph(StateGraph):
 
         context += "Сформируй четкие рекомендации по управлению портфелем."
 
-        logger.message("recs", context)
+        # logger.message("recs", context)
         return context
 
     def _format_backtest_results(self, result) -> str:
