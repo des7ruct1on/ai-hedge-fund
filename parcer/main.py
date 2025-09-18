@@ -3,12 +3,12 @@ import time
 import logging
 from typing import List, Dict, Callable, Optional
 from urllib.parse import urlparse
-from datetime import datetime
+from datetime import datetime, timedelta
+from dateutil.tz import UTC
 import requests
 import feedparser
 from bs4 import BeautifulSoup
 from dateutil import parser as dateparse
-from dateutil.tz import UTC
 import json
 
 # Настройка логирования
@@ -31,24 +31,22 @@ class NewsParser:
         "облигац", "кредит", "займ", "ипотек", "страхован", "капитал", "бюджет", "сбережен", "налог", "долг",
         "депозит", "актив", "пассив", "ликвидн", "портфель", "доходн", "оценк", "риск", "баланс", "отчет", "банковск",
         "транзакц", "платеж", "валютн", "курсов", "монетарн", "бухгалтер", "аудит", "финансовый анализ", "денежный поток",
-        "эмисс", "рынок облигац", "макроэконом", "микроэконом"
+        "эмисс", "рынок облигац", "макроэконом", "микроэконом", "финтех", "цифровой банк", "онлайн-банк"
     ]
 
-    
     PARSERS_BY_FEED = {
-            "https://rssexport.rbc.ru/rbcnews/news/30/full.rss": "rbc_full",
-            "https://www.finam.ru/analysis/conews/rsspoint/": "finam",
-            "http://www.cbr.ru/rss/RssNews": "cbrf",
-            "https://www.vedomosti.ru/rss/rubric/finance": "vedomosti_finance",
-            "https://www.vedomosti.ru/rss/rubric/economics": "vedomosti_economics",
-            "https://www.vedomosti.ru/rss/rubric/economics/macro": "vedomosti_economics_macro",
-            "https://www.vedomosti.ru/rss/rubric/economics/global": "vedomosti_economics_global",
-            "https://www.vedomosti.ru/rss/rubric/economics/taxes": "vedomosti_economics_taxes",
-            "https://tass.ru/rss/v2.xml": "tass_v2",
-            "http://www.kommersant.ru/RSS/money.xml": "kommersant_money",
-            "https://www.kommersant.ru/finance": "kommersant_finance",
-        }
-
+        "https://rssexport.rbc.ru/rbcnews/news/30/full.rss": "rbc_full",
+        "https://www.finam.ru/analysis/conews/rsspoint/": "finam",
+        "http://www.cbr.ru/rss/RssNews": "cbrf",
+        "https://www.vedomosti.ru/rss/rubric/finance": "vedomosti_finance",
+        "https://www.vedomosti.ru/rss/rubric/economics": "vedomosti_economics",
+        "https://www.vedomosti.ru/rss/rubric/economics/macro": "vedomosti_economics_macro",
+        "https://www.vedomosti.ru/rss/rubric/economics/global": "vedomosti_economics_global",
+        "https://www.vedomosti.ru/rss/rubric/economics/taxes": "vedomosti_economics_taxes",
+        "https://tass.ru/rss/v2.xml": "tass_v2",
+        "http://www.kommersant.ru/RSS/money.xml": "kommersant_money",
+        "https://www.kommersant.ru/finance": "kommersant_finance",
+    }
 
     def __init__(self):
         self.company_names = None
@@ -224,28 +222,21 @@ class NewsTransformer:
                     if re.search(r'\b' + re.escape(name) + r'\b', text_all, re.IGNORECASE):
                         found_tickers.add(ticker)
 
-                ticket = ",".join(sorted(found_tickers)) if found_tickers else ""
-                # Пропускаем запись, если фильтрация по тикерам включена и нет совпадений с selected_tickers
-                if filter_by_ticker and selected_tickers:
-                    if not ticket or not any(t in ticket.split(",") for t in selected_tickers):
+                # Разделяем новости по одному тикеру
+                for ticker in found_tickers:
+                    if filter_by_ticker and selected_tickers and ticker not in selected_tickers:
                         continue
-                elif filter_by_ticker and not ticket:
-                    continue
+                    record = {
+                        "ticker": ticker,
+                        "news": title,
+                        "text": summary,
+                        "link": it.get("link") or "",
+                        "source": source,
+                        "published": it.get("published").isoformat() if it.get("published") else ""
+                    }
+                    transformed.append(record)
+                    logger.debug("Found ticker %s in news: %s", ticker, title[:50])
 
-                record = {
-                    "ticker": ticket,
-                    "news": title,
-                    "text": summary,
-                    "link": it.get("link") or "",
-                    "source": source,
-                    "published": it.get("published").isoformat() if it.get("published") else ""
-                }
-                transformed.append(record)
-                if ticket:
-                    logger.debug("Found tickers %s in news: %s", ticket, title[:50])
-                else:
-                    logger.debug("No tickers found in news: %s", title[:50])
-        
         return transformed
 
 class NewsSaver:
@@ -253,6 +244,7 @@ class NewsSaver:
     
     @staticmethod
     def save_news_to_file(data: List[dict], filename: str = "news_by_ticker.json"):
+        """Сохраняет новости в один JSON-файл как список записей."""
         with open(filename, "w", encoding="utf-8") as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
         print(f"Сохранено {len(data)} записей в {filename}")
@@ -263,10 +255,13 @@ class FinancialNewsScraper:
     COMPANY_NAMES = {
         "SBER": ["Сбербанк", "Сбербанк России", "Сбер", "Sberbank", "Sber"],
         "GAZP": ["Газпром", "Газпром ПАО", "Gazprom"],
-        "ROSN": ["Роснефть", "ПАО НК Роснефть", "Rosneft", "ROSN"],
-        "NVTK": ["Новатэк", "ПАО Новатэк", "NOVATEK", "Novatek"],
-        "GMKN": ["Норильский никель", "ГМК Норильский никель", "Norilsk Nickel", "Nornickel"],
         "LKOH": ["Лукойл", "PJSC LUKOIL", "LUKOIL"],
+        "NVTK": ["Новатэк", "ПАО Новатэк", "NOVATEK", "Novatek"],
+        "YDEX": ["Яндекс", "Yandex", "Яндекс Н.В.", "YNDX", "YDEX"],
+        "SMLT": ["Самолет Группа", "Samolёt Group", "SMLT", "Самолет"],
+        "TCSG": ["Т-Банк", "Тинькофф", "Тинькофф Банк", "TCS Group", "T-Bank", "Tinkoff"],
+        "ROSN": ["Роснефть", "ПАО НК Роснефть", "Rosneft", "ROSN"],
+        "GMKN": ["Норильский никель", "ГМК Норильский никель", "Norilsk Nickel", "Nornickel"],
         "SIBN": ["Газпром нефть", "Газпром-нефть", "Gazprom Neft", "SIBN"],
         "PLZL": ["Полюс", "Полюс Золото", "Polyus", "PLZL"],
         "PHOR": ["ФосАгро", "PhosAgro", "Фосагро"],
@@ -281,7 +276,6 @@ class FinancialNewsScraper:
         "ALRS": ["Алроса", "ALROSA", "АЛРОСА"],
         "MTSS": ["МТС", "Mobile TeleSystems", "MTS", "MTSS"],
         "MGNT": ["Магнит", "Magnit", "MGNT"],
-        "TCSG": ["Тинькофф (TCS Group)", "TCS Group", "TCSG"],
         "MAGN": ["ММК", "Магнитогорский металлургический комбинат", "MMK", "MAGN"],
         "HYDR": ["РусГидро", "RusHydro", "HYDR"],
         "IRKT": ["Иркут", "Irkut Corporation", "IRKT"],
@@ -292,15 +286,12 @@ class FinancialNewsScraper:
         "RASP": ["Распадская", "Raspadskaya", "RASP"],
         "MOEX": ["Московская биржа", "MOEX", "Moscow Exchange"],
         "BANE": ["Башнефть / Башнефтегаз (Bashneft)", "Bashneft", "BANE"],
-        "SMLT": ["Самолет Группа", "Samolёt Group", "SMLT", "Самолет"],
         "CBOM": ["Кредит Банк Москвы", "Credit Bank of Moscow", "CBOM"],
         "NKNC": ["Нижнекамскнефтехим", "Nizhnekamskneftekhim", "NKNC"],
         "AFKS": ["АФК Система", "AFK Sistema", "Sistema", "AFKS"],
         "SGZH": ["Сегежа", "Segezha Group", "SGZH"],
         "KZOS": ["Казаньоргсинтез", "Kazanorgsintez", "KZOS"],
         "MGTS": ["МГТС", "MGTS (Moscow City Telephone Network)", "MGTS"],
-        "FEES": ["ФСК ЕЭС (Federal Grid Company)", "Federal Grid Company", "FEES"],
-        "GCHE": ["Черкизово", "Cherkizovo Group", "GCHE"],
         "NMTP": ["Новороссийский морской торговый порт", "Novorossiysk Commercial Sea Port", "NMTP"],
         "APTK": ["Аптечная сеть 36.6 / Pharmacy Chain 36.6", "APTK"],
         "UPRO": ["ЮПРО / Unipro", "Unipro", "UPRO"],
@@ -331,7 +322,7 @@ class FinancialNewsScraper:
         for url in self.feed_urls:
             try:
                 results[url] = self.parser.scrape_feed(url, self.COMPANY_NAMES, start_dt, end_dt)
-                time.sleep(0.15)
+                time.sleep(0.5)  # Увеличена задержка для надежности
             except Exception as e:
                 logger.exception("Failed scraping %s: %s", url, e)
                 results[url] = []
@@ -341,10 +332,7 @@ class FinancialNewsScraper:
         return news_json
 
 if __name__ == "__main__":
-    from datetime import datetime, timedelta
-    from dateutil.tz import UTC
-
-    start = datetime.now(tz=UTC) - timedelta(days=7)
+    start = datetime.now(tz=UTC) - timedelta(days=300) 
     end = datetime.now(tz=UTC)
     feed_urls = list(NewsParser.PARSERS_BY_FEED.keys())
     
@@ -353,5 +341,6 @@ if __name__ == "__main__":
         start_dt=start,
         end_dt=end,
         filter_by_ticker=True,
-        selected_tickers=["SBER", "GAZP", "LKOH", "NVTK", "YNDX", "SMLT"]  
+        output_file="news_by_ticker.json",
+        selected_tickers=["SBER", "GAZP", "LKOH", "NVTK", "YDEX", "SMLT"]
     )

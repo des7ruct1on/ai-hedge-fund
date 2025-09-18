@@ -1,6 +1,7 @@
 import json
 import re
 from openai import OpenAI
+from config import api_key
 
 
 class NewsSentimentAnalyzer:
